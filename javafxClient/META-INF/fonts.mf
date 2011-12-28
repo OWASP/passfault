@@ -1,0 +1,6 @@
+RoadgeekB\ Regular=/fonts/Roadgeek2005SeriesB.ttf
+RoadgeekC\ Regular=/fonts/Roadgeek2005SeriesC.ttf
+RoadgeekD\ Regular=/fonts/Roadgeek2005SeriesD.ttf
+RoadgeekE\ Regular=/fonts/Roadgeek2005SeriesE.ttf
+RoadgeekEM\ Regular=/fonts/Roadgeek2005SeriesEM.ttf
+RoadgeekF\ Regular=/fonts/Roadgeek2005SeriesF.ttf

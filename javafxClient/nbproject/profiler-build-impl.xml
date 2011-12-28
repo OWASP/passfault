@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*** GENERATED FROM project.xml - DO NOT EDIT  ***
+***         EDIT ../build.xml INSTEAD         ***
+
+For the purpose of easier reading the script
+is divided into following sections:
+
+  - initialization
+  - profiling
+  - applet profiling
+
+-->
+<project name="-profiler-impl" default="profile" basedir="..">
+    <target name="default" depends="profile" description="Build and profile the project."/>
+    <!--
+    ======================
+    INITIALIZATION SECTION
+    ======================
+    -->
+    <target name="profile-init" depends="-profile-pre-init,init,-profile-post-init,-profile-init-check"/>
+    <target name="-profile-pre-init">
+        <!-- Empty placeholder for easier customization. -->
+        <!-- You can override this target in the ../build.xml file. -->
+    </target>
+    <target name="-profile-post-init">
+        <!-- Empty placeholder for easier customization. -->
+        <!-- You can override this target in the ../build.xml file. -->
+    </target>
+    <target name="-profile-init-check" depends="-profile-pre-init,init,-profile-post-init">
+        <fail unless="profiler.info.jvmargs.agent">Must set profiler agent JVM arguments in profiler.info.jvmargs.agent</fail>
+    </target>
+    <!--
+    =================
+    PROFILING SECTION
+    =================
+    -->
+    <target name="profile" if="netbeans.home" depends="profile-init,compile" description="Profile a project in the IDE.">
+        <nbprofiledirect>
+            <classpath>
+                <path path="${platform.bootcp}"/>
+                <path path="${javac.classpath}"/>
+            </classpath>
+        </nbprofiledirect>
+        <javafxproject:property name="profiler.current.path" value="${profiler.info.pathvar}" xmlns:javafxproject="http://www.netbeans.org/ns/javafx-project/1"/>
+        <java classname="${main.class}" classpath="${dist.dir}/${application.title}.jar" fork="true" jvm="${platform.fxhome}/bin/javafx${binary.extension}">
+            <jvmarg value="${profiler.info.jvmargs.agent}"/>
+            <jvmarg line="${profiler.info.jvmargs}"/>
+            <env key="${profiler.info.pathvar}" path="${profiler.info.agentpath}:${profiler.current.path}"/>
+        </java>
+    </target>
+</project>

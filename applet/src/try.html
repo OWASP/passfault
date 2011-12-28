@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script src="passfault.js"></script>
+<script src="http://www.java.com/js/deployJava.js"></script>
+<script>
+    <!-- applet id can be used to get a reference to the applet object -->
+    var attributes = { id:'passfaultlet', code:'com.passfault.applet.Passfaultlet',  width:1, height:1} ;
+    var parameters = {jnlp_href: 'passfaultlet.jnlp'} ;
+    deployJava.runApplet(attributes, parameters, '1.6');
+
+function submitPassword(){ //submit to applet
+	var password = document.getElementById("password").value;
+	var results = passfaultlet.analyze(password);
+  alert(analysis);
+	var analysis = JSON.parse(results);
+  
+  document.getElementById("cost").value = analysis.cost;
+	applyTemplate(document.getElementById("patterns"), analysis);
+}
+
+</script>
+<link rel="stylesheet" type="text/css" href="passfault.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+<title>Insert title here</title>
+</head>
+<body>
+<div class="password">
+<form><input id="password"
+	type="password" /> <input type="button" onclick="submitPassword();"/>
+</form>
+</div>
+
+<div class="analysis">
+	<div id="cost" class="cost" >
+		<div id="patterns" class="patterns" />
+	</div>
+</div>
+</body>
+</html>

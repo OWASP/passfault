@@ -1,0 +1,4 @@
+      <jar destfile="${dist.dir}/passfault.jar" update="true">
+        <fileset dir="." includes="fonts/*.ttf"/>
+        <fileset dir="." includes="META-INF/fonts.mf"/>
+      </jar>

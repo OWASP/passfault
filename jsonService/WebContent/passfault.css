@@ -1,0 +1,307 @@
+@CHARSET "ISO-8859-1";
+
+@font-face
+{
+	font-family: road_em;
+	src: url('font/Roadgeek2005SeriesEM.eot');
+}
+
+@font-face
+{
+	font-family: road_em;
+	src: url('font/Roadgeek2005SeriesEM.ttf');
+}
+
+.white {
+	font-family: road_em;
+	color: black;
+	border-color: black;
+	border-style: solid;
+	background-color: white;
+}
+
+.green {
+	font-family: road_em;
+	color: white;
+	border-color: white;
+	border-style: solid;
+	background-color: rgb(0,155,103);
+}
+
+.blue {
+	font-family: road_em;
+	color: white;
+	border-color: white;
+	border-style: solid;
+	background-color: rgb(0,62,134);
+}
+
+.yellow {
+	font-family: road_em;
+	color: black;
+	border-color: black;
+	border-style: solid;
+	background-color: rgb(255,242,0);
+}
+
+.orange {
+	font-family: road_em;
+	color: black;
+	border-color: black;
+	border-style: solid;
+	background-color: rgb(247,146,51);
+}
+
+.red {
+	font-family: road_em;
+	color: white;
+	border-color: white;
+	border-style: solid;
+	background-color: rgb(181,39,60);
+}
+
+.brown {
+	font-family: road_em;
+	color: white;
+	border-color: white;
+	border-style: solid;
+	background-color: rgb(97,54,29);
+}
+
+a:link {color:white; }    /* unvisited link */
+a:visited {color:white;}  /* visited link */
+a:hover {color:yellow; border-bottom: none;}  /* mouse over link */
+a:active {color:red;}     /* selected link */
+
+p, ul {
+	font-family: road_em;	
+	color: white;
+	/* max-width: 40em; */ 
+	text-shadow: 0px 0px 3px black;  /* makes it slightly easier to read */
+}
+
+div {
+	float: none;
+}
+
+.elevatorPitch {
+	font-family: road_em;
+	color: yellow;
+	margin: .3em;
+	text-align: center;
+	text-shadow: 0px 0px 3px black;  /* makes it slightly easier to read */
+}
+
+.dashed {
+	border-bottom: 5px;
+	border-bottom-style: dashed;
+	border-bottom-width: 5px;
+	border-bottom-color: white;
+	padding-bottom: 5px;	
+}
+
+h1 {
+	padding-top: 1em;
+	font-family: road_em;
+	color: Yellow;
+	boarder-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	text-shadow: 1px 1px 3px #B2B200;  /* makes it slightly easier to read */
+	clear:both;
+}
+
+h2 {
+	font-family: road_em;	
+	color: yellow;
+	border-bottom: 5px;
+	border-bottom-style: dashed;
+	border-bottom-width: 5px;
+	border-bottom-color: white;
+	padding-bottom: 5px;
+	text-shadow: 0px 0px 3px black;  /* makes it slightly easier to read */
+	clear:both;
+}
+
+body {
+	background-image: url(img/asphalt.jpg);
+	background-repeat: repeat;
+	margin-left: auto;
+	margin-right: auto;
+	width:70%;
+}
+
+.keyboard {
+	background-image: url(img/keys.png);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+
+.navigation {
+	max-width: 35em;
+}
+
+.navsign {
+	text-align: center;
+	float: left;
+	border-width: 2px;
+	padding: .25em;
+	padding-left: .4em;
+	padding-right: .4em;
+	margin: .2em;
+	boarder-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+.sign {
+	text-align: center;
+	border-width: 3px;
+	padding: .5em;
+	margin: .2em;
+	float: left;
+	boarder-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.welcome {
+	float: none;
+	padding-left: 2em;
+	padding-right: 2em;
+	width: 30em;
+}
+
+.innerWelcome {
+	font-size: x-large;	
+	text-align: left;
+}
+
+.subWelcome {
+	font-size: large;
+	font-style: italic;
+	display: block;	
+	text-align: right;
+}
+
+.smallSign {
+	width: 2em;
+	height: 3em;	
+}
+
+.password {
+	clear: both;
+	padding: 1.5em;
+	max-width: 40em;	
+}
+
+.finders {
+	clear: both;
+	padding: 1.5em;
+	max-width: 48em;
+	height: 100em;
+}
+
+.pattern {
+	font-family: road_em;
+	margin-bottom: 10px;
+	height: 8em;
+}
+
+.passSummary {
+	font-family: road_em;
+	margin-bottom: 10px;
+}
+
+.patternDetail {
+	font-family: road_em;
+	clear:both;
+	display: none;
+	margin: 5;
+}
+
+.inline {
+	float:left;	
+}
+
+.large {
+	font-size: x-large;
+}
+
+.medium {
+	font-size: large;
+}
+
+.xxlarge {
+	font-size: xx-large;
+}
+
+.xsmall {
+	font-size: x-small;
+}
+
+.small {
+	font-size: small;
+}
+
+.smallFixed {
+	width: 12em;	
+}
+
+.nowrap {
+	clear:both;
+}
+
+.horiz {
+	background-image: url(horiz-keys.png);
+}
+
+.diag {
+	background-image: url(diag-keys.png);
+}
+
+.repeat {
+	background-image: url(repeat-keys.png);
+}
+
+.policy {
+	width: 30em;
+}
+
+left{
+	float: left;
+}
+
+dd {
+	font-family: road_em;
+	color: white;
+	font-size: large;
+}
+
+dt {
+	font-family: road_em;
+	color: yellow;
+	font-size: x-large;
+}
+
+em {
+	color: yellow;
+}
+
+div.spaceTop {
+	margin-top: 15px;
+}
+
+.example{
+	font-size: x-small;	
+}
+	
+.passwordOptions .examples{
+	display: none;	
+}
