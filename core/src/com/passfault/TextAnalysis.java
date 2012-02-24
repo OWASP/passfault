@@ -17,10 +17,14 @@
 
 package com.passfault;
 
+import com.passfault.keyboard.EnglishKeyBoard;
+import com.passfault.keyboard.KeySequenceFinder;
+import com.passfault.keyboard.RussianKeyBoard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,7 +38,7 @@ public class TextAnalysis {
 
   public static void main(String[] args) throws IOException, Exception {
     TextAnalysis analyzer = new TextAnalysis();
-    analyzer.printBanner2();
+    analyzer.printBanner();
     analyzer.run();
   }
   private final PatternFinder finder;
@@ -45,10 +49,14 @@ public class TextAnalysis {
     if (englishListStream == null) {
       throw new RuntimeException("Could not load the internal dictionary");
     }
-    finder = new SequentialFinder(BuildFinders.getFinders("English", englishListStream));
+    Collection<PatternFinder> finders = BuildFinders.buildDictionaryFinders("English", englishListStream);
+    finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
+    finders.add(new KeySequenceFinder(new RussianKeyBoard()));
+    finders.add(new DateFinder());
+    finder = new SequentialFinder(finders);
   }
 
-  public void printBanner2(){
+  public void printBanner(){
     System.out.print(
 "                                         /******                    /**   /**                \n"+
 "                                        /**__  **                  | **  | **                \n"+
@@ -64,18 +72,6 @@ public class TextAnalysis {
 "\n");
 
   }
-
-  public void printBanner(){
-    System.out.print(
-"                                                                                             \n"+
-"                                             _|_|                      _|    _|              \n"+
-" _|_|_|      _|_|_|    _|_|_|    _|_|_|    _|        _|_|_|  _|    _|  _|  _|_|_|_|          \n"+
-" _|    _|  _|    _|  _|_|      _|_|      _|_|_|_|  _|    _|  _|    _|  _|    _|              \n"+
-" _|    _|  _|    _|      _|_|      _|_|    _|      _|    _|  _|    _|  _|    _|              \n"+
-" _|_|_|      _|_|_|  _|_|_|    _|_|_|      _|        _|_|_|    _|_|_|  _|      _|_|          \n"+
-" _|                                                                                          \n"+
-" _|                                                                                          \n");
-  };
 
   public void run() {
     InputStreamReader reader = new InputStreamReader(System.in);

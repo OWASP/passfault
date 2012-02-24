@@ -54,11 +54,11 @@ public class BuildFinders {
     URL latin = new URL(baseResourcePath + "latin" + TextAnalysis.WORD_LIST_EXTENSION);
     URL spanish = new URL(baseResourcePath + "spanish" + TextAnalysis.WORD_LIST_EXTENSION);
 
-    Collection<PatternFinder> finders = getFinders("English", engWords.openStream());
-    finders.addAll(getFinders("Common", commonEngWords.openStream()));
-    finders.addAll(getFinders("US Cities", uscities.openStream()));
-    finders.addAll(getFinders("Latin", latin.openStream()));
-    finders.addAll(getFinders("Spanish", spanish.openStream()));
+    Collection<PatternFinder> finders = buildDictionaryFinders("English", engWords.openStream());
+    finders.addAll(buildDictionaryFinders("Common", commonEngWords.openStream()));
+    finders.addAll(buildDictionaryFinders("US Cities", uscities.openStream()));
+    finders.addAll(buildDictionaryFinders("Latin", latin.openStream()));
+    finders.addAll(buildDictionaryFinders("Spanish", spanish.openStream()));
     finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
     finders.add(new KeySequenceFinder(new RussianKeyBoard()));
     finders.add(new DateFinder());
@@ -71,7 +71,7 @@ public class BuildFinders {
    * @return
    * @throws IOException
    */
-  public static Collection<PatternFinder> getFinders(String name, InputStream in) throws IOException {
+  public static Collection<PatternFinder> buildDictionaryFinders(String name, InputStream in) throws IOException {
     List<PatternFinder> finders = new LinkedList<PatternFinder>();
 
     try {
