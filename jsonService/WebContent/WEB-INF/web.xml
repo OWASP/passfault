@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-	<display-name>passfaultWeb</display-name>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>passfaultWebNotAsOld</display-name>
 	<servlet>
 		<description>
 		Endpoint for password analysis</description>
-		<display-name>passfault/analysis/</display-name>
-		<servlet-name>passfault/analysis/</servlet-name>
+		<display-name>passfault</display-name>
+		<servlet-name>passfault</servlet-name>
 		<servlet-class>com.passfault.web.PassfaultServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>passfault/analysis/</servlet-name>
-		<url-pattern>/passfault/analysis/</url-pattern>
+		<servlet-name>passfault</servlet-name>
+		<url-pattern>/analysis</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
-		<welcome-file>password_strength.shtml</welcome-file>
+		<welcome-file>password_strength.html</welcome-file>
 	</welcome-file-list>
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>everything</web-resource-name>
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
-		<user-data-constraint>
-			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-		</user-data-constraint>
 	</security-constraint>
 </web-app>

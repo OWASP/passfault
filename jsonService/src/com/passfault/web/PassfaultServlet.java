@@ -2,6 +2,7 @@ package com.passfault.web;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.CharBuffer;
 import java.util.Arrays;
@@ -57,6 +58,10 @@ public class PassfaultServlet extends HttpServlet {
 			printUsage(response);
 		}
 		SecureString password = getPassword(request.getReader(), request.getContentLength());
+		//the above works in tomcat but not jetty or google app engine
+		//the below works in jetty and google app engine but not tomcat
+		//SecureString password = getPassword(request.getInputStream(), request.getContentLength());
+		
 		String protectionType = request.getParameter(PROTECTION_TYPE);
 		String attackProfile = request.getParameter(ATTACK_PROFILE);
 		try{
@@ -100,7 +105,29 @@ public class PassfaultServlet extends HttpServlet {
 		Arrays.fill(chars, '0');
 		return password;
 	}
-
+	
+	/**
+	 * @throws ServletException if a non-printable character is found
+	 */
+	private SecureString getPassword(InputStream reader, int length) throws IOException, ServletException {
+		char[] chars = new char[length];
+		int i=0;
+		while(reader.available()>0){
+			char ch = (char)reader.read();
+			if (Character.isISOControl(ch)){
+				throw new ServletException("A non-printable character found in the supplied password.");
+			} else {
+				chars[i++]=ch;
+			}
+		}
+		if(i==0){
+			throw new ServletException("No password found");
+		}	
+		SecureString password = new SecureString(chars, 0, i);
+		Arrays.fill(chars, '0');
+		return password;
+	}
+	
 	public void writeJSON(PasswordAnalysis analysis, PrintWriter writer) throws IOException {
 		jsonWriter.write(writer, analysis.calculateHighestProbablePatterns());
 	}

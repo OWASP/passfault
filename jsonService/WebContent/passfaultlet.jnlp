@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" href="">
+    <information>
+        <title>Passfault</title>
+        <vendor>Passfault</vendor>
+    </information>
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.6+"
+              href="http://java.sun.com/products/autodl/j2se"/>
+        <jar href="PassfaultApplet.jar" main="true"/>
+        <jar href="passfault.jar" main="false"/>
+    </resources>
+    <applet-desc
+         name="Passfault"
+         main-class="com.passfault.applet.Passfaultlet"
+         width="1"
+         height="1">
+     </applet-desc>
+</jnlp>

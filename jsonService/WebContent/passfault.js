@@ -258,3 +258,34 @@ function timeToCrack(words, timePerPass, numProcs, iterations){
     }
     return buf;
   }
+
+function submitPassword(){ //submit to applet or service
+	var applet = false;
+	
+	var password = document.getElementById("password").value;
+	if (applet){
+		var results = $("#passfaultlet")[0].analyze(password);
+		var analysis = JSON.parse(results);
+	  	applyTemplate(document.getElementById("patterns"),analysis);
+	  	$("div.goneOnAnalyze").hide();
+	} else {
+		$.ajax({
+			  type: 'POST',
+			  url: 'analysis',
+			  data: password,
+			  contentType: 'text',
+			  success: function(results) {
+					$("div.goneOnAnalyze").hide();
+				  	applyTemplate(document.getElementById("patterns"), results);
+			  },
+			  error: function(jqXHR, textStatus, errorThrown) {
+				  alert('An error ocurred analyzing: '+errorThrown);
+			  },
+			  dataType: 'json'
+			});
+//		$.post("analysis", password, function(results) {
+//			$("div.goneOnAnalyze").hide();
+//		  	applyTemplate(document.getElementById("patterns"), results);
+//		}, "json");
+	}
+}
