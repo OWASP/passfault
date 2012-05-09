@@ -34,6 +34,8 @@ public interface PatternFinder {
    * @throws Exception 
    */
   void analyze(PasswordResults pass) throws Exception;
+  
   void blockingAnalyze(PasswordResults pass) throws Exception;
 
+  void waitForAnalysis(PasswordResults pass) throws Exception;
 }

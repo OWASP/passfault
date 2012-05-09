@@ -179,4 +179,9 @@ public class KeySequenceFinder implements PatternFinder {
         new PasswordPattern(start, length, passString,
         patternSize, pattern.toString(), patternName, keys.getName()));
   }
+
+  @Override
+  public void waitForAnalysis(PasswordResults pass) throws Exception {
+    return; //already done
+  }
 }

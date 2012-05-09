@@ -84,4 +84,9 @@ public class DictionaryPatternsFinder implements PatternFinder {
     }
     return;
   }
+
+  @Override
+  public void waitForAnalysis(PasswordResults pass) throws Exception {
+    return; //already done
+  }
 }

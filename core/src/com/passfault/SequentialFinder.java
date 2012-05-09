@@ -45,4 +45,9 @@ public class SequentialFinder implements PatternFinder{
   public void blockingAnalyze(PasswordResults pass) throws Exception {
     analyze(pass);
   }
+
+  @Override
+  public void waitForAnalysis(PasswordResults pass) throws Exception {
+    return; //already done
+  }
 }
