@@ -17,11 +17,8 @@
 
 package com.passfault;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,23 +28,22 @@ import java.util.logging.Logger;
  *
  * @author cam
  */
-public class ParallelFinder implements PatternFinder {
+public class ExecutorFinder implements PatternFinder {
 
-  private List<FinderThread> finderThreads;
-
-  public ParallelFinder(Collection<PatternFinder> finders) {
-    finderThreads = new LinkedList<FinderThread>();
-    FinderThread finderThread;
-    for (PatternFinder finder : finders) {
-      finderThread = new FinderThread(finder);
-      finderThreads.add(finderThread);
-    }
+  private final PatternFinder finder;
+  private final ExecutorService exec;
+  Map<PasswordResults, Future> jobsMap = new ConcurrentHashMap<PasswordResults, Future>();
+  
+  public ExecutorFinder(Collection<PatternFinder> finders) {
+    this.finder = new SequentialFinder(finders);
+    this.exec = Executors.newFixedThreadPool(10);
   }
 
   @Override
   public void blockingAnalyze(PasswordResults pass) throws Exception {
-    analyze(pass);
-    waitForAnalysis(pass);
+    Analyze toRun = new Analyze(pass, finder);
+    Future result = exec.submit(toRun);
+    result.get();
   }
 
   /**
@@ -59,14 +55,9 @@ public class ParallelFinder implements PatternFinder {
    */
   @Override
   public void analyze(PasswordResults pass) throws Exception {
-    for (FinderThread finderThread : finderThreads) {
-      finderThread.addPassword(pass);
-      if (!finderThread.isAlive()) {
-        finderThread.start();
-      }
-    }
-    Thread doneThread = new DoneThread(pass);
-    doneThread.start();
+    Analyze toRun = new Analyze(pass, finder);
+    Future future = exec.submit(toRun);
+    jobsMap.put(pass, future);
   }
 
   /**
@@ -74,101 +65,30 @@ public class ParallelFinder implements PatternFinder {
    * @param pass password being analyzed to test for completion
    * @throws InterruptedException
    */
+  @Override
   public void waitForAnalysis(PasswordResults pass) throws InterruptedException {
-    boolean done = false;
-    while (!done) {
-      done = true;
-      for (FinderThread finderThread : finderThreads) {
-        if (!finderThread.isDone(pass)) {
-          done = false;
-          break;
-        }
-      }
-      if (!done) {
-        Thread.sleep(200);
-      }
+    try {
+      Future job = jobsMap.get(pass);
+      Object call = job.get();
+    } catch (Exception ex) {
+      Logger.getLogger(ExecutorFinder.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
+  
+  static class Analyze implements Callable{
+    private final PasswordResults pw;
+    private final PatternFinder finder;
 
-  public void end() {
-    for (FinderThread finderThread : finderThreads) {
-      finderThread.end();
-    }
-  }
-
-  /**
-   * This class is a Thread dedicated to finding one password pattern.  It will only
-   * process one password at a time.
-   */
-  static public class FinderThread extends Thread {
-
-    public static final int SLEEP_TIME = 1000;
-    private PatternFinder finder;
-    private Queue<PasswordResults> workList;
-    private Queue<PasswordResults> doneList;
-    volatile boolean run = true;
-
-    FinderThread(PatternFinder finder) {
-      this.finder = finder;
-      workList = new ConcurrentLinkedQueue<PasswordResults>();
-      doneList = new ConcurrentLinkedQueue<PasswordResults>();
+    public Analyze(PasswordResults pw, PatternFinder finders){
+      this.pw = pw;
+      this.finder = finders;
     }
 
     @Override
-    public void run() {
-      while (run) {
-        try {
-          if (workList.isEmpty()) {
-            Thread.sleep(SLEEP_TIME);
-          } else {
-            PasswordResults password = workList.remove();
-            finder.analyze(password);
-            doneList.add(password);
-          }
-        } catch (Exception ex) {
-          Logger.getLogger(FinderThread.class.getName()).log(Level.SEVERE, null, ex);
-        }
-      }
-    }
-
-    public boolean isDone(PasswordResults password) {
-      return doneList.contains(password);
-    }
-
-    public void addPassword(PasswordResults password) {
-      workList.add(password);
-    }
-
-    public void removePassword(PasswordResults password) {
-      doneList.remove(password);
-    }
-
-    public void end() {
-      run = false;
-    }
-  }
-
-  /**
-   * This class monitors the FinderThreads launched by ParallelFinder for the results
-   * of analysis for a specific password.  When analysis is complete it calls the method
-   * {PaswordResults#calculateHighestProbablePatterns()|
-   */
-  class DoneThread extends Thread {
-
-    private final PasswordResults passAnalysis;
-
-    public DoneThread(PasswordResults pass) {
-      this.passAnalysis = pass;
-    }
-
-    @Override
-    public void run() {
-      try {
-        waitForAnalysis(passAnalysis);
-        passAnalysis.calculateHighestProbablePatterns();
-      } catch (InterruptedException ex) {
-        Logger.getLogger(DoneThread.class.getName()).log(Level.SEVERE, null, ex);
-      }
+    public Object call() throws Exception {
+      finder.analyze(pw);
+      finder.waitForAnalysis(pw);
+      return pw;  
     }
   }
 }
