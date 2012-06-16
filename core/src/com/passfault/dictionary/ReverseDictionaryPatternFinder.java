@@ -26,7 +26,7 @@ import com.passfault.PasswordResults;
  */
 public class ReverseDictionaryPatternFinder extends DictionaryPatternsFinder {
 
-  public ReverseDictionaryPatternFinder(InMemoryDictionary diction, DictionaryStrategy strategy) {
+  public ReverseDictionaryPatternFinder(Dictionary diction, DictionaryStrategy strategy) {
     super(diction, strategy);
   }
 

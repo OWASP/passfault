@@ -44,9 +44,15 @@ import java.util.List;
 /**
  * Configuration Factory.  This should be replaced by some Dependency injection type
  * configuration, pico or guice.
+ * 
  * @author cam
+ * @see PropertiesFindersBuilder
  */
 public class BuildFinders {
+  
+  /**
+   * @deprecated 
+   */
   public static ParallelFinder build(String baseResourcePath) throws IOException {
     URL engWords = new URL(baseResourcePath + "english" + TextAnalysis.WORD_LIST_EXTENSION);
     URL commonEngWords = new URL(baseResourcePath + "tiny-lower" + TextAnalysis.WORD_LIST_EXTENSION);
@@ -66,9 +72,10 @@ public class BuildFinders {
   }
 
   /**
+   * @deprecated 
    * This is a good place to replace with some dependency injection
    * @param inputStreams
-   * @return
+   * @return Collection of finders suitable to be wrapped up in a composite finder like ParallelFinder or ExecutorFinder
    * @throws IOException
    */
   public static Collection<PatternFinder> buildDictionaryFinders(String name, InputStream in) throws IOException {
