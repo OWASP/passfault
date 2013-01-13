@@ -78,8 +78,8 @@ public class CandidatePattern {
     return clone;
   }
 
-  public PasswordPattern getMatchingPattern(int dictionarySize, String strategyName, String classification, int currentPosition) {
-    int crackSize = dictionarySize;
+  public PasswordPattern getMatchingPattern(double dictionarySize, String strategyName, String classification, int currentPosition) {
+    double crackSize = dictionarySize;
     String description = "Match";
     if (decorator != null) {
       description = decorator.getDescription();
