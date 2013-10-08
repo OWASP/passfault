@@ -12,22 +12,27 @@
  */
 package com.passfault.dictionary;
 
+import com.passfault.dictionary.DictionaryPatternsFinder;
+import com.passfault.dictionary.FileDictionary;
+import com.passfault.dictionary.SubstitutionStrategy;
 import com.passfault.*;
+import java.util.List;
+import static junit.framework.Assert.*;
+import junit.framework.Assert.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static junit.framework.Assert.*;
 
-public class AugmentationFinderText {
+public class SubstitutionFinderTest {
 
   private static DictionaryPatternsFinder finder;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    FileDictionary dictionary = FileDictionary.newInstance("./test/tiny-lower.words", "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new AugmentationStrategy(1));
+    FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
+    finder = new DictionaryPatternsFinder(dictionary, new SubstitutionStrategy(1));
   }
 
   @AfterClass
@@ -43,6 +48,14 @@ public class AugmentationFinderText {
   }
 
   @Test
+  public void findWord_plain2() throws Exception {
+    System.out.println("findWord");
+    MockPasswordResults p = new MockPasswordResults("password");
+    finder.analyze(p);
+    assertEquals(0, p.getPossiblePatternCount());
+  }
+
+  @Test
   public void findWord_plain() throws Exception {
     System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("wisp");
@@ -51,51 +64,35 @@ public class AugmentationFinderText {
   }
 
   @Test
-  public void findWord_numbersInFront() throws Exception {
-    System.out.println("findWord");
-    MockPasswordResults p = new MockPasswordResults("1wisp");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
-  }
-
-  @Test
-  public void findWord_numbersInBack() throws Exception {
-    System.out.println("findWord");
-    MockPasswordResults p = new MockPasswordResults("wisp1");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
-  }
-
-  @Test
   public void findWord() throws Exception {
     System.out.println("findWord");
-    MockPasswordResults p = new MockPasswordResults("wi3sp");
+    MockPasswordResults p = new MockPasswordResults("w1sp");//wasp, asp, wisp, was
     finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(4, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWord_garbageinfront() throws Exception {
     System.out.println("findWord_garbageinfront");
-    MockPasswordResults p = new MockPasswordResults("xxxxwi6sp");
+    MockPasswordResults p = new MockPasswordResults("xxxxw1sp");//wasp, asp, wisp, was
     finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(4, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWord_garbageinback() throws Exception {
 
     System.out.println("findWord_garbageinback");
-    MockPasswordResults p = new MockPasswordResults("wi1spxxxx");
+    MockPasswordResults p = new MockPasswordResults("w1spxxxx");//wasp, asp, wisp, was
     finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(4, p.getPossiblePatternCount());
   }
 
   @Test
   public void findNonWord() throws Exception {
     System.out.println("findNonWord");
 
-    MockPasswordResults p = new MockPasswordResults("qqq");
+    MockPasswordResults p = new MockPasswordResults("qqq123");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
@@ -103,8 +100,21 @@ public class AugmentationFinderText {
   @Test
   public void findMultiWords() throws Exception {
     System.out.println("findMultiWords");
-    MockPasswordResults p = new MockPasswordResults("wi3spwi3sp");
+    MockPasswordResults p = new MockPasswordResults("w1spw1sp");//wasp, asp, wisp, was *2
     finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(8, p.getPossiblePatternCount());
+  }
+
+  @Test
+  public void testLength() throws Exception {
+    System.out.println("findMultiWords");
+    MockPasswordResults p = new MockPasswordResults("runr&n");//run, ran,
+    finder.analyze(p);
+    List<PasswordPattern> patterns = p.getFoundPatterns();
+    for (PasswordPattern pattern : patterns) {
+      assertEquals(3, pattern.getLength());
+      System.out.println(pattern.getMatchString());
+    }
+    assertEquals(4, p.getPossiblePatternCount());
   }
 }

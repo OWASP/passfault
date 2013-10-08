@@ -28,8 +28,7 @@ public class ExecutorFinderTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    System.out.println("current dir=" + new File(".").getAbsoluteFile());
-    FileDictionary dictionary = FileDictionary.newInstance("./test/tiny-lower.words", "tiny-lower");
+    FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
     DictionaryPatternsFinder dictionaryFinder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
     LinkedList<PatternFinder> l = new LinkedList<PatternFinder>();
     l.add(dictionaryFinder);

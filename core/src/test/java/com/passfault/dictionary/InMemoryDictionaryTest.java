@@ -18,6 +18,7 @@ import java.io.FileReader;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,12 +28,11 @@ import org.junit.Test;
 
 public class InMemoryDictionaryTest {
 
-  public static final String wordlist = "./test/tiny-lower.words";
   private static InMemoryDictionary dictionary;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    dictionary = InMemoryDictionary.newInstance(wordlist, false, "tiny-lower");
+    dictionary = InMemoryDictionary.newInstance(TestWords.getTestReader(), false, "tiny-lower");
   }
 
   @Test
@@ -102,8 +102,8 @@ public class InMemoryDictionaryTest {
   }
 
   @Test
-  public void testStress() throws IOException {
-    File sortedWordsFile = new File(wordlist);
+  public void testStress() throws IOException, URISyntaxException {
+    File sortedWordsFile = TestWords.getTestFile();
     BufferedReader buffered = new BufferedReader(new FileReader(sortedWordsFile));
     String word = buffered.readLine().trim();
     while (word != null) {

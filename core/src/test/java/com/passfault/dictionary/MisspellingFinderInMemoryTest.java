@@ -14,6 +14,7 @@ package com.passfault.dictionary;
 
 import com.passfault.MockPasswordResults;
 import com.passfault.PasswordPattern;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class MisspellingFinderInMemoryTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    InMemoryDictionary dictionary = InMemoryDictionary.newInstance("./test/tiny-lower.words", false, "tiny-lower");
+    InMemoryDictionary dictionary = InMemoryDictionary.newInstance(TestWords.getTestReader(), false, "tiny-lower");
     finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1));
   }
 

@@ -51,8 +51,11 @@ public class FileDictionary implements Dictionary {
   }
 
   public static FileDictionary newInstance(String wordList, String name) throws IOException {
-    File sortedWordsFile = new File(wordList);
-    BufferedReader buffered = new BufferedReader(new FileReader(sortedWordsFile));
+	return newInstance(new File(wordList), name);  
+  }
+  
+  public static FileDictionary newInstance(File wordList, String name) throws IOException {
+    BufferedReader buffered = new BufferedReader(new FileReader(wordList));
     int wordCount = 0;
     int maxSize = 0;
     String word;
@@ -67,7 +70,7 @@ public class FileDictionary implements Dictionary {
       }
     } while (word != null);
 
-    RandomAccessFile file = new RandomAccessFile(sortedWordsFile, "r");
+    RandomAccessFile file = new RandomAccessFile(wordList, "r");
     System.out.println("Word Count:" + wordCount);
     return new FileDictionary(file, wordCount, maxSize + 1, name);
   }

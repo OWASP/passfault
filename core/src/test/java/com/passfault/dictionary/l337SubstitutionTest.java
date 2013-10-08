@@ -28,7 +28,7 @@ public class l337SubstitutionTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    FileDictionary dictionary = FileDictionary.newInstance("./test/tiny-lower.words", "tiny-lower");
+    FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
     finder = new DictionaryPatternsFinder(dictionary, new l337SubstitutionStrategy());
   }
 
