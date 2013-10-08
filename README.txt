@@ -10,7 +10,7 @@ Test:
 2) ant test
 
 Run:
-java -jar core/dist/passfault.jar
+java -jar core/build/lib/core-[version].jar
 
 Passfault is licensed under Apache 2.0 license, and is a project at OWASP, the Open Web Application Security Project, a non-profit organization dedicated to building security tools and learning resources.
 
