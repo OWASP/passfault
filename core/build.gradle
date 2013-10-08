@@ -17,6 +17,6 @@ jar {
 	manifest {
 		attributes 'Implementation-Title': 'OWASP Passfault', 
 			'Implementation-Version': version,
-			'Main-Class': 'com.passfault.TextAnalysis'
+			'Main-Class': 'org.owasp.passfault.TextAnalysis'
 	}	
 }
