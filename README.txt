@@ -1,13 +1,9 @@
 Welcome to Passfault
 
 Objective: Do Passwords Better.
-Build:
+Build uses gradle:
 1) cd core 
-2) type "ant jar"
-
-Test:
-1) cd core
-2) ant test
+2) gradle build
 
 Run:
 java -jar core/dist/passfault.jar

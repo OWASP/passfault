@@ -41,7 +41,7 @@ public class TextAnalysis {
   private final PatternFinder finder;
 
   public TextAnalysis() throws IOException {
-    String internalDictionary = "/com/passfault/dictionary/english" + WORD_LIST_EXTENSION;
+    String internalDictionary = "/org/owasp/passfault/dictionary/english" + WORD_LIST_EXTENSION;
     InputStream englishListStream = this.getClass().getResourceAsStream(internalDictionary);
     if (englishListStream == null) {
       throw new RuntimeException("Could not load the internal dictionary");
