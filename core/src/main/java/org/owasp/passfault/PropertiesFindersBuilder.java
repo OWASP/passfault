@@ -34,7 +34,7 @@ public class PropertiesFindersBuilder {
   public static final String WORDLIST_IN_MEMORY = "wordlist.inMemory";
   public static final Boolean WORDLIST_IN_MEMORY_DEFAULT = true;
   public static final String WORD_LIST_EXTENSION = ".words";
-  public static final String internalDictionary = "/com/passfault/dictionary/english" + WORD_LIST_EXTENSION;
+  public static final String internalDictionary = "/org/owasp/passfault/dictionary/english" + WORD_LIST_EXTENSION;
    
   public Collection<PatternFinder> buildDictionaryFinders(Properties props) throws IOException{
     return buildDictionaryFinders(props, "");
