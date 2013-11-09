@@ -1,0 +1,2 @@
+include "core", "jsonService"
+rootProject.name = "OWASP Passfault"
