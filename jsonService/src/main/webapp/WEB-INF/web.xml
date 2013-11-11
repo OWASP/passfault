@@ -2,11 +2,10 @@
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>passfaultWebNotAsOld</display-name>
 	<servlet>
-		<description>
-		Endpoint for password analysis</description>
+		<description>Endpoint for password analysis</description>
 		<display-name>passfault</display-name>
 		<servlet-name>passfault</servlet-name>
-		<servlet-class>com.passfault.web.PassfaultServlet</servlet-class>
+		<servlet-class>org.owasp.passfault.web.PassfaultServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>passfault</servlet-name>

@@ -1,0 +1,10 @@
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+dependencies {
+    compile project(':core')
+    compile "javax.servlet:servlet-api:2.5"
+}
+
+
+
