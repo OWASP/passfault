@@ -1,13 +1,17 @@
 Welcome to Passfault
-
 Objective: Do Passwords Better.
-Build uses gradle:
-1) cd core 
-2) gradle build
-
-Run:
-java -jar core/build/lib/core-[version].jar
-
 Passfault is licensed under Apache 2.0 license, and is a project at OWASP, the Open Web Application Security Project, a non-profit organization dedicated to building security tools and learning resources.
 
-Other Projects include a JSON service, an client side non-gui Applet (accessible via javascript and returns JSON), and a JavaFX client.  Those projects do not have a well established ant build, but are easily built within eclipse.
+Building and Running
+
+The core library includes a command-line interface.  
+1) cd core 
+2) gradle build
+3) java -jar core/build/lib/core-[version].jar
+
+The JSON service is the same as is hosted on passfault.com.  It includes a javascript front-end that hits the json service with password analysis requests.
+1) cd jsonService
+2) gradle build jettyRunWar
+3) browse to localhost:8080/jsonService
+
+Other projects include a client side non-gui Applet (accessible via javascript and returns JSON), and a JavaFX 1.x client.  Those projects do not have a well established build and will likely require some tweaking.
