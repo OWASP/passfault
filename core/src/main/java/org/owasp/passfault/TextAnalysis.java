@@ -31,7 +31,8 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
 public class TextAnalysis {
 
   public static final String WORD_LIST_EXTENSION = ".words";
-  public static TimeToCrack crack = TimeToCrack.largeCluster1024;
+  public static TimeToCrack crack;
+  
 
   public static void main(String[] args) throws IOException, Exception {
     TextAnalysis analyzer = new TextAnalysis();
@@ -75,16 +76,29 @@ public class TextAnalysis {
     BufferedReader buf_in = new BufferedReader(reader);
 
     String str = "q";
+    String machineChoice = "1";
     try {
       // Read a whole line a time. Check the string for
       // the "quit" input to jump from the loop.
 
       do {
         // Read text from keyboard
-        System.out.println("\nEnter a password: ");
+        System.out.println("\nPlease enter a password: (Enter 'q' to exit)");
         str = buf_in.readLine();
         if (!str.toLowerCase().equals("q")) {
-          process(str);
+          // Read the choice of cracking machine
+          System.out.println("\nChoose a machine from the following list to crack the password:");
+          System.out.println("[1] Dual Core Computer(Every day computer)");
+          System.out.println("[2] I7 Computer(High end computer)");
+          System.out.println("[3] Small Cluster(Small super computer)");
+          System.out.println("[4] Large Cluster(Large super computer)");
+          System.out.println("[5] Gigantic Cluster(Enormous super computer)");
+          machineChoice = buf_in.readLine();
+          int choice = Integer.parseInt(machineChoice);
+          
+          // Read choice of hashing algorithm??
+          
+          process(str,choice);
         } else {
 
           break;
@@ -95,9 +109,25 @@ public class TextAnalysis {
     }
   } // main
 
-  private void process(final String password)
+  private void process(final String password, int choice)
       throws IOException, Exception {
     PasswordAnalysis analysis = new PasswordAnalysis(password);
+    
+    switch (choice) {
+      case 1: crack = TimeToCrack.dualCore;
+              break;
+      case 2: crack = TimeToCrack.i7;
+              break;
+      case 3: crack = TimeToCrack.smallCluster128;
+              break;
+      case 4: crack = TimeToCrack.largeCluster1024;
+              break;
+      case 5: crack = TimeToCrack.giganticCluster1024;
+              break;
+      default: crack = TimeToCrack.largeCluster1024;
+               break;
+    }
+    //public static TimeToCrack crack = TimeToCrack.largeCluster1024;
 
     long then = System.currentTimeMillis();
     finder.blockingAnalyze(analysis);
