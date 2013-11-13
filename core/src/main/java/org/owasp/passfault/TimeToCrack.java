@@ -30,6 +30,7 @@ public enum TimeToCrack {
   smallCluster128(128, "Small super computer"),
   largeCluster1024(1024, "Large super computer"),
   giganticCluster1024(10000, "Enormous super computer");
+  
   int numberOfProcessors;
   String displayName;
   long crackTimeMillis = 362;//time for bcrypt on 1.8 ghz
@@ -37,6 +38,15 @@ public enum TimeToCrack {
   TimeToCrack(int numberOfProcessors, String description) {
     this.numberOfProcessors = numberOfProcessors;
     this.displayName = description;
+  }
+  
+  public void setHashType(String hashType, int hashNum) {
+    switch (hashNum) {
+    case 1:  crackTimeMillis = 300;
+             break;
+    default: crackTimeMillis = 362;
+             break;
+    }
   }
 
   public int getNumberOfProcessors() {

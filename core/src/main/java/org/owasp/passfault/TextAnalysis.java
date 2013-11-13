@@ -9,7 +9,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+*/
 
 package org.owasp.passfault;
 
@@ -31,7 +31,7 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
 public class TextAnalysis {
 
   public static final String WORD_LIST_EXTENSION = ".words";
-  public static TimeToCrack crack;
+  public static TimeToCrack crack = TimeToCrack.dualCore;
   
 
   public static void main(String[] args) throws IOException, Exception {
@@ -77,6 +77,7 @@ public class TextAnalysis {
 
     String str = "q";
     String machineChoice = "1";
+    String hashChoice = "bcrypt";
     try {
       // Read a whole line a time. Check the string for
       // the "quit" input to jump from the loop.
@@ -94,11 +95,16 @@ public class TextAnalysis {
           System.out.println("[4] Large Cluster(Large super computer)");
           System.out.println("[5] Gigantic Cluster(Enormous super computer)");
           machineChoice = buf_in.readLine();
-          int choice = Integer.parseInt(machineChoice);
+          int machineNum = Integer.parseInt(machineChoice);
           
-          // Read choice of hashing algorithm??
+          // Read choice of hashing algorithm
+          System.out.println("\nChoose a machine from the following list to crack the password:");
+          System.out.println("[1] Bcrypt");
+          System.out.println("[2] MD5");
+          hashChoice = buf_in.readLine();
+          int hashNum = Integer.parseInt(hashChoice);
           
-          process(str,choice);
+          process(str, machineNum, hashNum);
         } else {
 
           break;
@@ -109,11 +115,11 @@ public class TextAnalysis {
     }
   } // main
 
-  private void process(final String password, int choice)
+  private void process(final String password, int machineNum, int hashNum)
       throws IOException, Exception {
     PasswordAnalysis analysis = new PasswordAnalysis(password);
     
-    switch (choice) {
+    switch (machineNum) {
       case 1: crack = TimeToCrack.dualCore;
               break;
       case 2: crack = TimeToCrack.i7;
@@ -127,7 +133,15 @@ public class TextAnalysis {
       default: crack = TimeToCrack.largeCluster1024;
                break;
     }
-    //public static TimeToCrack crack = TimeToCrack.largeCluster1024;
+    
+    switch (hashNum) {
+      case 1: crack.setHashType("Bcrypt", hashNum);
+              break;        
+      case 2: crack.setHashType("MD5", hashNum);
+              break;  
+      default: crack.setHashType("Bcrypt", hashNum);
+               break;
+    }
 
     long then = System.currentTimeMillis();
     finder.blockingAnalyze(analysis);
