@@ -25,32 +25,37 @@ package org.owasp.passfault;
  */
 public enum TimeToCrack {
 
-  dualCore(2, "Every day computer"),
-  i7(7, "High end computer"),
-  smallCluster128(128, "Small super computer"),
-  largeCluster1024(1024, "Large super computer"),
-  giganticCluster1024(10000, "Enormous super computer");
+  GPU1(1, "Every day hacker, $500"),
+  GPU10(10, "Dedicated hacker, $5,000"),
+  GPU100(100, "Organized crime hacker, $50,000"),
+  GPU1000(1000, "Government?, $500,000");
   
-  int numberOfProcessors;
+  int numberOfGPUs;
   String displayName;
-  long crackTimeMillis = 362;//time for bcrypt on 1.8 ghz
+  long crackTimeNanosecs;
 
-  TimeToCrack(int numberOfProcessors, String description) {
-    this.numberOfProcessors = numberOfProcessors;
+  TimeToCrack(int numberOfGPUs, String description) {
+    this.numberOfGPUs = numberOfGPUs;
     this.displayName = description;
   }
   
   public void setHashType(String hashType, int hashNum) {
     switch (hashNum) {
-    case 1:  crackTimeMillis = 300;
-             break;
-    default: crackTimeMillis = 362;
-             break;
+      case 1:  crackTimeNanosecs = 259000;//bcrypt
+	       break;
+      case 2:  crackTimeNanosecs = 226;//md5crypt 
+               break;
+      case 3:  crackTimeNanosecs = 29247;//sha512crypt
+	       break;
+      case 4:  crackTimeNanosecs = 1543;//Password Safe
+               break;  
+      default: crackTimeNanosecs = 259000;//default: bcrypt
+               break;
     }
   }
 
-  public int getNumberOfProcessors() {
-    return numberOfProcessors;
+  public int getNumberOfGPUs() {
+    return numberOfGPUs;
   }
 
   /**
@@ -64,8 +69,8 @@ public enum TimeToCrack {
    * @param patternSize represents the number of passwords in a pattern
    * @return the milliseconds needed to crack the pattern
    */
-  public double getTimeToCrackMilliSeconds(double patternSize) {
-    return (crackTimeMillis * (patternSize)) / numberOfProcessors;
+  public double getTimeToCrackNanoSeconds(double patternSize) {
+    return (crackTimeNanosecs * (patternSize)) / numberOfGPUs;
   }
 
   /**
@@ -73,11 +78,11 @@ public enum TimeToCrack {
    * @return a display suitable string displaying the time to crack
    */
   public String getTimeToCrackString(double patternSize) {
-    double milliseconds = getTimeToCrackMilliSeconds(patternSize);
-    double seconds = milliseconds / 1000;
-    int days = (int) (milliseconds / 1000 / 60 / 60 / 24);
-    int months = (int) (milliseconds / 1000 / 60 / 60 / 24 / 30);
-    int years = (int) (milliseconds / 1000 / 60 / 60 / 24 / 365);
+    double nanoseconds = getTimeToCrackNanoSeconds(patternSize);
+    double seconds = nanoseconds / 1000000000;
+    int days = (int) (nanoseconds / 1000000000 / 60 / 60 / 24);
+    int months = (int) (nanoseconds / 1000000000 / 60 / 60 / 24 / 30);
+    int years = (int) (nanoseconds / 1000000000 / 60 / 60 / 24 / 365);
     int decades = years / 10;
     int centuries = years / 100;
     int remainderMonths = months % 12;
@@ -144,8 +149,8 @@ public enum TimeToCrack {
     return buf.toString();
   }
 
-  void setTestTime(long crackTimeMillis) {
-    this.crackTimeMillis = crackTimeMillis;
+  void setTestTime(long crackTimeNanosecs) {
+    this.crackTimeNanosecs = crackTimeNanosecs;
   }
 
   /** 
