@@ -2,6 +2,10 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse-wtp'
 
+    group = 'org.owasp.passfault'
+    version = '0.7'
+    archivesBaseName = rootProject.name +'-'+ project.name
+
     repositories {
        mavenCentral()
     }
@@ -9,8 +13,6 @@ subprojects {
     dependencies {
         testCompile 'junit:junit:4.11'
     }
-
-    version = '0.7'
 
     jar {
         manifest.attributes provider: 'gradle'
