@@ -9,7 +9,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+*/
 
 package org.owasp.passfault;
 
@@ -31,7 +31,7 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
 public class TextAnalysis {
 
   public static final String WORD_LIST_EXTENSION = ".words";
-  public static TimeToCrack crack;
+  public static TimeToCrack crack = TimeToCrack.GPU1;
   
 
   public static void main(String[] args) throws IOException, Exception {
@@ -77,6 +77,7 @@ public class TextAnalysis {
 
     String str = "q";
     String machineChoice = "1";
+    String hashChoice = "1";
     try {
       // Read a whole line a time. Check the string for
       // the "quit" input to jump from the loop.
@@ -88,17 +89,23 @@ public class TextAnalysis {
         if (!str.toLowerCase().equals("q")) {
           // Read the choice of cracking machine
           System.out.println("\nChoose a machine from the following list to crack the password:");
-          System.out.println("[1] Dual Core Computer(Every day computer)");
-          System.out.println("[2] I7 Computer(High end computer)");
-          System.out.println("[3] Small Cluster(Small super computer)");
-          System.out.println("[4] Large Cluster(Large super computer)");
-          System.out.println("[5] Gigantic Cluster(Enormous super computer)");
+          System.out.println("[1] 1 high-end GPU(Every day hacker, $500)");
+          System.out.println("[2] 10 high-end GPUs(Dedicated hacker, $5,000)");
+          System.out.println("[3] 100 high-end GPUs(Organized crime hacker, $50,000)");
+          System.out.println("[4] 1000 high-end GPUs(Government, $500,000)");
           machineChoice = buf_in.readLine();
-          int choice = Integer.parseInt(machineChoice);
+          int machineNum = Integer.parseInt(machineChoice);
           
-          // Read choice of hashing algorithm??
+          // Read choice of hashing algorithm
+          System.out.println("\nChoose a machine from the following list to crack the password:");
+          System.out.println("[1] bcrypt");
+          System.out.println("[2] md5crypt");
+	  System.out.println("[3] sha512crypt");
+          System.out.println("[4] Password Safe"); 
+          hashChoice = buf_in.readLine();
+          int hashNum = Integer.parseInt(hashChoice);
           
-          process(str,choice);
+          process(str, machineNum, hashNum);
         } else {
 
           break;
@@ -109,25 +116,35 @@ public class TextAnalysis {
     }
   } // main
 
-  private void process(final String password, int choice)
+  private void process(final String password, int machineNum, int hashNum)
       throws IOException, Exception {
     PasswordAnalysis analysis = new PasswordAnalysis(password);
     
-    switch (choice) {
-      case 1: crack = TimeToCrack.dualCore;
+    switch (machineNum) {
+      case 1: crack = TimeToCrack.GPU1;
               break;
-      case 2: crack = TimeToCrack.i7;
+      case 2: crack = TimeToCrack.GPU10;
               break;
-      case 3: crack = TimeToCrack.smallCluster128;
+      case 3: crack = TimeToCrack.GPU100;
               break;
-      case 4: crack = TimeToCrack.largeCluster1024;
+      case 4: crack = TimeToCrack.GPU1000;
               break;
-      case 5: crack = TimeToCrack.giganticCluster1024;
-              break;
-      default: crack = TimeToCrack.largeCluster1024;
+      default: crack = TimeToCrack.GPU1;
                break;
     }
-    //public static TimeToCrack crack = TimeToCrack.largeCluster1024;
+    
+    switch (hashNum) {
+      case 1: crack.setHashType("bcrypt", hashNum);
+              break;        
+      case 2: crack.setHashType("md5crypt", hashNum);
+              break;
+      case 3: crack.setHashType("sha512crypt", hashNum);
+              break;
+      case 4: crack.setHashType("Password Safe", hashNum);
+	      break;
+      default: crack.setHashType("bcrypt", hashNum);
+               break;
+    }
 
     long then = System.currentTimeMillis();
     finder.blockingAnalyze(analysis);
@@ -148,8 +165,8 @@ public class TextAnalysis {
 
     System.out.print("Total passwords in all patterns: ");
     System.out.println(crack.getRoundedSizeString(worst.getTotalCost()));
-    System.out.format("Estimated time to crack with %s processors: %s\n",
-        crack.getNumberOfProcessors(), crack.getTimeToCrackString(worst.getTotalCost()));
+    System.out.format("Estimated time to crack with %s GPU(s): %s\n",
+        crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
     System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);
   }
 }
