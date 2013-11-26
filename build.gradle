@@ -62,7 +62,7 @@ if (project.hasProperty('sonatypeUsername')){
             }
           }
 
-          developers { developer { id 'c-a-m' name 'Cam Morris' } }
+          developers { developer { id 'c-a-m'; name 'Cam Morris' } }
         }//pom.project
       }//maven deployer
     }//repositories
