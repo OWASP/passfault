@@ -1,0 +1,17 @@
+
+dependencies {
+  compile project(':core')
+  testCompile group: 'junit', name: 'junit', version: '4+'
+}
+
+jar {
+	manifest {
+		attributes 'Implementation-Title': 'OWASP Passfault', 
+			'Implementation-Version': version,
+			'Main-Class': 'org.owasp.passfault.TextAnalysis'
+	}	
+}
+
+jar {
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

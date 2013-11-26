@@ -1,2 +1,2 @@
-include "core", "jsonService"
+include "core", "jsonService", "applet"
 rootProject.name = "OWASP Passfault"
