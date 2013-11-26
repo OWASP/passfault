@@ -6,5 +6,15 @@ dependencies {
     compile "javax.servlet:servlet-api:2.5"
 }
 
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+artifacts {
+  archives war
+  archives sourcesJar
+}
+
 
 

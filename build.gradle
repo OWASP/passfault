@@ -20,10 +20,13 @@ subprojects {
     manifest.attributes provider: 'gradle'
   }
 
+}
+
+if (project.hasProperty('sonatypeUsername')){
+ subprojects {
   signing {
     sign configurations.archives
   }
-
   uploadArchives {
     repositories {
       mavenDeployer {
@@ -59,14 +62,10 @@ subprojects {
             }
           }
 
-          developers {
-            developer {
-              id 'c-a-m'
-              name 'Cam Morris'
-            }
-          }
+          developers { developer { id 'c-a-m' name 'Cam Morris' } }
         }//pom.project
       }//maven deployer
     }//repositories
   }//uploadArchives
-}//subprojects
+ }//subprojects
+}//if snapshot url
