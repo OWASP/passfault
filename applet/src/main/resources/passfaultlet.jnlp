@@ -2,18 +2,17 @@
 <jnlp spec="1.0+" codebase="" href="">
     <information>
         <title>Passfault</title>
-        <vendor>Passfault</vendor>
+        <vendor>OWASP</vendor>
     </information>
     <resources>
         <!-- Application Resources -->
-        <j2se version="1.6+"
+        <j2se version="1.7+"
               href="http://java.sun.com/products/autodl/j2se"/>
-        <jar href="PassfaultApplet.jar" main="true"/>
-        <jar href="passfault.jar" main="false"/>
+        <jar href="${appletName}.jar" main="true"/>
     </resources>
     <applet-desc
          name="Passfault"
-         main-class="com.passfault.applet.Passfaultlet"
+         main-class="org.owasp.passfault.applet.Passfaultlet"
          width="1"
          height="1">
      </applet-desc>

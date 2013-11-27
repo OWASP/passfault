@@ -6,5 +6,10 @@ dependencies {
     compile "javax.servlet:servlet-api:2.5"
 }
 
+artifacts {
+  archives war
+  archives sourcesJar
+}
+
 
 

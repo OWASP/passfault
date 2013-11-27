@@ -13,5 +13,22 @@ jar {
 }
 
 jar {
+  //this makes a fat jar from the dependencies, simplifying the jnlp(which makes it work on iced-tea plugin in linux)
   from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
+
+processResources {
+  eachFile{
+    if( it.relativePath.pathString.endsWith('.jnlp')) {
+      expand appletName: archivesBaseName + '-' + version 
+    }
+  }
+  //expand (version: version) 
+  //expand blows up on the large dictionary files, so we only expand on jnlp files
+}
+
+artifacts {
+  archives jar
+  archives sourcesJar
+}
+

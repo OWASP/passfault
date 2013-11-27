@@ -1,18 +1,75 @@
 subprojects {
-    apply plugin: 'java'
-    apply plugin: 'eclipse-wtp'
+  apply plugin: 'java'
+  apply plugin: 'eclipse-wtp'
+  apply plugin: 'maven'
+  apply plugin: 'signing'
 
-    repositories {
-       mavenCentral()
-    }
+  group = 'org.owasp.passfault'
+  version = '0.7-SNAPSHOT'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
+  archivesBaseName = rootProject.name +'-'+ project.name
 
-    dependencies {
-        testCompile 'junit:junit:4.11'
-    }
+  repositories {
+    mavenCentral()
+  }
 
-    version = '0.7'
+  dependencies {
+    testCompile 'junit:junit:4.11'
+  }
 
-    jar {
-        manifest.attributes provider: 'gradle'
-    }
+  jar {
+    manifest.attributes provider: 'gradle'
+  }
+
+  task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+  }
 }
+
+if (project.hasProperty('sonatypeUsername')){
+ subprojects {
+  signing {
+    sign configurations.archives
+  }
+  uploadArchives {
+    repositories {
+      mavenDeployer {
+        ext.snapshotRepo = "https://oss.sonatype.org/content/repositories/snapshots/"
+        ext.stagingRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        ext.repo = ext.snapshotRepo
+        if (!version.endsWith('SNAPSHOT')){
+          ext.repo = ext.stagingRepo
+        }
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    
+        repository(url: ext.repo){
+          authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+
+        pom.project {
+          name archivesBaseName
+          packaging 'jar'
+          description 'OWASP Passfault evaluates password strength and enforces password policy'
+          url 'https://passfault.com/'
+
+          scm {
+            url 'scm:git@github.com:c-a-m/passfault'
+            connection 'scm:git@github.com:c-a-m/passfault/passfault.git'
+            developerConnection 'scm:git@github.com:c-a-m/passfault/passfault.git'
+          }
+
+          licenses {
+            license {
+              name 'The Apache Software License, Version 2.0'
+              url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+              distribution 'repo'
+            }
+          }
+
+          developers { developer { id 'c-a-m'; name 'Cam Morris' } }
+        }//pom.project
+      }//maven deployer
+    }//repositories
+  }//uploadArchives
+ }//subprojects
+}//if snapshot url
