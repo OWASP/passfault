@@ -114,11 +114,13 @@ public class ParallelPatternsFinderTest {
   @Test
   public void findWordWithMultiUpper() throws Exception {
     System.out.println("findMultiWords");
-    PasswordAnalysis p = new PasswordAnalysis("Password");
+    MockPasswordResults p = new MockPasswordResults("Password");
     finder.analyze(p);
     finder.waitForAnalysis(p);
-    assertEquals(4, p.getPossiblePatternCount());
-    assertEquals("Password", p.calculateHighestProbablePatterns().path.get(0).getMatchString());
+    for(PasswordPattern pattern: p.getFoundPatterns()){
+      System.out.println(pattern.getMatchString());
+    }
+    assertEquals(6, p.getPossiblePatternCount());
   }
 
   @Test

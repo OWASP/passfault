@@ -47,17 +47,17 @@ public class TimeToCrackTest {
   }
 
   /**
-   * Test of getTimeToCrackMilliSeconds method, of class TimeToCrack.
+   * Test of getTimeToCrackNanoSeconds method, of class TimeToCrack.
    */
   @Test
-  public void testGetTimeToCrackMilliSeconds() {
-    System.out.println("getTimeToCrackMilliSeconds");
-    double crackability = 2;
-    TimeToCrack instance = TimeToCrack.dualCore;
-    instance.setTestTime(1000);
-    double expResult = 1000;
-    double result = instance.getTimeToCrackMilliSeconds(crackability);
-    assertEquals(expResult, result, 0.0001);
+  public void testGetTimeToCrackNanoSeconds() {
+    System.out.println("getTimeToCrackNanoSeconds");
+    double crackability = 1;
+    TimeToCrack instance = TimeToCrack.GPU1;
+    instance.setTestTime(1000000000);
+    double expResult = 1000000000;
+    double result = instance.getTimeToCrackNanoSeconds(crackability);
+    assertEquals(expResult, result, 0.0000000001);
   }
 
   /**
@@ -67,7 +67,7 @@ public class TimeToCrackTest {
   public void testGetTimeToCrack_lessThan1Day() {
     System.out.println("getTimeToCrackString");
     double crackability = 2;
-    TimeToCrack instance = TimeToCrack.dualCore;
+    TimeToCrack instance = TimeToCrack.GPU1;
     String expResult = "less than 1 day";
     String result = instance.getTimeToCrackString(crackability);
     assertEquals(expResult, result);
@@ -230,15 +230,15 @@ public class TimeToCrackTest {
   @Test
   public void testGetRoundedString() {
     System.out.println("getRoundedString");
-    String result = TimeToCrack.dualCore.getRoundedSizeString(100000000);
+    String result = TimeToCrack.GPU1.getRoundedSizeString(100000000);
     String expResult = "100 million";
     assertEquals(expResult, result);
   }
 
   private void testTime(int days, String expResult) {
-    double crackability = (double) (2 * (double) days * 24 * 60 * 60);
-    TimeToCrack instance = TimeToCrack.dualCore;
-    instance.setTestTime(1000);
+    double crackability = (double) (1 * (double) days * 24 * 60 * 60);
+    TimeToCrack instance = TimeToCrack.GPU1;
+    instance.setTestTime(1000000000);
     String result = instance.getTimeToCrackString(crackability);
     assertEquals(expResult, result);
   }
@@ -253,6 +253,6 @@ public class TimeToCrackTest {
   @Test
   public void getRoundedSizeString() {
     double instance = Math.pow(10, 38);
-    assertEquals("100,000 decillion", TimeToCrack.dualCore.getRoundedSizeString(instance));
+    assertEquals("100,000 decillion", TimeToCrack.GPU1.getRoundedSizeString(instance));
   }
 }

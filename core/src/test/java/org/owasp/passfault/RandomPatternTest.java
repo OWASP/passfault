@@ -34,7 +34,7 @@ public class RandomPatternTest {
     int length = 4;
     RandomPattern instance = new RandomPattern();
     PasswordPattern result = instance.getRandomPattern(chars, start, length);
-    assertEquals(Math.pow(RandomPattern.RandomClasses.Latin.getSize(), 4), result.getCost(), .1);
+    assertEquals(Math.pow(RandomPattern.RandomClasses.Latin.getSize(false), 4), result.getCost(), .1);
 
   }
 }

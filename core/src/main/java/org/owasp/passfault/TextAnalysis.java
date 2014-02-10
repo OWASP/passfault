@@ -51,6 +51,7 @@ public class TextAnalysis {
     finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
     finders.add(new KeySequenceFinder(new RussianKeyBoard()));
     finders.add(new DateFinder());
+    finders.add(new RandomClassesFinder());
     finder = new SequentialFinder(finders);
   }
 
@@ -97,7 +98,7 @@ public class TextAnalysis {
           int machineNum = Integer.parseInt(machineChoice);
           
           // Read choice of hashing algorithm
-          System.out.println("\nChoose a machine from the following list to crack the password:");
+          System.out.println("\nSelect the password protection technique (to estimate crack time):");
           System.out.println("[1] bcrypt");
           System.out.println("[2] md5crypt");
     System.out.println("[3] sha512crypt");

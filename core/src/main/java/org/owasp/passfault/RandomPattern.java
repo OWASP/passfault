@@ -39,13 +39,13 @@ public class RandomPattern {
   }
 
   static double randomCostLowerCase(int chars) {
-    return java.lang.Math.pow((double) RandomClasses.Latin.getSize(), (double) chars);
+    return java.lang.Math.pow((double) RandomClasses.Latin.getSize(false), (double) chars);
   }
 
   static double randomCostLowerUpperCase(int chars) {
-    return java.lang.Math.pow((double) RandomClasses.Latin.size * 2, (double) chars);
+    return java.lang.Math.pow((double) RandomClasses.Latin.getSize(), (double) chars);
   }
-
+  
   /**
    * Given a character sequence, this method will calculate the random strength of the
    * sequence.  It considers what type of characters are used, digits, lower-case, upper-case,
@@ -76,7 +76,7 @@ public class RandomPattern {
     double charsPerChar = 0;
     for (RandomClasses randomType : RandomClasses.values()) {
       if (set.contains(randomType)) {
-        charsPerChar += randomType.getSize();
+        charsPerChar += randomType.getSize(hasLower && hasUpper);
       }
     }
     if (charsPerChar == 0) {
@@ -84,50 +84,62 @@ public class RandomPattern {
     }
     PasswordPattern toReturn = new PasswordPattern(
         start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
-        "Random Characters with:" + set.toString(), this.RANDOM_PATTERN, set.toString());
+        "Random Characters with:" + set.toString(), RandomPattern.RANDOM_PATTERN, set.toString());
     return toReturn;
   }
 
   static public enum RandomClasses {
-
-    Latin(26) {
+    Latin(26, true) {
 
       public boolean isInCharSet(char ch) {
         return Character.isLetter(ch);
       }
     },
-    Cyrillic(30) {
+    Cyrillic(30, true) {
 
       public boolean isInCharSet(char ch) {
         return (ch >= '\u0400' && ch <= '\u04FF');
       }
     },
-    SpecialChars(42) {
+    SpecialChars(42, false) {
 
       public boolean isInCharSet(char ch) {
         return !Character.isLetterOrDigit(ch);
       }
     },
-    Numbers(10) {
+    Numbers(10, false) {
 
       public boolean isInCharSet(char ch) {
         return Character.isDigit(ch);
       }
     };
-    final int size;
+    final private int size;
+    final private boolean hasUpperAndLowerCase;
 
-    RandomClasses(int size) {
+    RandomClasses(int size, boolean hasUpperAndLowerCase ) {
       this.size = size;
-    }
+      this.hasUpperAndLowerCase = hasUpperAndLowerCase;
+    };
 
-    ;
-
-    public int getSize() {
+    public int getSize(boolean isMixedCase) {
+      if (hasUpperAndLowerCase && isMixedCase)
+        return size * 2;
       return size;
+    };
+    
+    public int getSize(){
+      return getSize(true);
     }
-
-    ;
 
     abstract boolean isInCharSet(char ch);
+    
+    static public RandomClasses getRandomClass(char ch){
+      for(RandomClasses type: RandomClasses.values()){
+        if (type.isInCharSet(ch)){
+          return type;
+        }
+      }
+      return null;
+    }
   }
 }

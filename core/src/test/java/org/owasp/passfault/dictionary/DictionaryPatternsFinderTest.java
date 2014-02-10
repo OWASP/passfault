@@ -21,6 +21,7 @@ import org.owasp.passfault.*;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.FileDictionary;
+import org.owasp.passfault.io.MockPasswordResults;
 
 import static junit.framework.Assert.*;
 
@@ -101,9 +102,8 @@ public class DictionaryPatternsFinderTest {
   @Test
   public void findWordWithMultiUpper() throws Exception {
     System.out.println("findMultiWords");
-    PasswordAnalysis p = new PasswordAnalysis("Password");
+    MockPasswordResults p = new MockPasswordResults("Password");
     finder.analyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
-    assertEquals("Password", p.calculateHighestProbablePatterns().getPath().get(0).getMatchString());
+    assertEquals(6, p.getPossiblePatternCount());
   }
 }

@@ -12,9 +12,6 @@
  */
 package org.owasp.passfault;
 
-import java.io.File;
-
-
 import java.util.LinkedList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -99,19 +96,20 @@ public class ExecutorFinderTest {
   @Test
   public void findWordWithMulti() throws Exception {
     System.out.println("findMultiWords");
-    PasswordAnalysis p = new PasswordAnalysis("password");
+    MockPasswordResults p = new MockPasswordResults("password");
     finder.blockingAnalyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
-    assertEquals("password", p.calculateHighestProbablePatterns().path.get(0).getMatchString());
+    assertEquals(6, p.getPossiblePatternCount());
+    for(PasswordPattern pattern: p.getFoundPatterns()){
+      System.out.println(pattern.getMatchString());
+    }
   }
 
   @Test
   public void findWordWithMultiUpper() throws Exception {
     System.out.println("findMultiWords");
-    PasswordAnalysis p = new PasswordAnalysis("Password");
+     MockPasswordResults p = new MockPasswordResults("Password");
     finder.blockingAnalyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
-    assertEquals("Password", p.calculateHighestProbablePatterns().path.get(0).getMatchString());
+    assertEquals(6, p.getPossiblePatternCount());
   }
 
   @Test
