@@ -61,7 +61,7 @@ public class RandomClassesFinder
         double size = Math.pow(type.getSize(),  countOfType);
         
         PasswordPattern pattern = new PasswordPattern(
-            i, countOfType, chars, size, 
+            i, chars.length(), chars, size, 
             "Random Characters with:" + type.name(), RandomPattern.RANDOM_PATTERN, type.name());
         pass.foundPattern(pattern);
       }

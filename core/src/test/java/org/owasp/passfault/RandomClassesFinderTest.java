@@ -23,6 +23,19 @@ public class RandomClassesFinderTest
   }
 
   @Test
+  public void testTroysPassword() throws Exception
+  {
+    RandomClassesFinder finder = new RandomClassesFinder(3);
+    MockPasswordResults results = new MockPasswordResults("00455455mb17");
+    finder.analyze(results);
+    List<PasswordPattern> patterns = results.getFoundPatterns();
+    assertEquals( 21, patterns.size());
+    for(PasswordPattern patt: patterns){
+      System.out.println(patt.getMatchString());
+    }
+  }
+  
+  @Test
   public void test_large() throws Exception
   {
     RandomClassesFinder finder = new RandomClassesFinder(3);
