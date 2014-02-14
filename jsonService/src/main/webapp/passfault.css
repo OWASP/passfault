@@ -115,7 +115,7 @@ h1 {
 	padding-top: 0.5em;
 	font-family: road_em;
 	color: Yellow;
-	boarder-radius: 15px;
+	border-radius: 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 	clear:both;
@@ -160,7 +160,7 @@ body {
 	padding-left: .4em;
 	padding-right: .4em;
 	margin: .2em;
-	boarder-radius: 10px;
+	border-radius: 10px;
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 }
@@ -171,7 +171,7 @@ body {
 	padding: .5em;
 	margin: .2em;
 	float: left;
-	boarder-radius: 15px;
+	border-radius: 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
 }

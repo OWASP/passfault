@@ -1,25 +1,43 @@
-var cracker = new Object(); //milliseconds per password per processor 
-cracker.BCRYPT = 362; //bcrypt on 1.4 mhz proc
-cracker.MD5 = 0.000296; //md5 on 1.4 mhz proc 
-cracker.SHA1 = 0.001;	//sha1 on 1.4 mhz proc
+var cracker = new Object(); //milliseconds with one graphics card based on oclhashcat 
+cracker.BCRYPT = 259.000;   
+cracker.MD4    = 1/3224000;
+cracker.MD5    = 1/2414000;
+cracker.SHA1   = 1/2510000;
+cracker.SHA512 = 1/114000;
+cracker.SHA3   = 1/175000;
+cracker.NTLM   = 1/20109000;
+cracker.LM     = 1/1285000;
+cracker.NetNTLMv2 = 1/555000;
 
-var threshold = 10000000000;
+var threshold = 31*24*60*60;  //31 days in milliseconds;
 var protection = {
 	"WINDOWS_NTLM": {
-		"cracker": "MD5", //Actually MD4, but the time is the same
+		"cracker": "NTLM", 
 		"iterations": 1
 	},
-	"UNIX_SHA1": {
+	"WINDOWS_LM": {
+		"cracker": "LM", 
+		"iterations": 1
+	},
+	"WINDOWS_NetNTLMv2": {
+		"cracker": "NetNTLMv2", 
+		"iterations": 1
+	},
+	"SHA1": {
 		"cracker": "SHA1",
-		"iterations": 1000
+		"iterations": 1
+	},
+	"SHA512x1": {
+		"cracker": "SHA512",
+		"iterations": 1
+	},
+	"SHA512x100k": {
+		"cracker": "SHA512",
+		"iterations": 100000
 	},
 	"UNIX_BCRYPT": {
 		"cracker": "BCRYPT",
 		"iterations": 1
-	},
-	"SHA1_STIG": {	
-		"cracker": "SHA1",
-		"iterations": 100000 //DOD STIG requires 100,000 iterations
 	},
 	"WPA": {	
 		"cracker": "SHA1",
@@ -30,16 +48,16 @@ var protection = {
 var attacker = {
 	"EVERYDAY":{ 
 		"display": "Everyday Computer", 
-		"procs": 4
-	},"GAMER": {
-		"display": "Decent Graphics Card",
-		"procs": 216  //gForce GTS240, $200
-	},"HIGHEND_GRAPHICS": {
-		"display": "Dedicated Cracker",
-		"procs": 960 //nVidia Tesla S1070, $9000
-	},"FUNDED_CRACKER":{
-		"display": "Dedicated Cracker",
-		"procs": 960*20 //cluster of 20 nvidia cards: $180K.
+		"multiplier": 1
+	},"5K": {
+		"display": "Dedicated Cracker ($5,000 machine)",
+		"multiplier": 10  //assuming 10 GPU cards
+	},"50K": {
+		"display": "Organized Crime Cracker ($50,000 machine)",
+		"multiplier": 100 //assuming 100 GPU cards
+	},"500K":{
+		"display": "Government cracker ($500,000 machine)",
+		"multiplier": 1000
 	}
 };  
 
@@ -120,7 +138,11 @@ function calculateTotal(analysis){
 }
 
 function applyTemplate(div, analysis, passlength){
-	if(analysis.cost > threshold){
+	analysis.totalCostRounded = getRoundedSizeString(analysis.cost);
+	analysis.timeToCrack = time2Crack(analysis.cost, $('#attacker').val(), $('#hasher').val());
+	var timeToCrackMilli = timeToCrackMilliSeconds(analysis.cost, $('#attacker').val(), $('#hasher').val());
+	
+	if(timeToCrackMilli > threshold){
 		analysis.color = "green";
 		analysis.allowedString = "";
 	} else {
@@ -128,8 +150,7 @@ function applyTemplate(div, analysis, passlength){
 		analysis.allowedString = "This password needs more strength";
 	}
 	
-	analysis.totalCostRounded = getRoundedSizeString(analysis.cost);
-	analysis.timeToCrack = time2Crack(analysis.cost, $('#attacker').val(), $('#hasher').val())
+	
 	var analysisHtml = patternSummaryTemplate.supplant(analysis);
 	var pattern;
 	for(var pIndex=0,len=analysis.patterns.length ; pIndex<len; pIndex++){
@@ -182,8 +203,18 @@ function getRoundedSizeString(size) {
 function time2Crack(words, attacker_type, protection_type){
 	return timeToCrack(words, 
 			cracker[protection[protection_type].cracker], 
-			attacker[attacker_type].procs,
+			attacker[attacker_type].multiplier,
 			protection[protection_type].iterations);
+}
+
+function timeToCrackMilliSeconds(words, attacker_type, protection_type){
+	
+	timePerPass = cracker[protection[protection_type].cracker];
+	numProcs = attacker[attacker_type].multiplier;
+	iterations = protection[protection_type].iterations;
+	
+	var millis = timePerPass * iterations / numProcs; 
+	return milliseconds = words * millis;
 }
 
 function timeToCrack(words, timePerPass, numProcs, iterations){
