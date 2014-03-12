@@ -4,19 +4,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.CharBuffer;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Collection;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.owasp.passfault.ParallelFinder;
+import org.owasp.passfault.CompositeFinder;
+import org.owasp.passfault.ExecutorFinder;
+import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.PasswordAnalysis;
-import org.owasp.passfault.PathCost;
 import org.owasp.passfault.SecureString;
 import org.owasp.passfault.io.JsonWriter;
 
@@ -27,9 +28,8 @@ public class PassfaultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static final String PROTECTION_TYPE = "PROTECTION_TYPE";
 	public static final String ATTACK_PROFILE = "ATTACK_PROFILE";
-	private ParallelFinder finders;
-	private String defaultAttackProfile;
-	private String defaultProtectionType;
+	protected Collection<PatternFinder> finders;
+	private volatile CompositeFinder compositeFinder = null; //lazy initialized
 	private JsonWriter jsonWriter = new JsonWriter();
        
     /**
@@ -44,13 +44,7 @@ public class PassfaultServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		try {
-			finders = BuildFinders.build(config.getServletContext());
-			defaultAttackProfile = config.getInitParameter(ATTACK_PROFILE);
-			defaultProtectionType = config.getInitParameter(PROTECTION_TYPE);
-		} catch (IOException e) {
-			throw new ServletException("Could not configure password finders", e);
-		}
+	  finders = buildFinders(config.getServletContext());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -61,14 +55,12 @@ public class PassfaultServlet extends HttpServlet {
 		//the above works in tomcat but not jetty or google app engine
 		//the below works in jetty and google app engine but not tomcat
 		SecureString password = getPassword(request.getInputStream(), request.getContentLength());
-		
-		String protectionType = request.getParameter(PROTECTION_TYPE);
-		String attackProfile = request.getParameter(ATTACK_PROFILE);
+		CompositeFinder finder = getCompositeFinder();
 		try{
 			PasswordAnalysis analysis = new PasswordAnalysis(password);
 			try {
-				finders.analyze(analysis);
-				finders.waitForAnalysis(analysis);
+				finder.analyze(analysis);
+				finder.waitForAnalysis(analysis);
 			} catch (Exception e) {
 				// TODO LOG exception
 				throw new ServletException(e); 
@@ -87,7 +79,7 @@ public class PassfaultServlet extends HttpServlet {
 	/**
 	 * @throws ServletException if a non-printable character is found
 	 */
-	private SecureString getPassword(BufferedReader reader, int length) throws IOException, ServletException {
+	protected SecureString getPassword(BufferedReader reader, int length) throws IOException, ServletException {
 		char[] chars = new char[length];
 		int i;
 		for(i=0; i<length; i++){
@@ -109,7 +101,7 @@ public class PassfaultServlet extends HttpServlet {
 	/**
 	 * @throws ServletException if a non-printable character is found
 	 */
-	private SecureString getPassword(InputStream reader, int length) throws IOException, ServletException {
+	protected SecureString getPassword(InputStream reader, int length) throws IOException, ServletException {
 		char[] chars = new char[length];
 		int i=0;
 		while(reader.available()>0){
@@ -128,12 +120,38 @@ public class PassfaultServlet extends HttpServlet {
 		return password;
 	}
 	
-	public void writeJSON(PasswordAnalysis analysis, PrintWriter writer) throws IOException {
-		jsonWriter.write(writer, analysis.calculateHighestProbablePatterns());
+	protected Collection<PatternFinder> buildFinders(ServletContext servletContext) throws ServletException {
+	  try {
+	    BuildFinders builder = new BuildFinders();
+	    return builder.build(servletContext);
+    }
+    catch (IOException e) {
+      throw new ServletException("An error occured building the pattern finders", e);
+    }
+  }
+	
+	private void writeJSON(PasswordAnalysis analysis, PrintWriter writer) throws IOException {
+    jsonWriter.write(writer, analysis.calculateHighestProbablePatterns());
+  }
+	
+	/**
+	 * Override this to change the finder, (such as to run in google app engine)
+	 * @param finders All finders to be run to analyze the password 
+	 * @return a composite finder that can run finders
+	 * @throws ServletException
+	 */
+	protected CompositeFinder getCompositeFinder() throws ServletException {
+	  //subclasses may need to create this with each request - like for google app engine.  
+	  //so we lazy initialize this
+	  //http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+	  if (this.compositeFinder == null) {
+	    synchronized(this) {
+	      if (this.compositeFinder == null){
+	        this.compositeFinder = new ExecutorFinder(finders);
+	      }
+	    }
+	  }
+	  
+	  return this.compositeFinder;
 	}
-
-	public void writeXML(PasswordAnalysis analysis, PrintWriter writer) {
-		
-	}
-
 }

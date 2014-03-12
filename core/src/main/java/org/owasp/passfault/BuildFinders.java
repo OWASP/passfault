@@ -39,7 +39,7 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
 
 /**
  * Configuration Factory.  This should be replaced by some Dependency injection type
- * configuration, pico or guice.
+ * configuration, or the PropertiesFindersBuilder.
  * 
  * @author cam
  * @see PropertiesFindersBuilder

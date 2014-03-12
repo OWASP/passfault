@@ -39,7 +39,7 @@ public class TextAnalysis {
     analyzer.printBanner();
     analyzer.run();
   }
-  private final PatternFinder finder;
+  private final CompositeFinder finder;
 
   public TextAnalysis() throws IOException {
     String internalDictionary = "/org/owasp/passfault/dictionary/english" + WORD_LIST_EXTENSION;

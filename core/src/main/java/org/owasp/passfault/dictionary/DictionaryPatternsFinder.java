@@ -35,11 +35,6 @@ public class DictionaryPatternsFinder implements PatternFinder {
   }
 
   @Override
-  public void blockingAnalyze(PasswordResults pass) throws Exception {
-    analyze(pass);
-  }
-
-  @Override
   public void analyze(PasswordResults pass) throws Exception {
     CharSequence password = pass.getCharSequence();
     List<CandidatePattern> currGen = new LinkedList<CandidatePattern>();
@@ -80,10 +75,5 @@ public class DictionaryPatternsFinder implements PatternFinder {
       }
     }
     return;
-  }
-
-  @Override
-  public void waitForAnalysis(PasswordResults pass) throws Exception {
-    return; //already done
   }
 }

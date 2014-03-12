@@ -13,8 +13,14 @@
 
 package org.owasp.passfault;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,21 +30,27 @@ import java.util.logging.Logger;
  *
  * @author cam
  */
-public class ExecutorFinder implements PatternFinder {
+public class ExecutorFinder implements CompositeFinder {
 
   private final PatternFinder finder;
   private final ExecutorService exec;
-  Map<PasswordResults, Future> jobsMap = new ConcurrentHashMap<PasswordResults, Future>();
+  Map<PasswordResults, Future<PasswordResults>> jobsMap = new ConcurrentHashMap<PasswordResults, Future<PasswordResults>>();
+  
   
   public ExecutorFinder(Collection<PatternFinder> finders) {
     this.finder = new SequentialFinder(finders);
-    this.exec = Executors.newFixedThreadPool(10);
+    this.exec = Executors.newFixedThreadPool(10); 
+  }
+  
+  public ExecutorFinder(Collection<PatternFinder> finders, ThreadFactory factory){
+    this.finder = new SequentialFinder(finders); 
+    this.exec = Executors.newCachedThreadPool(factory);
   }
 
   @Override
   public void blockingAnalyze(PasswordResults pass) throws Exception {
     Analyze toRun = new Analyze(pass, finder);
-    Future result = exec.submit(toRun);
+    Future<PasswordResults> result = exec.submit(toRun);
     result.get();
   }
 
@@ -52,7 +64,7 @@ public class ExecutorFinder implements PatternFinder {
   @Override
   public void analyze(PasswordResults pass) throws Exception {
     Analyze toRun = new Analyze(pass, finder);
-    Future future = exec.submit(toRun);
+    Future<PasswordResults> future = exec.submit(toRun);
     jobsMap.put(pass, future);
   }
 
@@ -64,14 +76,21 @@ public class ExecutorFinder implements PatternFinder {
   @Override
   public void waitForAnalysis(PasswordResults pass) throws InterruptedException {
     try {
-      Future job = jobsMap.get(pass);
-      Object call = job.get();
+      Future<PasswordResults> job = jobsMap.get(pass);
+      PasswordResults call = job.get();
     } catch (Exception ex) {
       Logger.getLogger(ExecutorFinder.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
   
-  static class Analyze implements Callable{
+  /**
+   * invokes shutdown on the underlying executor service
+   */
+  public void shutdown(){
+    this.exec.shutdown();
+  }
+  
+  static class Analyze implements Callable<PasswordResults>{
     private final PasswordResults pw;
     private final PatternFinder finder;
 
@@ -81,9 +100,8 @@ public class ExecutorFinder implements PatternFinder {
     }
 
     @Override
-    public Object call() throws Exception {
+    public PasswordResults call() throws Exception {
       finder.analyze(pw);
-      finder.waitForAnalysis(pw);
       return pw;  
     }
   }

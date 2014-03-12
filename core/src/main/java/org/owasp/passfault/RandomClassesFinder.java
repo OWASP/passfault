@@ -67,17 +67,4 @@ public class RandomClassesFinder
       }
     } 
   }
-  
-  @Override
-  public void blockingAnalyze(PasswordResults pass)
-    throws Exception
-  {
-    analyze(pass);
-  }
-  @Override
-  public void waitForAnalysis(PasswordResults pass)
-    throws Exception
-  { 
-    //no-op, it's already done since this finder always blocks
-  }
 }

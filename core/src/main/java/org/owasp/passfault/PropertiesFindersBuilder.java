@@ -62,11 +62,18 @@ public class PropertiesFindersBuilder {
         }
       }
     }
+    finders.addAll(buildStandardFinders());
     
-    finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
-    finders.add(new KeySequenceFinder(new RussianKeyBoard()));
-    finders.add(new DateFinder());
     return finders;
+  }
+  public Collection<PatternFinder> buildStandardFinders(){
+    Collection<PatternFinder> toReturn = new LinkedList<PatternFinder>();
+    
+    toReturn.add(new KeySequenceFinder(new EnglishKeyBoard()));
+    toReturn.add(new KeySequenceFinder(new RussianKeyBoard()));
+    toReturn.add(new DateFinder());
+    toReturn.add(new RandomClassesFinder());
+    return toReturn;
   }
   
   public Collection<PatternFinder> buildDictionaryFinders(Dictionary diction) throws IOException {

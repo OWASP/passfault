@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  *
  * @author cam
  */
-public class ParallelFinder implements PatternFinder {
+public class ParallelFinder implements CompositeFinder {
 
   private List<FinderThread> finderThreads;
 

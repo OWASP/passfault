@@ -50,11 +50,6 @@ public class KeySequenceFinder implements PatternFinder {
   }
 
   @Override
-  public void blockingAnalyze(PasswordResults pass) throws Exception {
-    analyze(pass);
-  }
-
-  @Override
   public void analyze(PasswordResults pass) throws Exception {
     CharSequence password = pass.getCharSequence();
     Key previous = keyboard.get(password.charAt(0));
@@ -175,10 +170,5 @@ public class KeySequenceFinder implements PatternFinder {
     pass.foundPattern(
         new PasswordPattern(start, length, passString,
         patternSize, pattern.toString(), patternName, keys.getName()));
-  }
-
-  @Override
-  public void waitForAnalysis(PasswordResults pass) throws Exception {
-    return; //already done
   }
 }

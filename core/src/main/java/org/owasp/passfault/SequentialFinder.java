@@ -23,7 +23,7 @@ import java.util.List;
  * multithreading (Google App Engine).
  * @author cam
  */
-public class SequentialFinder implements PatternFinder{
+public class SequentialFinder implements CompositeFinder{
 
   private List<PatternFinder> finders = new ArrayList<PatternFinder>();
 

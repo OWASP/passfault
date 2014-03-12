@@ -1,0 +1,33 @@
+apply plugin: 'war'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'appengine'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.google.appengine:gradle-appengine-plugin:1.8.6'
+    }
+}
+
+dependencies {
+  compile 'com.google.appengine:appengine-api-1.0-sdk:1.8.6'
+  compile 'javax.servlet:servlet-api:2.5'
+  compile project(':core')
+  compile project(':jsonService')
+  appengineSdk 'com.google.appengine:appengine-java-sdk:1.8.6'
+}
+
+appengine {
+  downloadSdk=true
+  app {
+    id = 'passfault'
+  }
+}
+
+war{
+  //add everything from the jsonService except the web.xml
+  from project(':jsonService').fileTree('src/main/webapp/').exclude('WEB-INF/web.xml')
+}

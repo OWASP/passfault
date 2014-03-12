@@ -27,7 +27,7 @@ import static junit.framework.Assert.*;
 
 public class ExecutorFinderTest {
 
-  private static PatternFinder finder;
+  private static CompositeFinder finder;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
