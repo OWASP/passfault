@@ -31,3 +31,8 @@ war{
   //add everything from the jsonService except the web.xml
   from project(':jsonService').fileTree('src/main/webapp/').exclude('WEB-INF/web.xml')
 }
+
+artifacts {
+  archives sourcesJar
+}
+

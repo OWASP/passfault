@@ -12,3 +12,9 @@ jar {
 			'Main-Class': 'org.owasp.passfault.TextAnalysis'
 	}	
 }
+
+artifacts {
+  archives jar
+  archives javadocJar
+  archives sourcesJar
+}

@@ -5,7 +5,8 @@ subprojects {
   apply plugin: 'signing'
 
   group = 'org.owasp.passfault'
-  version = '0.7-SNAPSHOT'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
+//  version = '0.7-SNAPSHOT'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
+  version = '0.7'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
   archivesBaseName = rootProject.name +'-'+ project.name
 
   repositories {
@@ -24,6 +25,22 @@ subprojects {
     from sourceSets.main.allSource
     classifier = 'sources'
   }
+
+  task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+  }
+
+  task uploadRelease(dependsOn: 'uploadArchives') {
+    println "uploading release archives"
+  }
+
+//  gradle.taskGraph.whenReady {taskGraph ->
+//    if (!taskGraph.hasTask(uploadRelease)) {
+//        version = "${version}-SNAPSHOT"
+//    }
+//  }
+
 }
 
 if (project.hasProperty('sonatypeUsername')){
