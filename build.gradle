@@ -5,8 +5,8 @@ subprojects {
   apply plugin: 'signing'
 
   group = 'org.owasp.passfault'
-//  version = '0.7-SNAPSHOT'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
-  version = '0.7'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
+  version = '0.8-SNAPSHOT'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
+//  version = '0.8'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
   archivesBaseName = rootProject.name +'-'+ project.name
 
   repositories {
