@@ -17,7 +17,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.DateFinder;
+import org.owasp.passfault.finders.DateFinder;
 
 import static org.junit.Assert.*;
 

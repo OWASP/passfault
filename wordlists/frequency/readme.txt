@@ -1,0 +1,1 @@
+Because these are hand entered there are typos, a lot of them.  So I deleted all the words that show up only once as outliers.  They look bogus.  I'm thinking of doing the same thing with words that show up twice.

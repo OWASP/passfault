@@ -24,7 +24,7 @@ import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PasswordResults;
 import org.owasp.passfault.PathCost;
 import org.owasp.passfault.RandomPattern;
-import org.owasp.passfault.RepeatingPatternFinder;
+import org.owasp.passfault.finders.RepeatingPatternFinder;
 
 /**
  * This class holds the results of the analysis of a password.  An instance

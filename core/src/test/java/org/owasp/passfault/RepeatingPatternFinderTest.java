@@ -13,6 +13,7 @@
 package org.owasp.passfault;
 
 import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,7 +22,7 @@ import org.junit.Test;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PathCost;
-import org.owasp.passfault.RepeatingPatternFinder;
+import org.owasp.passfault.finders.RepeatingPatternFinder;
 
 import static org.junit.Assert.*;
 

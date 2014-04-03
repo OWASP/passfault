@@ -20,6 +20,9 @@ import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.List;
 
+import org.owasp.passfault.finders.DateFinder;
+import org.owasp.passfault.finders.RandomClassesFinder;
+import org.owasp.passfault.finders.SequentialFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;

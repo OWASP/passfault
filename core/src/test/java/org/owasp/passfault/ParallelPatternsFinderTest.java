@@ -13,18 +13,17 @@
 package org.owasp.passfault;
 
 import java.io.File;
-
-
 import java.util.LinkedList;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.ParallelFinder;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.dictionary.*;
+import org.owasp.passfault.finders.ParallelFinder;
 
 import static junit.framework.Assert.*;
 

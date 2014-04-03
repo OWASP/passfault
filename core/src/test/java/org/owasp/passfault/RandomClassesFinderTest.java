@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Test;
+import org.owasp.passfault.finders.RandomClassesFinder;
 
 public class RandomClassesFinderTest
 {

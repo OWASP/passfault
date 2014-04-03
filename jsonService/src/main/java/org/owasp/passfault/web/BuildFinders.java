@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.owasp.passfault.DateFinder;
 import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.PropertiesFindersBuilder;
 import org.owasp.passfault.TextAnalysis;
@@ -23,6 +22,7 @@ import org.owasp.passfault.dictionary.MisspellingStrategy;
 import org.owasp.passfault.dictionary.ReverseDictionaryPatternFinder;
 import org.owasp.passfault.dictionary.SubstitutionStrategy;
 import org.owasp.passfault.dictionary.l337SubstitutionStrategy;
+import org.owasp.passfault.finders.DateFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;

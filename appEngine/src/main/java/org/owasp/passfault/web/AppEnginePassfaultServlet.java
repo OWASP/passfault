@@ -18,13 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.owasp.passfault.PasswordResults;
 import org.owasp.passfault.PatternFinder;
-import org.owasp.passfault.SequentialFinder;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PathCost;
 import org.owasp.passfault.SecureString;
+import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.finders.SequentialFinder;
 import org.owasp.passfault.io.JsonWriter;
 import org.owasp.passfault.CompositeFinder;
-import org.owasp.passfault.ExecutorFinder;
 
 /**
  * Servlet implementation class PassfaultServlet  This specialization of PassfaultServlet

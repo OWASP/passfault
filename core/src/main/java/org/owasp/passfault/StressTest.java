@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.PrintStream;
 import java.util.List;
 
+import org.owasp.passfault.finders.ParallelFinder;
+
 /**
  *
  * @author cam

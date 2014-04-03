@@ -21,6 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.owasp.passfault.dictionary.*;
+import org.owasp.passfault.finders.DateFinder;
+import org.owasp.passfault.finders.RandomClassesFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;

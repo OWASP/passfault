@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.owasp.passfault.DateFinder;
-import org.owasp.passfault.ParallelFinder;
 import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.TextAnalysis;
 import org.owasp.passfault.dictionary.AugmentationStrategy;
@@ -33,6 +31,8 @@ import org.owasp.passfault.dictionary.MisspellingStrategy;
 import org.owasp.passfault.dictionary.ReverseDictionaryPatternFinder;
 import org.owasp.passfault.dictionary.SubstitutionStrategy;
 import org.owasp.passfault.dictionary.l337SubstitutionStrategy;
+import org.owasp.passfault.finders.DateFinder;
+import org.owasp.passfault.finders.ParallelFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;
