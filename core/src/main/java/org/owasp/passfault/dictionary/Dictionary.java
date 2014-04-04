@@ -33,8 +33,8 @@ public interface Dictionary {
   public abstract CandidatePattern buildInitialCandidate(int offset);
 
   /**
-   * @param candidate
-   * @return if the candidate pattern
+   * @param candidate pattern to test for a partial match
+   * @return if the candidate pattern is a partial match
    */
   public abstract boolean partialMatch(CandidatePattern candidate)
       throws IOException;

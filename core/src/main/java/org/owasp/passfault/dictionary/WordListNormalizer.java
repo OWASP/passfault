@@ -16,12 +16,9 @@ package org.owasp.passfault.dictionary;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -37,11 +34,11 @@ public class WordListNormalizer {
    * same length.  This conversion tool finds the longest word in the list,
    * then writes another word list with each word padded to the length of the
    * longest word
-   * @param args
+   * @param args one argument of the file name
    * @throws java.io.FileNotFoundException
    * @throws java.io.IOException
    */
-  public static void main(String args[]) throws FileNotFoundException, IOException {
+  public static void main(String args[]) throws IOException {
     File file = new File(args[0]);
     String filename = file.getName();
     int dot = filename.lastIndexOf('.');
@@ -71,9 +68,8 @@ public class WordListNormalizer {
 
     //rewrite word list with spaces as padding
     BufferedWriter out = new BufferedWriter(new FileWriter(filename + ".words"));
-    Iterator<String> wordsItr = list.iterator();
-    while (wordsItr.hasNext()) {
-      word = wordsItr.next();
+    for (String aList : list) {
+      word = aList;
       out.write(word);
       for (int i = word.length(); i < maxLength; i++) {
         out.write(' ');
@@ -85,9 +81,8 @@ public class WordListNormalizer {
 
     //write out backwards words - sorted
     BufferedWriter outBack = new BufferedWriter(new FileWriter(filename + ".backwords"));
-    Iterator<String> backWordsItr = backwards.iterator();
-    while (backWordsItr.hasNext()) {
-      word = backWordsItr.next();
+    for (String backward : backwards) {
+      word = backward;
       outBack.write(word);
       for (int i = word.length(); i < maxLength; i++) {
         outBack.write(' ');

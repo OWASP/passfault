@@ -63,8 +63,7 @@ public class BackwardsAnalysisAdapter implements PasswordResults {
 
   private PasswordPattern reversePattern(PasswordPattern patt) {
     int nonReverseStartIndex = backwardsChars.length - patt.getStartIndex() - patt.getLength();
-    PasswordPattern adaptedPattern = new PasswordPattern(nonReverseStartIndex, patt.getLength(), patt.getMatchString(), patt.getCost(), BackwardsAnalysisAdapter.NAME + ": " + patt.getDescription(), BackwardsAnalysisAdapter.NAME, patt.getClassification());
-    return adaptedPattern;
+    return new PasswordPattern(nonReverseStartIndex, patt.getLength(), patt.getMatchString(), patt.getCost(), BackwardsAnalysisAdapter.NAME + ": " + patt.getDescription(), BackwardsAnalysisAdapter.NAME, patt.getClassification());
   }
 
   public CharSequence getCharSequence() {

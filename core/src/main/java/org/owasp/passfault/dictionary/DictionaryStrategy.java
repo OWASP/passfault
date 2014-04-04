@@ -27,7 +27,7 @@ public interface DictionaryStrategy {
      * match a dictionary word.
      * @param subs a substring that will be extended by on character
      * @param c the character that is to be added to the substring candidate pattern
-     * @return all possible candidate patterns that might match a dictionary word according
+     * @return all possible candidate finders that might match a dictionary word according
      * to the strategy.
      */
 	List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c);

@@ -16,11 +16,11 @@ package org.owasp.passfault;
 import java.util.EnumSet;
 
 /**
- * This class helps detect different random patterns and their strength.
+ * This class helps detect different random finders and their strength.
  *
- * Interesting things happen with random patterns.  Some short patterns can be
- * more complex than random patterns.  Looking and testing all possible
- * combinations of random patterns within a pattern is possible and was
+ * Interesting things happen with random finders.  Some short finders can be
+ * more complex than random finders.  Looking and testing all possible
+ * combinations of random finders within a pattern is possible and was
  * experimented with.  However, having different classes of random (upper, lower,
  * numbers...) made it hard to determine if it was worthwhile.  The best solution
  * tried was to compare a newly found pattern to the random pattern of the same
@@ -50,10 +50,6 @@ public class RandomPattern {
    * Given a character sequence, this method will calculate the random strength of the
    * sequence.  It considers what type of characters are used, digits, lower-case, upper-case,
    * and special characters.
-   * @param chars
-   * @param start
-   * @param length
-   * @return
    */
   public PasswordPattern getRandomPattern(CharSequence chars, int start, int length) {
     EnumSet<RandomClasses> set = EnumSet.noneOf(RandomClasses.class);
@@ -82,10 +78,9 @@ public class RandomPattern {
     if (charsPerChar == 0) {
       charsPerChar = 1; //zero based numbers will mess up all the multiplications later on
     }
-    PasswordPattern toReturn = new PasswordPattern(
+    return new PasswordPattern(
         start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
         "Random Characters with:" + set.toString(), RandomPattern.RANDOM_PATTERN, set.toString());
-    return toReturn;
   }
 
   static public enum RandomClasses {
@@ -119,13 +114,13 @@ public class RandomPattern {
     RandomClasses(int size, boolean hasUpperAndLowerCase ) {
       this.size = size;
       this.hasUpperAndLowerCase = hasUpperAndLowerCase;
-    };
+    }
 
     public int getSize(boolean isMixedCase) {
       if (hasUpperAndLowerCase && isMixedCase)
         return size * 2;
       return size;
-    };
+    }
     
     public int getSize(){
       return getSize(true);

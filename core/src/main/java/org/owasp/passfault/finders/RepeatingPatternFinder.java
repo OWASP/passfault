@@ -22,7 +22,7 @@ import org.owasp.passfault.RandomPattern;
 
 /**
  * This Finder is a post processing finder.  It will analyze an already analyzed
- * password to find if any identified patterns are repeated.
+ * password to find if any identified finders are repeated.
  * @author cam
  */
 public class RepeatingPatternFinder {

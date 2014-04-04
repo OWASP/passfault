@@ -15,14 +15,9 @@ package org.owasp.passfault;
 import java.io.*;
 import java.util.Collection;
 import java.util.Properties;
-import junit.framework.Assert;
-import org.junit.AfterClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
-import org.owasp.passfault.PatternFinder;
-import org.owasp.passfault.PropertiesFindersBuilder;
-import org.owasp.passfault.dictionary.Dictionary;
+import org.junit.*;
+import org.owasp.passfault.*;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.InMemoryDictionary;
 

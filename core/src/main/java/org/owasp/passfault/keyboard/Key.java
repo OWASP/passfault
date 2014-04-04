@@ -21,57 +21,54 @@ package org.owasp.passfault.keyboard;
  * @author cam
  */
 class Key {
-    char upper;
-    char lower;
-    Key left;
-    Key right;
-    Key upperLeft;
-    Key upperRight;
-    Key lowerLeft;
-    Key lowerRight;
-    
-    static public enum Direction { UPPER_LEFT, UPPER_RIGHT, LEFT, SELF, RIGHT, LOWER_LEFT, LOWER_RIGHT                                                                                                                                };
-    
-    public Key next(Direction direction){
-        switch (direction) {
-            case UPPER_LEFT: return upperLeft;
-            case UPPER_RIGHT: return upperRight;
-            case LEFT: return left;
-            case SELF: return this;
-            case RIGHT: return right;
-            case LOWER_LEFT: return lowerLeft;
-            case LOWER_RIGHT: return lowerRight;
-        }
-        return null;
-    }
+  char upper;
+  char lower;
+  Key left;
+  Key right;
+  Key upperLeft;
+  Key upperRight;
+  Key lowerLeft;
+  Key lowerRight;
 
-    boolean match(Direction currentDirection, char c) {
-        Key k = next(currentDirection);
-        if (k!= null){
-            return (k.lower == c || k.upper == c);
-        }
-        return false;
-    }
+  static public enum Direction { UPPER_LEFT, UPPER_RIGHT, LEFT, SELF, RIGHT, LOWER_LEFT, LOWER_RIGHT}
 
-    
-    public Direction isSequence(char c){
-        Direction direction=null;
-        if (c == upper || c == lower){
-            direction = Direction.SELF;
-        } else if (left != null &&(c == left.upper || c == left.lower)){
-            direction = Direction.LEFT;
-        } else if (right != null &&(c == right.upper || c == right.lower)){
-            direction = Direction.RIGHT;
-        } else if (upperLeft != null &&(c == upperLeft.upper || c == upperLeft.lower)){
-            direction = Direction.UPPER_LEFT;
-        } else if (upperRight != null &&(c == upperRight.upper || c == upperRight.lower)){
-            direction = Direction.UPPER_RIGHT;
-        } else if (lowerLeft != null &&(c == lowerLeft.upper || c == lowerLeft.lower)){
-            direction = Direction.LOWER_LEFT;
-        } else if (lowerRight != null &&(c == lowerRight.upper || c == lowerRight.lower)){
-            direction = Direction.LOWER_RIGHT;
-        }
-        return direction;
+  public Key next(Direction direction){
+    switch (direction) {
+      case UPPER_LEFT: return upperLeft;
+      case UPPER_RIGHT: return upperRight;
+      case LEFT: return left;
+      case SELF: return this;
+      case RIGHT: return right;
+      case LOWER_LEFT: return lowerLeft;
+      case LOWER_RIGHT: return lowerRight;
     }
+    return null;
+  }
+
+  boolean match(Direction currentDirection, char c) {
+    Key k = next(currentDirection);
+    return k != null && (k.lower == c || k.upper == c);
+  }
+
+
+  public Direction isSequence(char c){
+    Direction direction=null;
+    if (c == upper || c == lower){
+      direction = Direction.SELF;
+    } else if (left != null &&(c == left.upper || c == left.lower)){
+      direction = Direction.LEFT;
+    } else if (right != null &&(c == right.upper || c == right.lower)){
+      direction = Direction.RIGHT;
+    } else if (upperLeft != null &&(c == upperLeft.upper || c == upperLeft.lower)){
+      direction = Direction.UPPER_LEFT;
+    } else if (upperRight != null &&(c == upperRight.upper || c == upperRight.lower)){
+      direction = Direction.UPPER_RIGHT;
+    } else if (lowerLeft != null &&(c == lowerLeft.upper || c == lowerLeft.lower)){
+      direction = Direction.LOWER_LEFT;
+    } else if (lowerRight != null &&(c == lowerRight.upper || c == lowerRight.lower)){
+      direction = Direction.LOWER_RIGHT;
+    }
+    return direction;
+  }
 
 }

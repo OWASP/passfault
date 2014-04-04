@@ -48,6 +48,6 @@ public class SequentialFinder implements CompositeFinder{
 
   @Override
   public void waitForAnalysis(PasswordResults pass) throws Exception {
-    return; //already done
+    //already done
   }
 }

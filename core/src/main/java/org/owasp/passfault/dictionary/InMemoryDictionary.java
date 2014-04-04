@@ -184,30 +184,4 @@ public class InMemoryDictionary implements Dictionary {
     return words.length;
   }
 
-  private boolean sequentialPartialSearch(CandidatePattern candidate) throws IOException {
-    String word;
-    boolean found;
-    do {
-      word = words[(int) candidate.start];
-      if (word != null) {
-        word = word.trim();
-      }
-      found = 0 == comparePartial(candidate.subString, word);
-    } while (word != null && !found);
-    return found;
-  }
-
-  private boolean sequentialSearch(CandidatePattern candidate) throws IOException {
-    String word;
-    boolean found;
-    do {
-      word = words[(int) candidate.start];
-      if (word != null) {
-        word = word.trim();
-      }
-      found = 0 == compare(candidate.subString, word);
-    } while (word != null && !found);
-    return found;
-
-  }
 }

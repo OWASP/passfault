@@ -14,17 +14,9 @@ package org.owasp.passfault.dictionary;
 
 
 import java.util.List;
-import static junit.framework.Assert.*;
-import junit.framework.Assert.*;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.*;
 import org.owasp.passfault.*;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.FileDictionary;
-import org.owasp.passfault.dictionary.SubstitutionStrategy;
 
 public class SubstitutionFinderTest {
 

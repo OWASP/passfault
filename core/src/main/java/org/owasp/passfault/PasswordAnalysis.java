@@ -27,10 +27,10 @@ import org.owasp.passfault.finders.RepeatingPatternFinder;
  * of this class begins with a password to analyze.  Then it is handed to
  * multiple <code>PatternFinder<code>s.
  *
- * This class contains the logic for post-analysis of the patterns found
+ * This class contains the logic for post-analysis of the finders found
  * (althought this logic might be better if separated from this class)  This
- * logic includes finding the weakest combination of patterns and locating
- * repeated patterns.
+ * logic includes finding the weakest combination of finders and locating
+ * repeated finders.
  *
  * @author cam
  */
@@ -79,9 +79,9 @@ public class PasswordAnalysis implements PasswordResults {
    * @param patt pattern found in the password.
    */
   /*
-   * Interesting things happen with random patterns.  Some short patterns can be
-   * more complex than random patterns.  Looking and testing all possible
-   * combinations of random patterns within a pattern is possible and was
+   * Interesting things happen with random finders.  Some short finders can be
+   * more complex than random finders.  Looking and testing all possible
+   * combinations of random finders within a pattern is possible and was
    * experimented with.  However, having different classes of random (upper, lower,
    * numbers...) made it hard to determine if it was worthwhile.  The best solution
    * tried was to compare a newly found pattern to the random pattern of the same
@@ -117,12 +117,12 @@ public class PasswordAnalysis implements PasswordResults {
   }
 
   /**
-   * This is a lazy loading getter for a list of patterns that begin on the
+   * This is a lazy loading getter for a list of finders that begin on the
    * index of the password.
    * @param startIndex index of the a character in a the password where the list
-   * of patterns begin.
+   * of finders begin.
    *
-   * @return a List of patterns found for the starting index of where a pattern
+   * @return a List of finders found for the starting index of where a pattern
    * starts.
    */
   private List<PasswordPattern> getIndexSet(int startIndex) {
@@ -133,7 +133,7 @@ public class PasswordAnalysis implements PasswordResults {
   }
 
   /**
-   * @return total number of patterns identified.
+   * @return total number of finders identified.
    */
   @Override
   public int getPossiblePatternCount() {
@@ -141,14 +141,14 @@ public class PasswordAnalysis implements PasswordResults {
   }
 
   /**
-   * Calculates the highest probable combination of patterns.  In other words,
-   * the weakest combination of found patterns.
-   * @return List of patterns that make up the weakest combination of found passwords
+   * Calculates the highest probable combination of finders.  In other words,
+   * the weakest combination of found finders.
+   * @return List of finders that make up the weakest combination of found passwords
    */
   @Override
   public PathCost calculateHighestProbablePatterns() {
     if (finalResults == null) {
-      log.log(Level.FINE, "Calculating the highest probable combination of %s patterns\n", getPossiblePatternCount());
+      log.log(Level.FINE, "Calculating the highest probable combination of %s finders\n", getPossiblePatternCount());
       PathCost cost = smallestCost(0);
       cost = postAnalysis(cost);
       log.log(Level.FINER, "smallestCost took %d iterations", counter);
@@ -164,9 +164,9 @@ public class PasswordAnalysis implements PasswordResults {
 
   /**
    * This is a recursive call to compute the smallest Cost (or weakest combination)
-   * of patterns starting at the index specified by startChar
-   * @param startChar
-   * @return List of patterns including cost
+   * of finders starting at the index specified by startChar
+   * @param startChar index of the character to start with
+   * @return List of finders including cost
    */
   private PathCost smallestCost(int startChar) {
     double smallestCost = Double.MAX_VALUE;
@@ -205,9 +205,9 @@ public class PasswordAnalysis implements PasswordResults {
 
   /**
    * Helper method for smallestCost,
-   * @param ithPatterns list of patterns starting with a specific index
+   * @param ithPatterns list of finders starting with a specific index
    * @return result of the smallest result of calling smallestCost on all
-   * patterns in the list
+   * finders in the list
    */
   private PathCost calculateIthSmallestCost(List<PasswordPattern> ithPatterns) {
     double smallestCost = Double.MAX_VALUE;
@@ -218,7 +218,7 @@ public class PasswordAnalysis implements PasswordResults {
       costPath.addPattern(pattern);
       double cost = costPath.getRelativeCost();
       if (cost < smallestCost
-          || (cost == smallestCost && //if the same, favor the one with fewer patterns
+          || (cost == smallestCost && //if the same, favor the one with fewer finders
           smallestCostPath.getPath().size() > costPath.getPath().size())) {
         smallestCost = cost;
         smallestCostPath = costPath;

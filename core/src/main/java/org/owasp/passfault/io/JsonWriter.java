@@ -20,7 +20,6 @@ import java.io.Writer;
 
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PathCost;
-import org.owasp.passfault.TimeToCrack;
 
 public class JsonWriter {
 
@@ -32,7 +31,7 @@ public class JsonWriter {
 			writer.write(Double.toString(cost)); 
 			writer.write(',');
 			
-			writer.write("\"patterns\": [");
+			writer.write("\"finders\": [");
 				for(int i=0,length=path.size(); i<length;i++){
 					write(writer, path.get(i));
 					if(i+1<length){

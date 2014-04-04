@@ -37,11 +37,7 @@ public class CandidatePattern {
   }
 
   public <T extends StrategyContext> T getDecorator(Class<T> klass) {
-    if (klass == decoratorClass) {
-      return (T) klass.cast(decorator);
-    } else {
-      return null;
-    }
+    return (klass == decoratorClass) ? klass.cast(decorator) : null;
   }
 
   public int getStartOffset() {
@@ -72,7 +68,7 @@ public class CandidatePattern {
     }
     clone.upperCharCount = upperCharCount;
     if (decorator != null) {
-      clone.decorator = (StrategyContext) decorator.copy();
+      clone.decorator = decorator.copy();
       clone.decoratorClass = decoratorClass;
     }
     return clone;

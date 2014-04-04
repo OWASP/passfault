@@ -37,7 +37,7 @@ public class TextAnalysis {
   public static TimeToCrack crack = TimeToCrack.GPU1;
   
 
-  public static void main(String[] args) throws IOException, Exception {
+  public static void main(String[] args) throws Exception {
     TextAnalysis analyzer = new TextAnalysis();
     analyzer.printBanner();
     analyzer.run();
@@ -79,9 +79,7 @@ public class TextAnalysis {
     InputStreamReader reader = new InputStreamReader(System.in);
     BufferedReader buf_in = new BufferedReader(reader);
 
-    String str = "q";
-    String machineChoice = "1";
-    String hashChoice = "1";
+    String str,machineChoice,hashChoice;
     try {
       // Read a whole line a time. Check the string for
       // the "quit" input to jump from the loop.
@@ -104,7 +102,7 @@ public class TextAnalysis {
           System.out.println("\nSelect the password protection technique (to estimate crack time):");
           System.out.println("[1] bcrypt");
           System.out.println("[2] md5crypt");
-    System.out.println("[3] sha512crypt");
+          System.out.println("[3] sha512crypt");
           System.out.println("[4] Password Safe"); 
           hashChoice = buf_in.readLine();
           int hashNum = Integer.parseInt(hashChoice);
@@ -121,7 +119,7 @@ public class TextAnalysis {
   } // main
 
   private void process(final String password, int machineNum, int hashNum)
-      throws IOException, Exception {
+      throws Exception {
     PasswordAnalysis analysis = new PasswordAnalysis(password);
     
     switch (machineNum) {
@@ -155,7 +153,7 @@ public class TextAnalysis {
     PathCost worst = analysis.calculateHighestProbablePatterns();
     long now = System.currentTimeMillis();
     List<PasswordPattern> path = worst.getPath();
-    System.out.println("\n\nMost crackable combination of patterns:");
+    System.out.println("\n\nMost crackable combination of finders:");
     double costSum = 0;
     for (PasswordPattern subPattern : path) {
       //get the sum of pattern costs:
@@ -163,12 +161,12 @@ public class TextAnalysis {
     }
     for (PasswordPattern subPattern : path) {
       System.out.format("'%s' matches the pattern '%s'\n", subPattern.getMatchString(), subPattern.getDescription());
-      System.out.format("\t%s passwords in the pattern\n", crack.getRoundedSizeString(subPattern.getCost()));
+      System.out.format("\t%s passwords in the pattern\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
       System.out.format("\t%3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
     }
 
-    System.out.print("Total passwords in all patterns: ");
-    System.out.println(crack.getRoundedSizeString(worst.getTotalCost()));
+    System.out.print("Total passwords in all finders: ");
+    System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
     System.out.format("Estimated time to crack with %s GPU(s): %s\n",
         crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
     System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);

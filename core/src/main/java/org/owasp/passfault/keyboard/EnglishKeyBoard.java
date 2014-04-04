@@ -164,8 +164,6 @@ public class EnglishKeyBoard implements KeyboardLayout {
     return keyboard;
   }
 
-  ;
-
   @Override
   public int getCharacterKeysCount() {
     return 47;

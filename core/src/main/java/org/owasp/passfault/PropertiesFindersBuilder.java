@@ -104,8 +104,7 @@ public class PropertiesFindersBuilder {
     try {
       String name = getFileNameWithoutExtension(file);
       dbWords = new InputStreamReader(new FileInputStream(file));
-      InMemoryDictionary diction = InMemoryDictionary.newInstance(dbWords, false, name);
-      return diction;
+      return InMemoryDictionary.newInstance(dbWords, false, name);
     } catch (IOException ex) {
       Logger.getLogger(PropertiesFindersBuilder.class.getName()).log(Level.SEVERE, null, ex);
       return null;

@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.owasp.passfault;
+package org.owasp.passfault.finders;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.owasp.passfault.MockPasswordResults;
 import org.owasp.passfault.finders.DateFinder;
 
 import static org.junit.Assert.*;

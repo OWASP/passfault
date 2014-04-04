@@ -18,11 +18,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This class represents a list (path) of patterns in a password and calculates
- * the cost of the patterns.  It is considered a path because of all patterns
- * that could be found in a password, those patterns could be ordered in a graph
- * A path in the graph are patterns that do not overlap.  The cost of the path is
- * the combination of all patterns in the graph plus the additional cost of any
+ * This class represents a list (path) of finders in a password and calculates
+ * the cost of the finders.  It is considered a path because of all finders
+ * that could be found in a password, those finders could be ordered in a graph
+ * A path in the graph are finders that do not overlap.  The cost of the path is
+ * the combination of all finders in the graph plus the additional cost of any
  * part of the password that does not have a cost.
  * @author cam
  */
@@ -45,7 +45,7 @@ public class PathCost implements Cloneable {
   /**
    * Adds a pattern to the current path and updates the
    * current cost of the path
-   * @param patt
+   * @param patt pattern to add
    * @throws IllegalArgumentException when the pattern added overlaps a pattern
    * already in the path
    */
@@ -55,12 +55,11 @@ public class PathCost implements Cloneable {
     }
     cost *= patt.getPatternSize();
     path.add(0, patt);
-    return;
   }
 
   /**
-   * @return calculates the cost of the current patterns to the end of the pattern list.  It only
-   * includes the cost of the patterns and any random unidentified characters from the first
+   * @return calculates the cost of the current finders to the end of the pattern list.  It only
+   * includes the cost of the finders and any random unidentified characters from the first
    * pattern to the end of the password.  Any random characters before the first pattern are not
    * included.  See. GetTotalCost
    *
@@ -73,8 +72,8 @@ public class PathCost implements Cloneable {
   }
 
   /**
-   * @return the size of passwords that fit in the patterns in this path plus
-   * the additional cost of random characters not covered by patterns.
+   * @return the size of passwords that fit in the finders in this path plus
+   * the additional cost of random characters not covered by finders.
    */
   public double getTotalCost() {
     if (path.isEmpty()) {
@@ -85,7 +84,7 @@ public class PathCost implements Cloneable {
   }
 
   /**
-   * @return List of patterns that make up the path
+   * @return List of finders that make up the path
    */
   public List<PasswordPattern> getPath() {
     return Collections.unmodifiableList(path);

@@ -18,7 +18,7 @@ package org.owasp.passfault;
  * In addition it contains specific how the size of the pattern and the part of
  * the password that matched the pattern.
  *
- * Note that some patterns have the same cost regardless of the specific pattern
+ * Note that some finders have the same cost regardless of the specific pattern
  * finding, but other do not.  For example, a dictionary word will have the same
  * cost for all words in the dictionary, but a keyboard sequence will have a higher cost
  * for longer sequences.
@@ -40,7 +40,7 @@ public class PasswordPattern {
    * @param length number of characters of the pattern in the password
    * @param matchString the substring of the password that matches the pattern
    * @param patternSize number of possible combinations in the pattern (with length considered)
-   * @param description
+   * @param description description of the pattern
    * @param name Canonical name of the pattern, identified by the constant NAME on a pattern finder strategies
    * @param classification usually the language of the pattern, or another way to classify the pattern
    */

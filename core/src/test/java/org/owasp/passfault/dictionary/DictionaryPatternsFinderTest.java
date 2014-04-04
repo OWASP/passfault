@@ -12,18 +12,11 @@
  */
 package org.owasp.passfault.dictionary;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.owasp.passfault.*;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.ExactWordStrategy;
-import org.owasp.passfault.dictionary.FileDictionary;
 import org.owasp.passfault.io.MockPasswordResults;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
 public class DictionaryPatternsFinderTest {
 

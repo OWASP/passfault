@@ -54,7 +54,7 @@ public class ParallelFinder implements CompositeFinder {
    * The method returns as soon as all threads have started, not completed.
    * To wait until completion call {#waitForAnalysis} or register an
    * AnalysisListener and implement foundHighestProbablePatterns.
-   * @param pass
+   * @param pass password to analyze
    * @throws Exception
    */
   @Override

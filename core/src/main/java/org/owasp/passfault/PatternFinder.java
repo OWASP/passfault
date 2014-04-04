@@ -21,7 +21,7 @@ public interface PatternFinder {
   /**
    * A password is handed to the finder through this method and the results 
    * will be placed into the same object 
-   * @param pass holds the password and any patterns that will be found as the 
+   * @param pass holds the password and any finders that will be found as the
    * result of analysis
    *
    * @throws Exception 

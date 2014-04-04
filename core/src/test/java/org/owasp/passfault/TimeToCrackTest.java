@@ -230,7 +230,7 @@ public class TimeToCrackTest {
   @Test
   public void testGetRoundedString() {
     System.out.println("getRoundedString");
-    String result = TimeToCrack.GPU1.getRoundedSizeString(100000000);
+    String result = TimeToCrack.getRoundedSizeString(100000000);
     String expResult = "100 million";
     assertEquals(expResult, result);
   }
@@ -253,6 +253,6 @@ public class TimeToCrackTest {
   @Test
   public void getRoundedSizeString() {
     double instance = Math.pow(10, 38);
-    assertEquals("100,000 decillion", TimeToCrack.GPU1.getRoundedSizeString(instance));
+    assertEquals("100,000 decillion", TimeToCrack.getRoundedSizeString(instance));
   }
 }

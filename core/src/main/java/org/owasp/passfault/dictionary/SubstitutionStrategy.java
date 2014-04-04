@@ -50,13 +50,13 @@ public class SubstitutionStrategy implements DictionaryStrategy {
         context.count++;
       }
       for (int i = 0; i < 26; i++) {
-        CandidatePattern newsubs = (CandidatePattern) subs.copy();
+        CandidatePattern newsubs = subs.copy();
         char ch = (char) ('a' + i);
         newsubs.add(ch);
         list.add(newsubs);
       }
     } else {
-      CandidatePattern newsubs = (CandidatePattern) subs.copy();
+      CandidatePattern newsubs = subs.copy();
       newsubs.add(c);
       list.add(newsubs);
     }
@@ -66,21 +66,13 @@ public class SubstitutionStrategy implements DictionaryStrategy {
   @Override
   public boolean isAdvanceable(CandidatePattern candidate) {
     SubstitutionContex context = candidate.getDecorator(SubstitutionContex.class);
-    if (context == null) {
-      return true;
-    } else {
-      return (context.count <= this.allowedSubstitutions);
-    }
+    return context == null || (context.count <= this.allowedSubstitutions);
   }
 
   @Override
   public boolean isMatch(CandidatePattern candidate) {
     SubstitutionContex context = candidate.getDecorator(SubstitutionContex.class);
-    if (context == null) {
-      return false; //no substitution? we'll let the exact match finder catch it
-    } else {
-      return context.count > 0 && (context.count <= this.allowedSubstitutions);
-    }
+    return context != null && context.count > 0 && (context.count <= this.allowedSubstitutions);
   }
 
   @Override

@@ -14,9 +14,9 @@
 package org.owasp.passfault;
 
 /**
- * This interface represents a collection of password patterns.  It is passed
- * to pattern finders and is used to store patterns and when analysis is complete.
- * Listeners can be notified of when analysis is complete or even when new patterns
+ * This interface represents a collection of password finders.  It is passed
+ * to pattern finders and is used to store finders and when analysis is complete.
+ * Listeners can be notified of when analysis is complete or even when new finders
  * are found.
  *
  * @author cam
@@ -32,9 +32,9 @@ public interface PasswordResults {
   void addListener(AnalysisListener listener);
 
   /**
-   * Calculates the highest probable combination of patterns.  In other words,
-   * the weakest combination of found patterns.
-   * @return List of patterns that make up the weakest combination of found passwords
+   * Calculates the highest probable combination of finders.  In other words,
+   * the weakest combination of found finders.
+   * @return List of finders that make up the weakest combination of found passwords
    */
   PathCost calculateHighestProbablePatterns();
 
@@ -46,7 +46,7 @@ public interface PasswordResults {
   void foundPattern(PasswordPattern patt);
 
   /**
-   * @return total number of patterns identified.
+   * @return total number of finders identified.
    */
   int getPossiblePatternCount();
 

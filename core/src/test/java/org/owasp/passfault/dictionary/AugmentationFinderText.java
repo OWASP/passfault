@@ -23,7 +23,7 @@ import org.owasp.passfault.dictionary.AugmentationStrategy;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.FileDictionary;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class AugmentationFinderText {
 

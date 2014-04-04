@@ -15,17 +15,10 @@ package org.owasp.passfault.dictionary;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import static junit.framework.Assert.*;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.*;
 import org.owasp.passfault.MockPasswordResults;
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.FileDictionary;
-import org.owasp.passfault.dictionary.MisspellingStrategy;
 
 public class MisspellingFinderInFileTest {
 

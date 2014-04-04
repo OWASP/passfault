@@ -132,7 +132,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
     }
     if (Character.isLetter(c)){
       //we need to clone the substring for the next generation, as it is possible it will be used externally
-      CandidatePattern newsubs = (CandidatePattern) subs.copy();
+      CandidatePattern newsubs = subs.copy();
       newsubs.add(c);
       list.add(newsubs);
     }
@@ -147,6 +147,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
   @Override
   public boolean isMatch(CandidatePattern candidate) {
     l337Context context = candidate.getDecorator(l337Context.class);
+    if (context == null) return false;
     if (context != null && context.isIncompleteLeetSequence()){
       //if we are still seeking to complete a leet sequence then it isn't a match (yet)
       return false;

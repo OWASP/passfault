@@ -10,26 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.owasp.passfault;
+package org.owasp.passfault.finders;
 
-import java.io.File;
 import java.util.LinkedList;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.owasp.passfault.PasswordAnalysis;
-import org.owasp.passfault.PatternFinder;
+import org.junit.*;
+import org.owasp.passfault.*;
 import org.owasp.passfault.dictionary.*;
-import org.owasp.passfault.finders.ParallelFinder;
+import org.owasp.passfault.finders.ExecutorFinder;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.*;
 
-public class ParallelPatternsFinderTest {
+public class ExecutorFinderTest {
 
-  private static ParallelFinder finder;
+  private static CompositeFinder finder;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -37,7 +31,7 @@ public class ParallelPatternsFinderTest {
     DictionaryPatternsFinder dictionaryFinder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
     LinkedList<PatternFinder> l = new LinkedList<PatternFinder>();
     l.add(dictionaryFinder);
-    finder = new ParallelFinder(l);
+    finder = new ExecutorFinder(l);
   }
 
   @AfterClass
@@ -56,18 +50,16 @@ public class ParallelPatternsFinderTest {
   public void findWord() throws Exception {
     System.out.println("findWord");
     PasswordAnalysis p = new PasswordAnalysis("wisp");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
+    finder.blockingAnalyze(p);
     assertEquals(1, p.getPossiblePatternCount());
-
   }
 
   @Test
   public void findWord_garbageinfront() throws Exception {
     System.out.println("findWord_garbageinfront");
     PasswordAnalysis p = new PasswordAnalysis("1234wisp");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
+    finder.blockingAnalyze(p);
+    
     assertEquals(1, p.getPossiblePatternCount());
   }
 
@@ -76,8 +68,7 @@ public class ParallelPatternsFinderTest {
 
     System.out.println("findWord_garbageinback");
     PasswordAnalysis p = new PasswordAnalysis("wisp1234");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
+    finder.blockingAnalyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
@@ -86,8 +77,7 @@ public class ParallelPatternsFinderTest {
     System.out.println("findNonWord");
 
     PasswordAnalysis p = new PasswordAnalysis("qqq");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
+    finder.blockingAnalyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
@@ -95,30 +85,26 @@ public class ParallelPatternsFinderTest {
   public void findMultiWords() throws Exception {
     System.out.println("findMultiWords");
     PasswordAnalysis p = new PasswordAnalysis("wispwisp");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
+    finder.blockingAnalyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWordWithMulti() throws Exception {
     System.out.println("findMultiWords");
-    PasswordAnalysis p = new PasswordAnalysis("password");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
-    assertEquals(4, p.getPossiblePatternCount());
-    assertEquals("password", p.calculateHighestProbablePatterns().path.get(0).getMatchString());
+    MockPasswordResults p = new MockPasswordResults("password");
+    finder.blockingAnalyze(p);
+    assertEquals(6, p.getPossiblePatternCount());
+    for(PasswordPattern pattern: p.getFoundPatterns()){
+      System.out.println(pattern.getMatchString());
+    }
   }
 
   @Test
   public void findWordWithMultiUpper() throws Exception {
     System.out.println("findMultiWords");
-    MockPasswordResults p = new MockPasswordResults("Password");
-    finder.analyze(p);
-    finder.waitForAnalysis(p);
-    for(PasswordPattern pattern: p.getFoundPatterns()){
-      System.out.println(pattern.getMatchString());
-    }
+     MockPasswordResults p = new MockPasswordResults("Password");
+    finder.blockingAnalyze(p);
     assertEquals(6, p.getPossiblePatternCount());
   }
 

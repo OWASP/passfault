@@ -10,25 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.owasp.passfault;
+package org.owasp.passfault.finders;
 
 import java.util.LinkedList;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.*;
+import org.owasp.passfault.MockPasswordResults;
 import org.owasp.passfault.PasswordAnalysis;
+import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.dictionary.*;
-import org.owasp.passfault.finders.ExecutorFinder;
 
-import static junit.framework.Assert.*;
+public class ParallelPatternsFinderTest {
 
-public class ExecutorFinderTest {
-
-  private static CompositeFinder finder;
+  private static ParallelFinder finder;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -36,7 +32,7 @@ public class ExecutorFinderTest {
     DictionaryPatternsFinder dictionaryFinder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
     LinkedList<PatternFinder> l = new LinkedList<PatternFinder>();
     l.add(dictionaryFinder);
-    finder = new ExecutorFinder(l);
+    finder = new ParallelFinder(l);
   }
 
   @AfterClass
@@ -55,16 +51,18 @@ public class ExecutorFinderTest {
   public void findWord() throws Exception {
     System.out.println("findWord");
     PasswordAnalysis p = new PasswordAnalysis("wisp");
-    finder.blockingAnalyze(p);
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
     assertEquals(1, p.getPossiblePatternCount());
+
   }
 
   @Test
   public void findWord_garbageinfront() throws Exception {
     System.out.println("findWord_garbageinfront");
     PasswordAnalysis p = new PasswordAnalysis("1234wisp");
-    finder.blockingAnalyze(p);
-    
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
@@ -73,7 +71,8 @@ public class ExecutorFinderTest {
 
     System.out.println("findWord_garbageinback");
     PasswordAnalysis p = new PasswordAnalysis("wisp1234");
-    finder.blockingAnalyze(p);
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
@@ -82,7 +81,8 @@ public class ExecutorFinderTest {
     System.out.println("findNonWord");
 
     PasswordAnalysis p = new PasswordAnalysis("qqq");
-    finder.blockingAnalyze(p);
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
@@ -90,26 +90,30 @@ public class ExecutorFinderTest {
   public void findMultiWords() throws Exception {
     System.out.println("findMultiWords");
     PasswordAnalysis p = new PasswordAnalysis("wispwisp");
-    finder.blockingAnalyze(p);
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWordWithMulti() throws Exception {
     System.out.println("findMultiWords");
-    MockPasswordResults p = new MockPasswordResults("password");
-    finder.blockingAnalyze(p);
-    assertEquals(6, p.getPossiblePatternCount());
-    for(PasswordPattern pattern: p.getFoundPatterns()){
-      System.out.println(pattern.getMatchString());
-    }
+    PasswordAnalysis p = new PasswordAnalysis("password");
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
+    assertEquals(4, p.getPossiblePatternCount());
+    assertEquals("password", p.calculateHighestProbablePatterns().getPath().get(0).getMatchString());
   }
 
   @Test
   public void findWordWithMultiUpper() throws Exception {
     System.out.println("findMultiWords");
-     MockPasswordResults p = new MockPasswordResults("Password");
-    finder.blockingAnalyze(p);
+    MockPasswordResults p = new MockPasswordResults("Password");
+    finder.analyze(p);
+    finder.waitForAnalysis(p);
+    for(PasswordPattern pattern: p.getFoundPatterns()){
+      System.out.println(pattern.getMatchString());
+    }
     assertEquals(6, p.getPossiblePatternCount());
   }
 

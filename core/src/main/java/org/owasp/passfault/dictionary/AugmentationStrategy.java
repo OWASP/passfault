@@ -61,10 +61,10 @@ public class AugmentationStrategy implements DictionaryStrategy {
       } else {
         context.count++;
       }
-      CandidatePattern newsubs = (CandidatePattern) subs.copy();
+      CandidatePattern newsubs = subs.copy();
       list.add(newsubs);
     } else {
-      CandidatePattern newsubs = (CandidatePattern) subs.copy();
+      CandidatePattern newsubs = subs.copy();
       newsubs.add(c);
       list.add(newsubs);
     }
@@ -74,11 +74,7 @@ public class AugmentationStrategy implements DictionaryStrategy {
   @Override
   public boolean isAdvanceable(CandidatePattern candidate) {
     AugmentationContext context = candidate.getDecorator(AugmentationContext.class);
-    if (context == null) {
-      return true;
-    } else {
-      return (context.count <= this.allowedExtraCharacters);
-    }
+    return context == null || (context.count <= this.allowedExtraCharacters);
   }
 
   @Override

@@ -8,13 +8,13 @@ import org.owasp.passfault.RandomPattern;
 import org.owasp.passfault.RandomPattern.RandomClasses;
 /**
  * This class seems to contradict the RandomPattern class.  RandomPattern takes any characters 
- * between found patterns and calculates the random value.  It doesn't look for patterns, instead it calculates 
+ * between found finders and calculates the random value.  It doesn't look for finders, instead it calculates
  * the size of the characters-sets used.  So, for example, 1234#$%^ will be evaluated as 8 random characters 
  * from the numbers and letters.  Instead it should be 4 digits and four letters, since this is easier to crack.
  * So this pattern finder will look for sequences of numbers and special chars that are greater than the threshold
  * (with a default of three).
  * 
- * One down-side of this pattern finder is it reports lots of patterns.  Each subset as large as the threshold will be
+ * One down-side of this pattern finder is it reports lots of finders.  Each subset as large as the threshold will be
  * reported.
  * 
  * See the RandomClassesFinderTest for examples.
@@ -24,8 +24,6 @@ import org.owasp.passfault.RandomPattern.RandomClasses;
 public class RandomClassesFinder
   implements PatternFinder
 {
-  boolean isPreviousUpper = false;
-  RandomPattern.RandomClasses previous = null;
   private final int threshold;
   
   public RandomClassesFinder(int threshold){

@@ -18,7 +18,6 @@ package org.owasp.passfault.dictionary;
  * will store on a candidate pattern.
  * @author cam
  */
-//todo: remove Cloneable
 public interface StrategyContext {
 
   StrategyContext copy();
@@ -27,9 +26,9 @@ public interface StrategyContext {
 
   /**
    * Each dictionary word pattern size is the number of words in the dictionary.
-   * Other dictionary based patterns will multiply number of words by the
+   * Other dictionary based finders will multiply number of words by the
    * crackSizeFactor to calculate the overall pattern size.
-   * @return
+   * @return factor is the size of the pattern
    */
   int getCrackSizeFactor();
 }

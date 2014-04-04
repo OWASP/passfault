@@ -1,10 +1,12 @@
-package org.owasp.passfault;
+package org.owasp.passfault.finders;
 
 import static org.junit.Assert.*;
 
 import java.util.List;
 
 import org.junit.Test;
+import org.owasp.passfault.MockPasswordResults;
+import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.finders.RandomClassesFinder;
 
 public class RandomClassesFinderTest

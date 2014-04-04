@@ -20,7 +20,7 @@ import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.keyboard.Key.Direction;
 
 /**
- * Identifies four types of keyboard patterns:
+ * Identifies four types of keyboard finders:
  * Diagonal sequence, repeated characters, one-hand horizontal sequence 
  * (3 and 4 character sequences), 5 and mor character horizontal sequence.
  * 
@@ -60,11 +60,7 @@ public class KeySequenceFinder implements PatternFinder {
     //from pressing the shift key and another key
 
     boolean isUpper[] = new boolean[password.length()];
-    if (previous == null) {
-      isUpper[0] = false;
-    } else {
-      isUpper[0] = previous.upper == password.charAt(0);
-    }
+    isUpper[0] = previous != null && previous.upper == password.charAt(0);
     for (int i = 1; i < password.length(); i++) {
       char c = password.charAt(i);
       Key current = keyboard.get(c);

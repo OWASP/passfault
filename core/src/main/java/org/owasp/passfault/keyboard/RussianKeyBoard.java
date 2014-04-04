@@ -169,8 +169,6 @@ public class RussianKeyBoard implements KeyboardLayout {
     return keyboard;
   }
 
-  ;
-
   public int getCharacterKeysCount() {
     return 47;
   }

@@ -17,7 +17,6 @@
 
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.RandomPattern;
 
 /**

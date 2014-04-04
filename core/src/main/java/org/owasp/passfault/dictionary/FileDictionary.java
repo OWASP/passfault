@@ -32,8 +32,6 @@ import java.io.RandomAccessFile;
  */
 public class FileDictionary implements Dictionary {
 
-  public static final int LONGEST_WORD_BYTES = 0;
-  public static final int SEQUENTIAL_SEARCH_BYTE_SIZE = 0;
   private long size;
   private RandomAccessFile file;
   private int wordCount;
@@ -207,34 +205,5 @@ public class FileDictionary implements Dictionary {
   private long round(long middle) {
     long wordsToMiddle = middle / lineSize;
     return wordsToMiddle * lineSize;
-  }
-
-  private boolean sequentialPartialSearch(CandidatePattern candidate) throws IOException {
-    file.seek(candidate.start);
-    String word;
-    boolean found;
-    do {
-      word = file.readLine();
-      if (word != null) {
-        word = word.trim();
-      }
-      found = 0 == comparePartial(candidate.subString, word);
-    } while (word != null && !found);
-    return found;
-  }
-
-  private boolean sequentialSearch(CandidatePattern candidate) throws IOException {
-    file.seek(candidate.start);
-    String word;
-    boolean found;
-    do {
-      word = file.readLine();
-      if (word != null) {
-        word = word.trim();
-      }
-      found = 0 == compare(candidate.subString, word);
-    } while (word != null && !found);
-    return found;
-
   }
 }

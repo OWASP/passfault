@@ -31,10 +31,10 @@ import org.owasp.passfault.finders.RepeatingPatternFinder;
  * of this class begins with a password to analyze.  Then it is handed to
  * multiple <code>PatternFinder<code>s.
  *
- * This class contains the logic for post-analysis of the patterns found
+ * This class contains the logic for post-analysis of the finders found
  * (althought this logic might be better if separated from this class)  This
- * logic includes finding the weakest combination of patterns and locating
- * repeated patterns.
+ * logic includes finding the weakest combination of finders and locating
+ * repeated finders.
  *
  * @author cam
  */
@@ -106,12 +106,12 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
   }
 
   /**
-   * This is a lazy loading getter for a list of patterns that begin on the
+   * This is a lazy loading getter for a list of finders that begin on the
    * index of the password.
    * @param startIndex index of the a character in a the password where the list
-   * of patterns begin.
+   * of finders begin.
    *
-   * @return a List of patterns found for the starting index of where a pattern
+   * @return a List of finders found for the starting index of where a pattern
    * starts.
    */
   private List<PasswordPattern> getIndexSet(int startIndex) {
@@ -122,7 +122,7 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
   }
 
   /**
-   * @return total number of patterns identified.
+   * @return total number of finders identified.
    */
   @Override
   public int getPossiblePatternCount() {
@@ -130,14 +130,14 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
   }
 
   /**
-   * Calculates the highest probable combination of patterns.  In other words,
-   * the weakest combination of found patterns.
-   * @return List of patterns that make up the weakest combination of found passwords
+   * Calculates the highest probable combination of finders.  In other words,
+   * the weakest combination of found finders.
+   * @return List of finders that make up the weakest combination of found passwords
    */
   @Override
   public PathCost calculateHighestProbablePatterns() {
     if (finalResults == null) {
-      log.log(Level.INFO, "Calculating the highest probable combination of {0} patterns\n", getPossiblePatternCount());
+      log.log(Level.INFO, "Calculating the highest probable combination of {0} finders\n", getPossiblePatternCount());
       PathCost cost = smallestCost(0);
       cost = postAnalysis(cost);
       log.log(Level.FINE, "smallestCost took {0} iterations", counter);
@@ -152,9 +152,9 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
 
   /**
    * This is a recursive call to compute the smallest Cost (or weakest combination)
-   * of patterns starting at the index specified by startChar
+   * of finders starting at the index specified by startChar
    * @param startChar
-   * @return List of patterns including cost
+   * @return List of finders including cost
    */
   private PathCost smallestCost(int startChar) {
     double smallestCost = Double.MAX_VALUE;
@@ -188,9 +188,9 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
 
   /**
    * Helper method for smallestCost,
-   * @param ithPatterns list of patterns starting with a specific index
+   * @param ithPatterns list of finders starting with a specific index
    * @return result of the smallest result of calling smallestCost on all
-   * patterns in the list
+   * finders in the list
    */
   private PathCost ithSmallestCost(List<PasswordPattern> ithPatterns) {
     double smallestCost = Double.MAX_VALUE;
@@ -216,7 +216,6 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
       return null;
     }
 
-    PasswordPattern random = randomPatternFinder.getRandomPattern(this.password, startChar, endChar - startChar);
-    return random;
+    return randomPatternFinder.getRandomPattern(this.password, startChar, endChar - startChar);
   }
 }
