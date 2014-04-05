@@ -12,38 +12,54 @@ cracker.NetNTLMv2 = 1/555000;
 var threshold = 31*24*60*60;  //31 days in milliseconds;
 var protection = {
 	"WINDOWS_NTLM": {
-		"cracker": "NTLM", 
+	  "display": "Microsoft Windows NT Lan Manager",
+		"cracker": "NTLM",
 		"iterations": 1
 	},
 	"WINDOWS_LM": {
-		"cracker": "LM", 
+	  "display": "Microsoft Windows Lan Manager (Old)",
+		"cracker": "LM",
 		"iterations": 1
 	},
 	"WINDOWS_NetNTLMv2": {
-		"cracker": "NetNTLMv2", 
+	  "display": "Microsoft Windows NTLM 2",
+		"cracker": "NetNTLMv2",
 		"iterations": 1
 	},
 	"SHA1": {
+	  "display": "SHA1 (Old school)",
 		"cracker": "SHA1",
 		"iterations": 1
 	},
 	"SHA512x1": {
+	  "display": "SHA512 (Old School)",
 		"cracker": "SHA512",
 		"iterations": 1
 	},
 	"SHA512x100k": {
+	  "display": "SHA512 hashed 100k times",
 		"cracker": "SHA512",
 		"iterations": 100000
 	},
 	"UNIX_BCRYPT": {
+	  "display": "Unix BCrypt Hash",
 		"cracker": "BCRYPT",
 		"iterations": 1
 	},
-	"WPA": {	
+	"WPA": {
+	  "display": "WPA Password Hashing",
 		"cracker": "SHA1",
 		"iterations": 4096
 	}
 };
+
+function loadSelectProtection(select){
+  var htmlToInsert;
+  for(var type in protection){
+      htmlToInsert += '<option value="'+type+'" >'+ protection[type].display + '</option>';
+  }
+  select.html(htmlToInsert);
+}
 
 var attacker = {
 	"EVERYDAY":{ 
@@ -59,7 +75,15 @@ var attacker = {
 		"display": "Government cracker ($500,000 machine)",
 		"multiplier": 1000
 	}
-};  
+};
+
+function loadSelectCracker(select){
+  var htmlToInsert;
+  for(var cracker in attacker){
+    htmlToInsert += '<option value="' + cracker + '" >' + attacker[cracker].display + '</option>';
+  }
+  select.html(htmlToInsert);
+}
 
 var patternImages = new Object();
 patternImages.LEET       = "leet.gif";
