@@ -1,0 +1,38 @@
+
+task build {
+  inputs.dir("wordlists")
+  outputs.dir("$buildDir/wordlists")
+  doLast {
+    def files = fileTree("wordlists").include("*.txt")
+    def destination = new File("$buildDir/wordlists");
+    destination.mkdirs();
+
+    files.each { file ->
+      normalize(file, destination);
+    }
+  }
+}
+
+def normalize(File unsorted, File destDir){
+  new File(destDir, unsorted.name).withWriter { out ->
+    out.write("# This file is generated, sorted and padded so that each line has the same length.  ")
+    def words = [] as SortedSet
+    int maxLength = 0;
+    unsorted.eachLine { line ->
+      if (line.length() > maxLength) maxLength = line.length();
+      if (line.startsWith("#")){
+        out.writeLine(line);
+      } else {
+        words << line.trim().toLowerCase();
+      }
+    }
+
+    words.each { word ->
+      out.write(word);
+      for (int i = word.length(); i < maxLength; i++) {
+        out.write(' ');
+      }
+      out.writeLine("");
+    }
+  }
+}

@@ -50,7 +50,6 @@ public class WordListNormalizer {
     int maxLength = 0;
     String word;
     SortedSet<String> list = new TreeSet<String>();
-    SortedSet<String> backwards = new TreeSet<String>();
     //find max length
     do {
       word = in.readLine();
@@ -60,8 +59,6 @@ public class WordListNormalizer {
         }
         list.add(word);
         StringBuilder sb = new StringBuilder(word);
-        sb.reverse();
-        backwards.add(sb.toString());
       }
     } while (word != null);
     in.close();
@@ -78,18 +75,5 @@ public class WordListNormalizer {
     }
     out.flush();
     out.close();
-
-    //write out backwards words - sorted
-    BufferedWriter outBack = new BufferedWriter(new FileWriter(filename + ".backwords"));
-    for (String backward : backwards) {
-      word = backward;
-      outBack.write(word);
-      for (int i = word.length(); i < maxLength; i++) {
-        outBack.write(' ');
-      }
-      outBack.write('\n');
-    }
-    outBack.flush();
-    outBack.close();
   }
 }
