@@ -13,7 +13,9 @@
 package org.owasp.passfault;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Collection;
+import java.util.Enumeration;
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -28,7 +30,7 @@ public class FinderByPropsBuilderTest {
   @Test
   public void testBuildDictionaryFinders_file() throws Exception {
     System.out.println("current directory:"+new File(".").getCanonicalFile());
-    File file = new File("src/test/resources/words");
+    File file = new File("src/test/resources/wordlists");
     assertTrue(file.exists());
     Collection<PatternFinder> finders = new FinderByPropsBuilder().
         isInMemory(false).
@@ -41,8 +43,8 @@ public class FinderByPropsBuilderTest {
   @Test
   public void testBuildDictionaryFinders_resource() throws Exception {
     Collection <PatternFinder> finders = new FinderByPropsBuilder().
+        loadDefaultWordLists().
         isInMemory(true).
-        setClassPathLoader("/org/owasp/passfault/wordlists").
         build();
     System.out.println("Finders found "+ finders);
     assertTrue (finders.size() > 4);

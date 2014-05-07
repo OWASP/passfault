@@ -21,8 +21,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.owasp.passfault.PatternFinder;
-import org.owasp.passfault.TextAnalysis;
 import org.owasp.passfault.dictionary.AugmentationStrategy;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
@@ -42,7 +40,7 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
  * configuration, or the PropertiesFindersBuilder.
  * 
  * @author cam
- * @see PropertiesFindersBuilder
+ * @see FinderByPropsBuilder
  */
 public class BuildFinders {
   
