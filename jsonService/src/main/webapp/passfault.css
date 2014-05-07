@@ -269,22 +269,22 @@ body {
 }
 
 .horiz {
-	background-image: url(horiz-keys.png);
+	background-image: url('img/horiz-keys.png');
 }
 
 .diag {
-	background-image: url(diag-keys.png);
+	background-image: url('img/diag-keys.png');
 }
 
 .repeat {
-	background-image: url(repeat-keys.png);
+	background-image: url('img/repeat-keys.png');
 }
 
 .policy {
 	width: 30em;
 }
 
-left{
+.left{
 	float: left;
 }
 
@@ -327,7 +327,6 @@ div.passwordOptions, div.examples{
 	padding-right: 1em;
 }
 div.textArea {
-	background: url(img/transparent40.png) repeat;
 	padding-bottom: 0.25em;
 	padding-left: 2em;
 	padding-right: 2em;
