@@ -1,5 +1,8 @@
 apply plugin:'application'
 mainClassName = "org.owasp.passfault.TextAnalysis"
+
+compileJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'
 sourceCompatibility = 1.6
 
 configurations{

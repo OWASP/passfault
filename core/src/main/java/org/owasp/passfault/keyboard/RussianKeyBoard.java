@@ -212,7 +212,8 @@ public class RussianKeyBoard implements KeyboardLayout {
       //   = (n+1)*n/2 = (n^2 + n)/2
       size += (n * n + n) / 2;
     }
-    return size * 2 * 2;  //times two for both directions of sequences
+    return size * 2 * 2;
+    //times two for both directions of sequences
     //times two for both directions of Diagonal
   }
 
