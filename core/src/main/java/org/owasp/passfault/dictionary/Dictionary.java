@@ -47,4 +47,10 @@ public interface Dictionary {
    * name describing the type of word list, such as, english, russian, US Cities, US Names...
    */
   public String getName();
+
+  /**
+   * This method is for dictionaries that are part of a dictionary group
+   * @param newWordCount
+   */
+  void setWordCount(int newWordCount);
 }

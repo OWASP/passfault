@@ -1,1 +1,1 @@
-include "core", "jsonService", "applet", "appEngine"
+include "core", "jsonService", "applet", "appEngine", "wordlists"

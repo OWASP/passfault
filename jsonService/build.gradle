@@ -3,12 +3,13 @@ apply plugin: 'jetty'
 
 dependencies {
   compile project(':core')
-  compile "javax.servlet:servlet-api:2.5"
+  compile 'javax.servlet:servlet-api:2.5'
 }
 
 artifacts {
   archives war
   archives sourcesJar
 }
+
 
 

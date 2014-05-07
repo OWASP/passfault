@@ -4,19 +4,12 @@
  */
 package org.owasp.passfault.applet;
 
-import org.owasp.passfault.DateFinder;
-import org.owasp.passfault.ParallelFinder;
+import org.owasp.passfault.FinderByPropsBuilder;
+import org.owasp.passfault.finders.DateFinder;
+import org.owasp.passfault.finders.ParallelFinder;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PatternFinder;
 import org.owasp.passfault.TextAnalysis;
-import org.owasp.passfault.dictionary.AugmentationStrategy;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.ExactWordStrategy;
-import org.owasp.passfault.dictionary.InMemoryDictionary;
-import org.owasp.passfault.dictionary.MisspellingStrategy;
-import org.owasp.passfault.dictionary.ReverseDictionaryPatternFinder;
-import org.owasp.passfault.dictionary.SubstitutionStrategy;
-import org.owasp.passfault.dictionary.l337SubstitutionStrategy;
 import org.owasp.passfault.io.JsonWriter;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
@@ -24,12 +17,8 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
 import java.applet.Applet;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,34 +72,14 @@ public class Passfaultlet extends Applet {
   }
 
   /**
-   * This is a good place to replace with some dependency injection
-   * @param inputStreams
+   * This builds any finders needed for this applet
    * @return
    * @throws IOException
    */
   public Collection<PatternFinder> getFinders(String name, InputStream in) throws IOException {
-    List<PatternFinder> finders = new LinkedList<PatternFinder>();
-    if (in == null) {
-      return finders;
-    }
-    try {
-      Reader dbWords = new InputStreamReader(in);
-      //TODO find a better way to name the dictionaries
-      InMemoryDictionary diction = InMemoryDictionary.newInstance(dbWords, false, name);
-      finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy()));
-      finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
-      finders.add(new DictionaryPatternsFinder(diction, new AugmentationStrategy(2)));
-      finders.add(new DictionaryPatternsFinder(diction, new SubstitutionStrategy(1)));
-      finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
-      finders.add(new ReverseDictionaryPatternFinder(diction, new ExactWordStrategy()));
-    } catch (IOException ioe) {
-      ioe.printStackTrace();
-    } finally {
-      if (in != null) {
-        in.close();
-      }
-    }
-
-    return finders;
+    return new FinderByPropsBuilder().
+        loadDefaultWordLists().
+        isInMemory(true).
+        build();
   }
 }

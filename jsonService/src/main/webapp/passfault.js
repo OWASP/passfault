@@ -338,9 +338,5 @@ function submitPassword(){ //submit to applet or service
 			  },
 			  dataType: 'json'
 			});
-//		$.post("analysis", password, function(results) {
-//			$("div.goneOnAnalyze").hide();
-//		  	applyTemplate(document.getElementById("patterns"), results);
-//		}, "json");
 	}
 }

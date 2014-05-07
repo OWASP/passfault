@@ -33,10 +33,12 @@ public class InMemoryDictionary implements Dictionary {
 
   String[] words;
   private final String name;
+  private int wordCount;
 
   public InMemoryDictionary(String[] dictionary, String name) {
     words = dictionary;
     this.name = name;
+    wordCount = words.length;
   }
 
   @Override
@@ -181,7 +183,13 @@ public class InMemoryDictionary implements Dictionary {
    * @see com.passfault.PatternModel#getWordCount()
    */
   public int getWordCount() {
-    return words.length;
+    return wordCount;
   }
+
+  @Override
+  public void setWordCount(int newWordCount) {
+    this.wordCount = newWordCount;
+  }
+
 
 }

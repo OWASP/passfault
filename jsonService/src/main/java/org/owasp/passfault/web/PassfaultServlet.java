@@ -26,23 +26,10 @@ import org.owasp.passfault.io.JsonWriter;
  */
 public class PassfaultServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String PROTECTION_TYPE = "PROTECTION_TYPE";
-	public static final String ATTACK_PROFILE = "ATTACK_PROFILE";
 	protected Collection<PatternFinder> finders;
 	private volatile CompositeFinder compositeFinder = null; //lazy initialized
 	private JsonWriter jsonWriter = new JsonWriter();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public PassfaultServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init(ServletConfig config) throws ServletException {
 	  finders = buildFinders(config.getServletContext());
 	}
@@ -62,8 +49,7 @@ public class PassfaultServlet extends HttpServlet {
 				finder.analyze(analysis);
 				finder.waitForAnalysis(analysis);
 			} catch (Exception e) {
-				// TODO LOG exception
-				throw new ServletException(e); 
+				throw new ServletException(e);
 			}
 			writeJSON(analysis, response.getWriter());
 		} finally{
@@ -126,7 +112,7 @@ public class PassfaultServlet extends HttpServlet {
 	    return builder.build(servletContext);
     }
     catch (IOException e) {
-      throw new ServletException("An error occured building the pattern finders", e);
+      throw new ServletException("An error occurred building the pattern finders", e);
     }
   }
 	
@@ -136,7 +122,6 @@ public class PassfaultServlet extends HttpServlet {
 	
 	/**
 	 * Override this to change the finder, (such as to run in google app engine)
-	 * @param finders All finders to be run to analyze the password 
 	 * @return a composite finder that can run finders
 	 * @throws ServletException
 	 */

@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.owasp.passfault.finders.DateFinder;
+import org.owasp.passfault.finders.ExecutorFinder;
 import org.owasp.passfault.finders.RandomClassesFinder;
 import org.owasp.passfault.finders.SequentialFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
@@ -45,17 +46,11 @@ public class TextAnalysis {
   private final CompositeFinder finder;
 
   public TextAnalysis() throws IOException {
-    String internalDictionary = "/org/owasp/passfault/dictionary/english" + WORD_LIST_EXTENSION;
-    InputStream englishListStream = this.getClass().getResourceAsStream(internalDictionary);
-    if (englishListStream == null) {
-      throw new RuntimeException("Could not load the internal dictionary");
-    }
-    Collection<PatternFinder> finders = BuildFinders.buildDictionaryFinders("English", englishListStream);
-    finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
-    finders.add(new KeySequenceFinder(new RussianKeyBoard()));
-    finders.add(new DateFinder());
-    finders.add(new RandomClassesFinder());
-    finder = new SequentialFinder(finders);
+    Collection<PatternFinder> finders = new FinderByPropsBuilder().
+        loadDefaultWordLists().
+        isInMemory(true).
+        build();
+    finder = new ExecutorFinder(finders);
   }
 
   public void printBanner(){

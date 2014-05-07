@@ -1,9 +1,16 @@
+apply plugin: 'java'
 
-task build {
-  inputs.dir("wordlists")
-  outputs.dir("$buildDir/wordlists")
-  doLast {
-    def files = fileTree("wordlists").include("*.txt")
+jar {
+  inputs.sourceDir("wordlists")
+  from "$buildDir/wordlists/", {
+    into '/org/owasp/passfault/wordlists/'
+  }
+  from "wordlists", {
+    into '/org/owasp/passfault/wordlists'
+    include '*.properties'
+  }
+  doFirst {
+    def files = fileTree("wordlists").include("*.txt").exclude("readme.txt")
     def destination = new File("$buildDir/wordlists");
     destination.mkdirs();
 
@@ -14,7 +21,7 @@ task build {
 }
 
 def normalize(File unsorted, File destDir){
-  new File(destDir, unsorted.name).withWriter { out ->
+  new File(destDir, changeExtension(unsorted.name)).withWriter { out ->
     out.write("# This file is generated, sorted and padded so that each line has the same length.  ")
     def words = [] as SortedSet
     int maxLength = 0;
@@ -35,4 +42,7 @@ def normalize(File unsorted, File destDir){
       out.writeLine("");
     }
   }
+}
+def changeExtension(filename){
+  return filename.replace(".txt",".words")
 }

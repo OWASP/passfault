@@ -1,8 +1,14 @@
-
+apply plugin:'application'
+mainClassName = "org.owasp.passfault.TextAnalysis"
 sourceCompatibility = 1.6
+
+configurations{
+  wordlists
+}
 
 dependencies {
 	testCompile group: 'junit', name: 'junit', version: '4+'
+  compile project(':wordlists')
 }
 
 jar {
@@ -10,7 +16,7 @@ jar {
 		attributes 'Implementation-Title': 'OWASP Passfault', 
 			'Implementation-Version': version,
 			'Main-Class': 'org.owasp.passfault.TextAnalysis'
-	}	
+	}
 }
 
 artifacts {

@@ -27,7 +27,8 @@ import java.io.RandomAccessFile;
  * Word Count:27413
  * Time elapsed: 198.511 sec
  *  
- * @See WordListNormalizer for sorting and padding a word list.
+ * @see WordListNormalizer for sorting and padding a word list.
+ * Also see gradle wordlists tasks for normalizing
  * @author cam
  */
 public class FileDictionary implements Dictionary {
@@ -198,8 +199,14 @@ public class FileDictionary implements Dictionary {
   /* (non-Javadoc)
    * @see com.passfault.PatternModel#getWordCount()
    */
+  @Override
   public int getWordCount() {
     return wordCount;
+  }
+
+  @Override
+  public void setWordCount(int count){
+    this.wordCount = count;
   }
 
   private long round(long middle) {
