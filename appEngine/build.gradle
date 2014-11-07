@@ -8,16 +8,16 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.google.appengine:gradle-appengine-plugin:1.8.+'
+        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.4'
     }
 }
 
 dependencies {
-  compile 'com.google.appengine:appengine-api-1.0-sdk:1.8.+'
+  compile 'com.google.appengine:appengine-api-1.0-sdk:1.9.4'
   compile 'javax.servlet:servlet-api:2.5'
   compile project(':core')
   compile project(':jsonService')
-  appengineSdk 'com.google.appengine:appengine-java-sdk:1.8.+'
+  appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.4'
 }
 
 appengine {
