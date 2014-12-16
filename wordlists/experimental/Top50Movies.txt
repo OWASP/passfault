@@ -1,0 +1,53 @@
+#wordlist compiled from wikipedia.com
+#represents top 50 grossing movies of all time without inflation
+
+Avatar
+Titanic
+The Avengers
+Harry Potter and the Deathly Hallows - Part 2
+Frozen
+Iron Man 3
+Transformers: Dark of the Moon
+The Lord of the Rings: The Return of the King
+Skyfall
+Transformers: Age of Extinction
+The Dark Knight Rises
+Pirates of the Caribbean: Dead Man's CHest
+Toy Story 3
+Pirates of the Caribbean: On Stranger Tides
+Jurassic Park
+Star Wars Episode I: The Phantom Menace
+Alice in Wonderland
+The Hobbit: An Unexpected Journey
+The Dark Knight
+The Lion King
+Harry Potter and the Philosopher's Stone
+Despicable Me 2
+Pirates of the Caribbean: At World's End
+Harry Potter and the Deathly Hallows - Part 1
+The Hobbit: The Desolation of Smaug
+Harry Potter and the Order of the Phoenix
+Finding Nemo
+Harry Potter and the Half-Blood Prince
+The Lord of the Rings: The Two Towers
+Shrek 2
+Harry Potter and the Goblet of Fire
+Spider-Man 3
+Ice Age: Dawn of the Dinosaurs
+Harry Potter and the Chamber Of Secrets
+Ice Age: Continental Drift
+The Lord of the Rings: The Fellowship of the Ring
+The Hunger Games: Catching Fire
+Star Wars Episode III: Revenge of the Sith
+Transformers: Revenge of the Fallen
+The Twilight Saga: Breaking Dawn - Part 2
+Inception
+Spider-Man
+Independence Day
+Shrek the Third
+Harry Potter and the Prisoner of Azkaban
+E.T. the Extra-Terrestrial
+Fast & Furious 6
+Indiana Jones and the Kingdom of the Crystal SKull
+Spider-Man 2
+Star Wars

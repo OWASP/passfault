@@ -1,0 +1,53 @@
+#The following list is taken from http://www.statisticbrain.com/u-s-largest-employers/
+#It contains the top 50 largest employers in the U.S.
+
+Wal-Mart
+IBM
+McDonald's
+United Parcel Service
+Target
+Kroger
+Sears Holding
+General Electric
+Citigroup
+Albertson's
+FedEx
+General Motors
+United Technologies
+CVS
+Altria Group
+Verizon Communications
+Aramark
+Berkshire Hathaway
+AT&T
+Home Depot
+Delphi
+Safeway
+Bank of America
+JP Morgan Chase
+Yum Brands
+HCA
+Lowe's
+Ford Motor
+PepsiCo
+Walgreen
+Wells Fargo
+Boeing
+Darden Restaurants
+Hewlett-Packard
+Gap
+JC Penny
+Starbucks
+Starwood Hotels and Resorts
+Marriott International
+Sara Lee
+Lockheed Martin
+Walt Disney
+Alcoa
+Northrop Grumman
+Electronic Data Systems
+Honeywell
+Johnson & Johnson
+Lear
+Tyson Foods
+Emerson Electric
