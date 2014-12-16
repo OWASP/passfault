@@ -72,6 +72,7 @@ public class FinderByPropsBuilder {
 
   /**
    * sets the classpath loader using the Builder's classpath
+   * @param resourcePath
    */
   public FinderByPropsBuilder setClassPathLoader(String resourcePath) {
     resourceLoader = new SystemResourceReader(resourcePath);

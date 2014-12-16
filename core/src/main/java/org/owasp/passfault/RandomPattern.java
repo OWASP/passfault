@@ -50,6 +50,9 @@ public class RandomPattern {
    * Given a character sequence, this method will calculate the random strength of the
    * sequence.  It considers what type of characters are used, digits, lower-case, upper-case,
    * and special characters.
+   * @param chars
+   * @param start
+   * @param length
    */
   public PasswordPattern getRandomPattern(CharSequence chars, int start, int length) {
     EnumSet<RandomClasses> set = EnumSet.noneOf(RandomClasses.class);

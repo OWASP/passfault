@@ -14,7 +14,7 @@
 package org.owasp.passfault;
 
 /**
- * This interface represents an a password pattern finder.
+ * This interface represents a password pattern finder.
  */
 public interface PatternFinder {
 
