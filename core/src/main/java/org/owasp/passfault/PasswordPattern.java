@@ -57,6 +57,9 @@ public class PasswordPattern {
 
   /**
    * Constructor omitting the description and classification
+   * @param startIndex
+   * @param length
+   * @param matchString
    */
   public PasswordPattern(int startIndex, int length, String matchString,
       double crackProbability, String description) {

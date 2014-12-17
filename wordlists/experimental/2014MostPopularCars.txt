@@ -1,0 +1,72 @@
+#The following list was created by http://www.edmunds.com/car-reviews/most-popular-2014.html
+#The list represents the most popular cars in 2014. Names of which are often used in passwords
+
+Ford Focus
+Honda Civic
+Mazda MAZDA3
+Ford Escape
+Honda CR-V
+Toyota RAV4
+CHevrolet Colorado
+Nissan Frontier
+Toyota Tacoma
+BMW 3 Series
+Mercedes-Benz CLA-Class
+Mercedes-Benz C-Class
+Acura RDX
+Audi Q5
+Lexus RX 350
+Chevrolet Camaro
+Ford Mustang
+Mini Cooper
+Fisker Karma
+Lamborghini Aventador
+Lamborghini Gallardo
+Chevrolet Impala
+Ford Taurus
+Toyota Avalon
+Chevrolet Traverse
+GMC Acadia
+Mazda CX-9
+Chevrolet Silverado 1500
+Ford F-150
+Toyota Tundra
+Audi A6
+BMW 5 Series
+Mercedes-Benz E-Class
+Acura MDX
+BMW X5
+Infiniti QX60
+Audi A5
+Chevrolet Corvette Stingray
+Ford Shelby GT500
+Honda Accord
+Nissan Altima
+Toyota Camry
+Honda Pilot
+Hyundai Santa Fe
+Toyota Highlander
+Ford Explorer
+Jeep Grand Cherokee
+Nissan Pathfinder
+Chevrolet Tahoe
+Dodge Durango
+Ford Expedition
+Dodge Grand Caravan
+Honda Odyssey
+Toyota Sienna
+Mercedes-Benz S-Class
+Porsche Panamera
+Tesla Model S
+Cadillac Escalade
+Infiniti AX80
+Land Rover Range Rover
+Jaguar F-Type
+Nissan GT-R
+Porsche 911
+Ford Fiesta
+Honda Fit
+Kia Soul
+Ford Transit Connect
+Mercedes-Benz Sprinter
+Nissan NV
