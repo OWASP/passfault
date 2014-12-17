@@ -37,7 +37,8 @@ public class RepeatingPatternFinder {
       boolean foundDuplicate = false;
       for (int j = i - 1; j >= 0; j--) {
         PasswordPattern toCompare = path.get(j);
-        if (toCompare.getName().equals(pass.getName())
+        if (!toCompare.getName().equals(RandomPattern.RANDOM_PATTERN)
+            && toCompare.getName().equals(pass.getName())
             && toCompare.getMatchString().equals(pass.getMatchString())) {
           //repeated-duplicate pattern instance
           foundDuplicate = true;
