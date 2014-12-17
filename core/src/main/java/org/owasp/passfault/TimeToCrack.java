@@ -165,7 +165,7 @@ public enum TimeToCrack {
       rounded = rounded / 1000;
     }
     StringBuilder builder = new StringBuilder();
-    builder.append( Math.round(rounded) );
+    builder.append((int) rounded);
     String types[] = new String[]{
       "hundred",
       "thousand",
