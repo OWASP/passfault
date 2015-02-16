@@ -8,7 +8,7 @@ Building:
 (builds and tests the core, applet, and jsonService)
 
 Running the command line:
-java -jar core/build/lib/passfault-core-[version].jar
+java -jar core/build/libs/passfault-core-[version].jar
 
 Running the jsonWebService:
 1) cd jsonService

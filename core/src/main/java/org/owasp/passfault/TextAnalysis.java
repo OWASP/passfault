@@ -111,7 +111,7 @@ public class TextAnalysis {
     } catch (Exception e) {
       System.out.println("IO exception = " + e);
     }
-  } // main
+  } // run
 
   private void process(final String password, int machineNum, int hashNum)
       throws Exception {
@@ -138,9 +138,9 @@ public class TextAnalysis {
       case 3: crack.setHashType("sha512crypt", hashNum);
               break;
       case 4: crack.setHashType("Password Safe", hashNum);
-        break;
+              break;
       default: crack.setHashType("bcrypt", hashNum);
-               break;
+              break;
     }
 
     long then = System.currentTimeMillis();
