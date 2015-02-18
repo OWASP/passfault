@@ -3,8 +3,8 @@ Objective: Do Passwords Better
 
 
 Building:
-1) install gradle and java
-2) run 'gradle build'
+1) install java
+2) run 'gradlew build' or 'gradlew.bat build' on windows
 (builds and tests the core, applet, and jsonService)
 
 Running the command line:
