@@ -2,17 +2,16 @@ Welcome to OWASP Passfault
 Objective: Do Passwords Better
 
 
-Building:
+Running the Command-line Interface:
 1) install java
-2) run 'gradlew build' or 'gradlew.bat build' on windows
+2) `cd core`
+3) `gradlew installApp`
+4) run `build/install/core/bin/core`
 (builds and tests the core, applet, and jsonService)
-
-Running the command line:
-java -jar core/build/libs/passfault-core-[version].jar
 
 Running the jsonWebService:
 1) cd jsonService
-2) gradle build jettyRunWar
+2) `gradlew build jettyRunWar`
 3) browse to localhost:8080/jsonService
 Note the war will be located in jsonService/build/lib/passfault-jsonService-[version].war
 
