@@ -19,9 +19,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.*;
-import org.owasp.passfault.dictionary.AugmentationStrategy;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.FileDictionary;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +29,7 @@ public class AugmentationFinderText {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new AugmentationStrategy(1));
+    finder = new DictionaryPatternsFinder(dictionary, new InsertionStrategy(1));
   }
 
   @AfterClass

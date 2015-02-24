@@ -18,11 +18,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * This class represents a list (path) of finders in a password and calculates
- * the cost of the finders.  It is considered a path because of all finders
- * that could be found in a password, those finders could be ordered in a graph
- * A path in the graph are finders that do not overlap.  The cost of the path is
- * the combination of all finders in the graph plus the additional cost of any
+ * This class represents a list (path) of patterns in a password and calculates
+ * the cost of the patterns.  It is considered a path because of all patterns
+ * that could be found in a password, those patterns could be ordered in a graph
+ * A path in the graph are patterns that do not overlap.  The cost of the path is
+ * the combination of all patterns in the graph plus the additional cost of any
  * part of the password that does not have a cost.
  * @author cam
  */

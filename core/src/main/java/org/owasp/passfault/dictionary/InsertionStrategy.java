@@ -13,18 +13,18 @@
 
 package org.owasp.passfault.dictionary;
 
+import org.owasp.passfault.RandomPattern;
+
 import java.util.LinkedList;
 import java.util.List;
 
-import org.owasp.passfault.RandomPattern;
-
 /**
- * AugmentationStrategy finds dictionary words that have been added to - augmented
+ * InsertionStrategy finds dictionary words that have been added to - augmented
  * with extra characters inserted in the word.  Extra characters are all non-alpha
  * characters.
  * @author cam
  */
-public class AugmentationStrategy implements DictionaryStrategy {
+public class InsertionStrategy implements DictionaryStrategy {
 
   public final static String NAME = "INSERTION";
 
@@ -39,24 +39,24 @@ public class AugmentationStrategy implements DictionaryStrategy {
    * Note that the more allowed differences means more consumed memory and more
    * search time.
    */
-  public AugmentationStrategy(int allowedDifferences) {
+  public InsertionStrategy(int allowedDifferences) {
     this.allowedExtraCharacters = allowedDifferences;
   }
 
   @Override
   public List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c) {
     LinkedList<CandidatePattern> list = new LinkedList<CandidatePattern>();
-    AugmentationContext context = subs.getDecorator(AugmentationContext.class);
+    InsertionContext context = subs.getDecorator(InsertionContext.class);
     if (context!=null){
       context.currentChar = c;
     }
     if (!Character.isLetter(c)) {
       if (context == null) {//haven't found any insertions yet
         if (subs.getLength() > 0){ //it's not the beginning of the string
-          context = new AugmentationContext();
+          context = new InsertionContext();
           context.count = 1;
           context.currentChar = c;
-          subs.addDecorator(AugmentationContext.class, context);
+          subs.addDecorator(InsertionContext.class, context);
         }
       } else {
         context.count++;
@@ -73,7 +73,7 @@ public class AugmentationStrategy implements DictionaryStrategy {
 
   @Override
   public boolean isAdvanceable(CandidatePattern candidate) {
-    AugmentationContext context = candidate.getDecorator(AugmentationContext.class);
+    InsertionContext context = candidate.getDecorator(InsertionContext.class);
     return context == null || (context.count <= this.allowedExtraCharacters);
   }
 
@@ -84,7 +84,7 @@ public class AugmentationStrategy implements DictionaryStrategy {
 
   @Override
   public boolean isMatch(CandidatePattern candidate) {
-    AugmentationContext context = candidate.getDecorator(AugmentationContext.class);
+    InsertionContext context = candidate.getDecorator(InsertionContext.class);
     if (context == null) {
       return false;
     } else {
@@ -94,7 +94,7 @@ public class AugmentationStrategy implements DictionaryStrategy {
     }
   }
 
-  private static class AugmentationContext implements StrategyContext {
+  private static class InsertionContext implements StrategyContext {
 
     int count = 0;
     private char currentChar;
@@ -115,7 +115,7 @@ public class AugmentationStrategy implements DictionaryStrategy {
 
     @Override
     public StrategyContext copy() {
-      AugmentationContext copy = new AugmentationContext();
+      InsertionContext copy = new InsertionContext();
       copy.count = this.count;
       copy.currentChar = this.currentChar;
       return copy;

@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.owasp.passfault.dictionary.AugmentationStrategy;
+import org.owasp.passfault.dictionary.InsertionStrategy;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.InMemoryDictionary;
@@ -81,7 +81,7 @@ public class BuildFinders {
       InMemoryDictionary diction = InMemoryDictionary.newInstance(dbWords, false, name);
       finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy()));
       finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
-      finders.add(new DictionaryPatternsFinder(diction, new AugmentationStrategy(2)));
+      finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2)));
       finders.add(new DictionaryPatternsFinder(diction, new SubstitutionStrategy(1)));
       finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
       finders.add(new ReverseDictionaryPatternFinder(diction, new ExactWordStrategy()));
