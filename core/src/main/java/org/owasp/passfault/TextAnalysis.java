@@ -13,20 +13,13 @@
 
 package org.owasp.passfault;
 
+import org.owasp.passfault.finders.ParallelFinder;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.List;
-
-import org.owasp.passfault.finders.DateFinder;
-import org.owasp.passfault.finders.ExecutorFinder;
-import org.owasp.passfault.finders.RandomClassesFinder;
-import org.owasp.passfault.finders.SequentialFinder;
-import org.owasp.passfault.keyboard.EnglishKeyBoard;
-import org.owasp.passfault.keyboard.KeySequenceFinder;
-import org.owasp.passfault.keyboard.RussianKeyBoard;
 
 /**
  * Command line password evaluator.
@@ -50,7 +43,7 @@ public class TextAnalysis {
         loadDefaultWordLists().
         isInMemory(true).
         build();
-    finder = new ExecutorFinder(finders);
+    finder = new ParallelFinder(finders);
   }
 
   public void printBanner(){
@@ -163,7 +156,7 @@ public class TextAnalysis {
     System.out.print("Total passwords in all finders: ");
     System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
     System.out.format("Estimated time to crack with %s GPU(s): %s\n",
-        crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
+      crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
     System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);
   }
 }

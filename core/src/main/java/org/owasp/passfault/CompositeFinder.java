@@ -20,15 +20,13 @@ public interface CompositeFinder extends PatternFinder
 {
 
 	/**
-	 * Combines multiple finders and treats them as one. Blocking.
-	 * @param PasswordResults pass 
+	 * Blocking analyze.  This is equivalent to calling analyze and waitForAnalysis.
 	 */
   public abstract void blockingAnalyze(PasswordResults pass)
     throws Exception;
 
   /**
    * To be used AFTER analyze is called.
-   * @param PasswordResults pass
    */
   public abstract void waitForAnalysis(PasswordResults pass)
     throws Exception;

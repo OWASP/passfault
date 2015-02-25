@@ -13,25 +13,19 @@
 
 package org.owasp.passfault.finders;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.owasp.passfault.CompositeFinder;
 import org.owasp.passfault.PasswordResults;
 import org.owasp.passfault.PatternFinder;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
- * This class is runs all finders in separate threads, in addition it runs one
- * thread to monitor when all finder threads are complete (called the DoneThread)
- *
+ * This class runs each analysis as a single thread, but multiple passwords are analyzed concurrently
+ * This won't improve performance for each request, but it will improve throughput.
  * @author cam
  */
 public class ExecutorFinder implements CompositeFinder {
