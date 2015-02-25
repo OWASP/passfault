@@ -1,11 +1,11 @@
 package org.owasp.passfault.web;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Collection;
+import org.owasp.passfault.CompositeFinder;
+import org.owasp.passfault.PasswordAnalysis;
+import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.SecureString;
+import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.io.JsonWriter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -13,13 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.owasp.passfault.CompositeFinder;
-import org.owasp.passfault.PatternFinder;
-import org.owasp.passfault.PasswordAnalysis;
-import org.owasp.passfault.SecureString;
-import org.owasp.passfault.finders.ExecutorFinder;
-import org.owasp.passfault.io.JsonWriter;
+import java.io.*;
+import java.nio.CharBuffer;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Servlet implementation class PassfaultServlet
@@ -36,18 +33,19 @@ public class PassfaultServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getContentLength()<=0){
-			printUsage(response);
+			response.sendError(HttpServletResponse.SC_NO_CONTENT, "No password was supplied");
 		}
+
 		//SecureString password = getPassword(request.getReader(), request.getContentLength());
 		//the above works in tomcat but not jetty or google app engine
 		//the below works in jetty and google app engine but not tomcat
 		SecureString password = getPassword(request.getInputStream(), request.getContentLength());
-		CompositeFinder finder = getCompositeFinder();
+
+    CompositeFinder finder = getCompositeFinder();
 		try{
 			PasswordAnalysis analysis = new PasswordAnalysis(password);
 			try {
-				finder.analyze(analysis);
-				finder.waitForAnalysis(analysis);
+        finder.blockingAnalyze(analysis);
 			} catch (Exception e) {
 				throw new ServletException(e);
 			}
@@ -58,52 +56,22 @@ public class PassfaultServlet extends HttpServlet {
 		}
 	}
 
-	private void printUsage(HttpServletResponse response) {
-		//todo
-	}
-
 	/**
 	 * @throws ServletException if a non-printable character is found
 	 */
 	protected SecureString getPassword(BufferedReader reader, int length) throws IOException, ServletException {
-		char[] chars = new char[length];
-		int i;
-		for(i=0; i<length; i++){
-			char ch = (char) reader.read();
-			if (Character.isISOControl(ch)){
-				throw new ServletException("A non-printable character found in the supplied password.");
-			} else {
-				chars[i]=ch;
-			}
-		}
-		if(i==0){
-			throw new ServletException("No password found");
-		}	
-		SecureString password = new SecureString(chars, 0, i);
-		Arrays.fill(chars, '0');
+    //multibyte characters will result in fewer characters than length, so length is the max
+    char[] charArray = new char[length];
+    CharBuffer chars = CharBuffer.wrap(charArray);
+    int charsRead = reader.read(chars);
+		SecureString password = new SecureString(charArray, 0, charsRead);
+    Arrays.fill(charArray, '0');
 		return password;
 	}
-	
-	/**
-	 * @throws ServletException if a non-printable character is found
-	 */
-	protected SecureString getPassword(InputStream reader, int length) throws IOException, ServletException {
-		char[] chars = new char[length];
-		int i=0;
-		while(reader.available()>0){
-			char ch = (char)reader.read();
-			if (Character.isISOControl(ch)){
-				throw new ServletException("A non-printable character found in the supplied password.");
-			} else {
-				chars[i++]=ch;
-			}
-		}
-		if(i==0){
-			throw new ServletException("No password found");
-		}	
-		SecureString password = new SecureString(chars, 0, i);
-		Arrays.fill(chars, '0');
-		return password;
+
+	protected SecureString getPassword(InputStream in, int length) throws IOException, ServletException {
+    InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+    return getPassword(new BufferedReader(reader), length);
 	}
 	
 	protected Collection<PatternFinder> buildFinders(ServletContext servletContext) throws ServletException {
