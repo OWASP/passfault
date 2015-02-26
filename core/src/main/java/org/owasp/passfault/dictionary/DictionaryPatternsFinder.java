@@ -48,7 +48,7 @@ public class DictionaryPatternsFinder implements PatternFinder {
     List<CandidatePattern> swap;
 
     for (int i = 0; i < password.length(); i++) {
-      log.info(MessageFormat.format("{0} possible passwords in the {1}th generation, {2} strategy", nextGen.size(), i, patternStrategy.getName()));
+      log.finest(MessageFormat.format("{0} possible passwords in the {1}th generation, {2} strategy", nextGen.size(), i, patternStrategy.getName()));
 
       CandidatePattern newCandidate = dictionary.buildInitialCandidate(i);
       patternStrategy.addContext(newCandidate, password);
