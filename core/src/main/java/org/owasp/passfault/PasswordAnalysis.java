@@ -13,6 +13,8 @@
 
 package org.owasp.passfault;
 
+import org.owasp.passfault.finders.RepeatingPatternFinder;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.owasp.passfault.finders.RepeatingPatternFinder;
+import static java.util.logging.Logger.getLogger;
 
 /**
  * This class holds the results of the analysis of a password.  An instance
@@ -28,13 +30,15 @@ import org.owasp.passfault.finders.RepeatingPatternFinder;
  * multiple <code>PatternFinder<code>s.
  *
  * This class contains the logic for post-analysis of the finders found
- * (althought this logic might be better if separated from this class)  This
+ * (although this logic might be better if separated from this class)  This
  * logic includes finding the weakest combination of finders and locating
  * repeated finders.
  *
  * @author cam
  */
 public class PasswordAnalysis implements PasswordResults {
+
+  private static final Logger log = getLogger(PasswordAnalysis.class.getName());
 
   private CharSequence password;
   private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<Integer, List<PasswordPattern>>();
@@ -44,7 +48,7 @@ public class PasswordAnalysis implements PasswordResults {
   private RepeatingPatternFinder repeatingPatternFinder = new RepeatingPatternFinder();
   private PathCost finalResults = null;
   private RandomPattern randomPatternFinder = new RandomPattern();
-  private static final Logger log = java.util.logging.Logger.getLogger(PasswordAnalysis.class.getName());
+
   //todo remove counter, this is just for debugging to measure the optmization effectiveness
   private int counter = 0;
 

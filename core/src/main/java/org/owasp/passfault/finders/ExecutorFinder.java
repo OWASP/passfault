@@ -20,8 +20,6 @@ import org.owasp.passfault.PatternFinder;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class runs each analysis as a single thread, but multiple passwords are analyzed concurrently
@@ -72,13 +70,9 @@ public class ExecutorFinder implements CompositeFinder {
    * @throws InterruptedException
    */
   @Override
-  public void waitForAnalysis(PasswordResults pass) throws InterruptedException {
-    try {
-      Future<PasswordResults> job = jobsMap.get(pass);
-      PasswordResults call = job.get();
-    } catch (Exception ex) {
-      Logger.getLogger(ExecutorFinder.class.getName()).log(Level.SEVERE, null, ex);
-    }
+  public void waitForAnalysis(PasswordResults pass) throws Exception {
+    Future<PasswordResults> job = jobsMap.get(pass);
+    PasswordResults call = job.get();
   }
   
   /**

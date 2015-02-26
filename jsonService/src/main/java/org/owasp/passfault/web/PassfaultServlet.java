@@ -22,89 +22,91 @@ import java.util.Collection;
  * Servlet implementation class PassfaultServlet
  */
 public class PassfaultServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	protected Collection<PatternFinder> finders;
-	private volatile CompositeFinder compositeFinder = null; //lazy initialized
-	private JsonWriter jsonWriter = new JsonWriter();
+  private static final long serialVersionUID = 1L;
+  private static final int MAX_PASSWORD_SIZE = 50;
+  protected Collection<PatternFinder> finders;
+  private volatile CompositeFinder compositeFinder = null; //lazy initialized
+  private JsonWriter jsonWriter = new JsonWriter();
 
-	public void init(ServletConfig config) throws ServletException {
-	  finders = buildFinders(config.getServletContext());
-	}
+  public void init(ServletConfig config) throws ServletException {
+    finders = buildFinders(config.getServletContext());
+  }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getContentLength()<=0){
-			response.sendError(HttpServletResponse.SC_NO_CONTENT, "No password was supplied");
-		}
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    if (request.getContentLength() <= 0) {
+      response.sendError(HttpServletResponse.SC_NO_CONTENT, "No password was supplied");
+      return;
+    }
 
-		//SecureString password = getPassword(request.getReader(), request.getContentLength());
-		//the above works in tomcat but not jetty or google app engine
-		//the below works in jetty and google app engine but not tomcat
-		SecureString password = getPassword(request.getInputStream(), request.getContentLength());
+    if (request.getContentLength() > MAX_PASSWORD_SIZE) {
+      response.sendError(HttpServletResponse.SC_REQUEST_URI_TOO_LONG, "Password length limited to " + MAX_PASSWORD_SIZE);
+      return;
+    }
+
+    //SecureString password = getPassword(request.getReader(), request.getContentLength());
+    //the above works in tomcat but not jetty or google app engine
+    //the below works in jetty and google app engine but not tomcat
+    SecureString password = getPassword(request.getInputStream(), request.getContentLength());
 
     CompositeFinder finder = getCompositeFinder();
-		try{
-			PasswordAnalysis analysis = new PasswordAnalysis(password);
-			try {
-        finder.blockingAnalyze(analysis);
-			} catch (Exception e) {
-				throw new ServletException(e);
-			}
-			writeJSON(analysis, response.getWriter());
-		} finally{
-			password.clear();
-			response.getWriter().flush();
-		}
-	}
+    try {
+      PasswordAnalysis analysis = new PasswordAnalysis(password);
+      finder.blockingAnalyze(analysis);
+      writeJSON(analysis, response.getWriter());
+    } catch (Exception e) {
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      throw new ServletException(e);
+    } finally {
+      password.clear();
+      response.getWriter().flush();
+    }
+  }
 
-	/**
-	 * @throws ServletException if a non-printable character is found
-	 */
-	protected SecureString getPassword(BufferedReader reader, int length) throws IOException, ServletException {
+  protected SecureString getPassword(BufferedReader reader, int length) throws IOException, ServletException {
     //multibyte characters will result in fewer characters than length, so length is the max
     char[] charArray = new char[length];
     CharBuffer chars = CharBuffer.wrap(charArray);
     int charsRead = reader.read(chars);
-		SecureString password = new SecureString(charArray, 0, charsRead);
+    SecureString password = new SecureString(charArray, 0, charsRead);
     Arrays.fill(charArray, '0');
-		return password;
-	}
+    return password;
+  }
 
-	protected SecureString getPassword(InputStream in, int length) throws IOException, ServletException {
-    InputStreamReader reader = new InputStreamReader(in, "UTF-8");
-    return getPassword(new BufferedReader(reader), length);
-	}
-	
-	protected Collection<PatternFinder> buildFinders(ServletContext servletContext) throws ServletException {
-	  try {
-	    BuildFinders builder = new BuildFinders();
-	    return builder.build(servletContext);
-    }
-    catch (IOException e) {
+  protected SecureString getPassword(InputStream in, int length) throws IOException, ServletException {
+    return getPassword(new BufferedReader(new InputStreamReader(in, "UTF-8")), length);
+  }
+
+  protected Collection<PatternFinder> buildFinders(ServletContext servletContext) throws ServletException {
+    try {
+      BuildFinders builder = new BuildFinders();
+      return builder.build(servletContext);
+    } catch (IOException e) {
       throw new ServletException("An error occurred building the pattern finders", e);
     }
   }
-	
-	private void writeJSON(PasswordAnalysis analysis, PrintWriter writer) throws IOException {
+
+  private void writeJSON(PasswordAnalysis analysis, PrintWriter writer) throws IOException {
     jsonWriter.write(writer, analysis.calculateHighestProbablePatterns());
   }
-	
-	/**
-	 * Override this to change the finder, (such as to run in google app engine)
-	 * @return a composite finder that can run finders
-	 * @throws ServletException
-	 */
-	protected CompositeFinder getCompositeFinder() throws ServletException {
-	  //subclasses may need to create this with each request - like for google app engine.  
-	  //so we lazy initialize this
-	  //http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
-	  if (this.compositeFinder == null) {
-	    synchronized(this) {
-	      if (this.compositeFinder == null){
-	        this.compositeFinder = new ExecutorFinder(finders);
-	      }
-	    }
-	  }
-	  
-	  return this.compositeFinder;
-	}
+
+  /**
+   * Override this to change the finder, (such as to run in google app engine)
+   *
+   * @return a composite finder that can run finders
+   * @throws ServletException
+   */
+  protected CompositeFinder getCompositeFinder() throws ServletException {
+    //subclasses may need to create this with each request - like for google app engine.
+    //so we lazily initialize this
+    //http://www.cs.umd.edu/~pugh/java/memoryModel/DoubleCheckedLocking.html
+    if (this.compositeFinder == null) {
+      synchronized (this) {
+        if (this.compositeFinder == null) {
+          this.compositeFinder = new ExecutorFinder(finders);
+        }
+      }
+    }
+
+    return this.compositeFinder;
+  }
 }

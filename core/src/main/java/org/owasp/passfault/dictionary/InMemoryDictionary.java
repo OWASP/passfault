@@ -18,8 +18,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Logger;
+
+import static java.util.logging.Logger.getLogger;
 
 /**
  * Dictionary that holds all words in memory rather than searched
@@ -30,15 +34,16 @@ import java.util.Arrays;
  * @author cam
  */
 public class InMemoryDictionary implements Dictionary {
+  private static final Logger log = getLogger(DictionaryPatternsFinder.class.getName());
 
-  String[] words;
-  private final String name;
+  final String[] words;
+  final private String name;
   private int wordCount;
 
-  public InMemoryDictionary(String[] dictionary, String name) {
-    words = dictionary;
+  InMemoryDictionary(String[] dictionary, String name) {
+    this.words = dictionary;
     this.name = name;
-    wordCount = words.length;
+    this.wordCount = words.length;
   }
 
   @Override
@@ -68,7 +73,7 @@ public class InMemoryDictionary implements Dictionary {
     if (sort) {
       Arrays.sort(wordArray);
     }
-    System.out.println("Word Count:" + wordArray.length);
+    log.info(MessageFormat.format("Word Count for {0}: {1}\n", name, wordArray.length));
     return new InMemoryDictionary(wordArray, name);
   }
 
@@ -86,7 +91,7 @@ public class InMemoryDictionary implements Dictionary {
     long end = candidate.end;
     long start = candidate.start;
     long oldMiddle = candidate.start;
-    int comparison = 0;
+    int comparison;
 
     while (oldMiddle != middle) {
       oldMiddle = middle;
@@ -116,7 +121,7 @@ public class InMemoryDictionary implements Dictionary {
 
     long middle = candidate.end;
     long oldMiddle = candidate.start;
-    int comparison = 0;
+    int comparison;
     while (oldMiddle != middle) {
       oldMiddle = middle;
       middle = (candidate.end + candidate.start) / 2;

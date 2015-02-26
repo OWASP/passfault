@@ -73,15 +73,12 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
 
     @Override
     public void waitForAnalysis(PasswordResults pass)
-      throws InterruptedException
+      throws Exception
     {
       // TODO Auto-generated method stub
       super.waitForAnalysis(pass);
       super.shutdown();
     }
-    
-    
-    
   }
 }
 

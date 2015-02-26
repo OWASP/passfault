@@ -13,10 +13,15 @@
 
 package org.owasp.passfault.dictionary;
 
+import org.owasp.passfault.PasswordResults;
+import org.owasp.passfault.PatternFinder;
+
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.owasp.passfault.*;
+import static java.util.logging.Logger.getLogger;
 
 /**
  * DictionaryPatternsFinder incrementally searches through dictionaries one
@@ -25,9 +30,10 @@ import org.owasp.passfault.*;
  * the search in a candidatePattern object.
  */
 public class DictionaryPatternsFinder implements PatternFinder {
+  private static final Logger log = getLogger(DictionaryPatternsFinder.class.getName());
 
-  private DictionaryStrategy patternStrategy;
-  private Dictionary dictionary;
+  private final DictionaryStrategy patternStrategy;
+  private final Dictionary dictionary;
 
   public DictionaryPatternsFinder(Dictionary wordlist, DictionaryStrategy strategy) {
     this.dictionary = wordlist;
@@ -42,8 +48,8 @@ public class DictionaryPatternsFinder implements PatternFinder {
     List<CandidatePattern> swap;
 
     for (int i = 0; i < password.length(); i++) {
-      //todo log instead of sys.out
-      //System.out.format("%d possible passwords in the %dth generation, %s strategy\n", nextGen.size(), i, patternStrategy.getName() );
+      log.info(MessageFormat.format("{0} possible passwords in the {1}th generation, {2} strategy", nextGen.size(), i, patternStrategy.getName()));
+
       CandidatePattern newCandidate = dictionary.buildInitialCandidate(i);
       patternStrategy.addContext(newCandidate, password);
       nextGen.add(newCandidate);
