@@ -27,7 +27,7 @@ import static java.util.logging.Logger.getLogger;
 /**
  * This class holds the results of the analysis of a password.  An instance
  * of this class begins with a password to analyze.  Then it is handed to
- * multiple <code>PatternFinder<code>s.
+ * multiple PatternFinders.
  *
  * This class contains the logic for post-analysis of the finders found
  * (although this logic might be better if separated from this class)  This
