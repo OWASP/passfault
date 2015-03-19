@@ -1,6 +1,6 @@
 # OWASP Passfault Development
 
-To analyze a password put the password into a `PasswordAnalysis` and pass it into a `PatternFinder`.
+To analyse a password put the password into a `PasswordAnalysis` and pass it into a `PatternFinder`.
 Any pattern finder will do but you can lump many pattern finders into a `CompositeFinder` like `SequentialFinder` or
 `ExecutorFinder`
 
