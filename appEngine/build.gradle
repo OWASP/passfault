@@ -23,7 +23,7 @@ dependencies {
 appengine {
   downloadSdk=true
   app {
-    id = 'passfault'
+    id = 'passfault-hrd'
   }
 }
 
