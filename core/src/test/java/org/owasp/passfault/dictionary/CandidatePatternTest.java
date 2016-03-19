@@ -12,45 +12,14 @@
  */
 package org.owasp.passfault.dictionary;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.dictionary.CandidatePattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @author cam
- */
 public class CandidatePatternTest {
 
-  public CandidatePatternTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of clone method, of class CandidatePattern.
-   */
   @Test
-  public void testGetUpperCaseFactor() throws Exception {
+  public void getUpperCaseFactor() throws Exception {
     System.out.println("getUpperCaseFactor");
     assertEquals(1, CandidatePattern.getUpperCaseFactor(6, 0));
     assertEquals(6, CandidatePattern.getUpperCaseFactor(6, 1));
@@ -62,7 +31,7 @@ public class CandidatePatternTest {
   }
 
   @Test
-  public void testGetUpperCaseFactor_odd() throws Exception {
+  public void getUpperCaseFactor_odd() throws Exception {
     System.out.println("getUpperCaseFactor");
     assertEquals(1, CandidatePattern.getUpperCaseFactor(7, 0));
     assertEquals(7, CandidatePattern.getUpperCaseFactor(7, 1));
@@ -72,6 +41,5 @@ public class CandidatePatternTest {
     assertEquals(7 * 6, CandidatePattern.getUpperCaseFactor(7, 5));
     assertEquals(7, CandidatePattern.getUpperCaseFactor(7, 6));
     assertEquals(1, CandidatePattern.getUpperCaseFactor(7, 7));
-
   }
 }

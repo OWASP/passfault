@@ -12,21 +12,17 @@
  */
 package org.owasp.passfault.dictionary;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.owasp.passfault.dictionary.CandidatePattern;
-import org.owasp.passfault.dictionary.InMemoryDictionary;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class InMemoryDictionaryTest {
 
@@ -38,7 +34,7 @@ public class InMemoryDictionaryTest {
   }
 
   @Test
-  public void testPartialSearch() throws IOException {
+  public void partialSearch() throws IOException {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     subString.add('w');
     subString.add('i');
@@ -67,7 +63,7 @@ public class InMemoryDictionaryTest {
   }
 
   @Test
-  public void testPartialSearch_negative() throws IOException {
+  public void partialSearch_negative() throws IOException {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     subString.add('w');
     subString.add('i');
@@ -81,11 +77,10 @@ public class InMemoryDictionaryTest {
     assertFalse(isPossible);
     isWord = dictionary.isMatch(subString);
     assertFalse(isWord);
-
   }
 
   @Test
-  public void testPartialSearch2() throws IOException {
+  public void partialSearch2() throws IOException {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     String word = "circumvent";
     for (int i = 0; i < word.length(); i++) {
@@ -139,7 +134,7 @@ public class InMemoryDictionaryTest {
   }
 
   @Test
-  public void testComparePartial() {
+  public void comparePartial() {
     StringBuilder after = new StringBuilder("alaskan");
     String before = "alaska";
     int comparison = dictionary.comparePartial(after, before);
@@ -149,11 +144,10 @@ public class InMemoryDictionaryTest {
     before = "alaskan";
     comparison = dictionary.comparePartial(after, before);
     assertTrue(comparison == 0);
-
   }
 
   @Test
-  public void testCompare() {
+  public void compare() {
     StringBuilder buffer = new StringBuilder("alaskan");
     String string = "alaska";
     int comparison = dictionary.compare(buffer, string);
@@ -163,6 +157,5 @@ public class InMemoryDictionaryTest {
     string = "alaskan";
     comparison = dictionary.compare(buffer, string);
     assertTrue(comparison < 0);
-
   }
 }

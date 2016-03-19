@@ -12,49 +12,20 @@
  */
 package org.owasp.passfault.finders;
 
-import java.util.List;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PathCost;
-import org.owasp.passfault.finders.RepeatingPatternFinder;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
-/**
- * @author cam
- */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
 public class RepeatingPatternFinderTest {
 
-  public RepeatingPatternFinderTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of process method, of class RepeatingPatternFinder.
-   */
   @Test
-  public void testDup() {
+  public void dup() {
     System.out.println("process");
 
     PasswordAnalysis password = new PasswordAnalysis("abcabc");
@@ -71,7 +42,7 @@ public class RepeatingPatternFinderTest {
   }
 
   @Test
-  public void testNonDup() {
+  public void nonDup() {
     System.out.println("process");
 
     PasswordAnalysis password = new PasswordAnalysis("abcabc");
@@ -88,7 +59,7 @@ public class RepeatingPatternFinderTest {
   }
 
   @Test
-  public void test2dup() {
+  public void twoDup() {
     System.out.println("process");
 
     PasswordAnalysis password = new PasswordAnalysis("abcabcabc");
@@ -107,7 +78,7 @@ public class RepeatingPatternFinderTest {
   }
 
   @Test
-  public void testDupExtra() {
+  public void dupExtra() {
     System.out.println("process");
 
     PasswordAnalysis password = new PasswordAnalysis("123abc456abc789");

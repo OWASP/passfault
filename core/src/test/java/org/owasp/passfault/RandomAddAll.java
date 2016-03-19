@@ -12,13 +12,6 @@
  */
 package org.owasp.passfault;
 
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.RandomPattern;
-
-/**
- * @author cam
- */
 public class RandomAddAll {
 
   public static void RandomAddAll(PasswordResults toBeWrapped) {

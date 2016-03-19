@@ -15,14 +15,6 @@ package org.owasp.passfault;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.owasp.passfault.AnalysisListener;
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PathCost;
-
-/**
- * @author cam
- */
 public class MockPasswordResults implements PasswordResults {
 
   private final String password;

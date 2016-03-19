@@ -12,41 +12,35 @@
  */
 package org.owasp.passfault;
 
-import java.io.*;
-import java.net.URL;
+import org.junit.Test;
+
+import java.io.File;
 import java.util.Collection;
-import java.util.Enumeration;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertTrue;
 
-/**
- * @author cam
- */
 public class FinderByPropsBuilderTest {
-  public FinderByPropsBuilderTest() {
 
-  }
   @Test
-  public void testBuildDictionaryFinders_file() throws Exception {
-    System.out.println("current directory:"+new File(".").getCanonicalFile());
+  public void byFile() throws Exception {
+    System.out.println("current directory:" + new File(".").getCanonicalFile());
     File file = new File("src/test/resources/wordlists");
     assertTrue(file.exists());
     Collection<PatternFinder> finders = new FinderByPropsBuilder().
-        isInMemory(false).
-        setFileLoader(file).
-        build();
-    System.out.println("Finders found "+ finders);
+      isInMemory(false).
+      setFileLoader(file).
+      build();
+    System.out.println("Finders found " + finders);
     assertTrue(finders.size() > 4);
   }
 
   @Test
-  public void testBuildDictionaryFinders_resource() throws Exception {
-    Collection <PatternFinder> finders = new FinderByPropsBuilder().
-        loadDefaultWordLists().
-        isInMemory(true).
-        build();
-    System.out.println("Finders found "+ finders);
-    assertTrue (finders.size() > 4);
+  public void byResource() throws Exception {
+    Collection<PatternFinder> finders = new FinderByPropsBuilder().
+      loadDefaultWordLists().
+      isInMemory(true).
+      build();
+    System.out.println("Finders found " + finders);
+    assertTrue(finders.size() > 4);
   }
 }

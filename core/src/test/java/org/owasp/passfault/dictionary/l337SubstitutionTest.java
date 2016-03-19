@@ -12,18 +12,13 @@
  */
 package org.owasp.passfault.dictionary;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.MockPasswordResults;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.FileDictionary;
-import org.owasp.passfault.dictionary.l337SubstitutionStrategy;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- *
  * @author cam
  */
 public class l337SubstitutionTest {
@@ -36,21 +31,16 @@ public class l337SubstitutionTest {
     finder = new DictionaryPatternsFinder(dictionary, new l337SubstitutionStrategy());
   }
 
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
 
   @Test
   public void findWord() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("ca2");//car
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_multiple_char() throws Exception {
-    System.out.println("findWord");
+  public void multiple_char() throws Exception {
     MockPasswordResults p = new MockPasswordResults("ca|2");  //car, air
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
@@ -58,55 +48,48 @@ public class l337SubstitutionTest {
 
   @Test
   public void findNoSubstitution() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("or.");  //
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_multiple_char_run() throws Exception {
-    System.out.println("findWord");
+  public void multiple_char_run() throws Exception {
     MockPasswordResults p = new MockPasswordResults("|2un");  //run and |run
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_front() throws Exception {
-    System.out.println("findWord");
+  public void front() throws Exception {
     MockPasswordResults p = new MockPasswordResults("2oot");  //root zoo
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_front_zoo() throws Exception {
-    System.out.println("findWord");
+  public void front_zoo() throws Exception {
     MockPasswordResults p = new MockPasswordResults("~/_oo"); //zoo
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_multipleLeet() throws Exception {
-    System.out.println("findWord");
+  public void multipleLeet() throws Exception {
     MockPasswordResults p = new MockPasswordResults("2()()+");//zoo, root
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_front_multichar() throws Exception {
-    System.out.println("findWord");
+  public void front_multichar() throws Exception {
     MockPasswordResults p = new MockPasswordResults("~/_oo");//zoo
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_front_multichar_root() throws Exception {
-    System.out.println("findWord");
+  public void front_multichar_root() throws Exception {
     MockPasswordResults p = new MockPasswordResults("2oot");//root zoo
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());

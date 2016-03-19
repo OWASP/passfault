@@ -12,48 +12,19 @@
  */
 package org.owasp.passfault.dictionary;
 
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.dictionary.BackwardsAnalysisAdapter;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
-/**
- *
- * @author cam
- */
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class BackwardsAnalysisAdapterTest {
 
-  public BackwardsAnalysisAdapterTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of getChars method, of class BackWardsAnalysisAdapter.
-   */
   @Test
-  public void testGetChars() {
+  public void getChars() {
     System.out.println("getChars");
 
     BackwardsAnalysisAdapter instance = new BackwardsAnalysisAdapter(new PasswordAnalysis("backwards"));
@@ -62,16 +33,13 @@ public class BackwardsAnalysisAdapterTest {
     assertEquals(expResult, result);
   }
 
-  /**
-   * Test of getChars method, of class BackWardsAnalysisAdapter.
-   */
   @Test
-  public void testAdaptedBackwards() {
+  public void adaptedBackwards() {
     System.out.println("testAdaptedBackwards");
 
     {
       BackwardsAnalysisAdapter instance = new BackwardsAnalysisAdapter(new PasswordAnalysis(
-          "012drow78"));
+        "012drow78"));
       //reversed would be= 87word210
       //it would find 'word' at index 2
 
@@ -81,7 +49,7 @@ public class BackwardsAnalysisAdapterTest {
     }
     {
       BackwardsAnalysisAdapter instance = new BackwardsAnalysisAdapter(new PasswordAnalysis(
-          "012drow"));
+        "012drow"));
       //reversed would be= word210
       //it would find 'word' at index 0
 
@@ -91,7 +59,7 @@ public class BackwardsAnalysisAdapterTest {
     }
     {
       BackwardsAnalysisAdapter instance = new BackwardsAnalysisAdapter(new PasswordAnalysis(
-          "drow78"));
+        "drow78"));
       //reversed would be= 87word
       //it would find 'word' at index 2
 

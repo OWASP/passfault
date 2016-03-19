@@ -16,18 +16,12 @@ import org.junit.Test;
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.RandomPattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-/**
- * @author cam
- */
 public class RandomPatternTest {
 
-  /**
-   * Test of getRandomPattern method, of class RandomPattern.
-   */
   @Test
-  public void testGetRandomPattern() {
+  public void getRandomPattern() {
     System.out.println("getRandomPattern");
     CharSequence chars = "afaf";
     int start = 0;
@@ -35,6 +29,5 @@ public class RandomPatternTest {
     RandomPattern instance = new RandomPattern();
     PasswordPattern result = instance.getRandomPattern(chars, start, length);
     assertEquals(Math.pow(RandomPattern.RandomClasses.Latin.getSize(false), 4), result.getCost(), .1);
-
   }
 }

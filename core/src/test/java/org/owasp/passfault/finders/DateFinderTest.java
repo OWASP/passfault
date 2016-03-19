@@ -12,44 +12,13 @@
  */
 package org.owasp.passfault.finders;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.MockPasswordResults;
-import org.owasp.passfault.finders.DateFinder;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @author cam
- */
 public class DateFinderTest {
 
-  public DateFinderTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of analyze method, of class DateFinder.
-   */
   @Test
   public void testAnalyze() throws Exception {
     System.out.println("analyze");
@@ -85,14 +54,12 @@ public class DateFinderTest {
     }
   }
 
-  @Test
+  @Test(timeout = 500) //This better execute in under 1/2 seconds
   public void testStress() throws Exception {
-    //this runs in 0.212 seconds, it isn't a problem with performance
     DateFinder dateFinder = new DateFinder();
     for (int i = 0; i < 100000; i++) {
       MockPasswordResults pass = new MockPasswordResults("1776-06-04");
       dateFinder.analyze(pass);
-      //assertEquals(1, pass.getFoundPatterns().size());
     }
   }
 }

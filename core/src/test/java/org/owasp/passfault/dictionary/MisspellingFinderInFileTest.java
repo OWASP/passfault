@@ -12,13 +12,17 @@
  */
 package org.owasp.passfault.dictionary;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.owasp.passfault.MockPasswordResults;
+import org.owasp.passfault.PasswordPattern;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.owasp.passfault.MockPasswordResults;
-import org.owasp.passfault.PasswordPattern;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MisspellingFinderInFileTest {
 
@@ -30,21 +34,8 @@ public class MisspellingFinderInFileTest {
     finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1));
   }
 
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
-
   @Test
   public void findWord() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("passwerd");
     finder.analyze(p);
     List<PasswordPattern> patterns = p.getFoundPatterns();
@@ -53,8 +44,7 @@ public class MisspellingFinderInFileTest {
   }
 
   @Test
-  public void findWord_garbageinfront() throws Exception {
-    System.out.println("findWord_garbageinfront");
+  public void garbageInFront() throws Exception {
     MockPasswordResults p = new MockPasswordResults("1234passwerd");
     finder.analyze(p);
     List<PasswordPattern> patterns = p.getFoundPatterns();
@@ -63,9 +53,8 @@ public class MisspellingFinderInFileTest {
   }
 
   @Test
-  public void findWord_garbageinback() throws Exception {
+  public void garbageInBack() throws Exception {
     {
-      System.out.println("findWord_garbageinback");
       MockPasswordResults p = new MockPasswordResults("wisp");
       finder.analyze(p);
       assertTrue(p.getPossiblePatternCount() > 1);
@@ -106,7 +95,7 @@ public class MisspellingFinderInFileTest {
   }
 
   @Test
-  public void testLength() throws Exception {
+  public void length() throws Exception {
     System.out.println("findMultiWords");
     MockPasswordResults p = new MockPasswordResults("passwerd");
     finder.analyze(p);
@@ -116,7 +105,7 @@ public class MisspellingFinderInFileTest {
   }
 
   public Collection<PasswordPattern> getPatternsOfALength(Collection<PasswordPattern> patterns, int length) {
-    LinkedList<PasswordPattern> toReturn = new LinkedList<PasswordPattern>();
+    LinkedList<PasswordPattern> toReturn = new LinkedList<>();
 
     for (PasswordPattern pattern : patterns) {
       if (pattern.getLength() == length) {

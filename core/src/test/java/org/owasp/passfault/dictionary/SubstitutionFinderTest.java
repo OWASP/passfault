@@ -13,10 +13,14 @@
 package org.owasp.passfault.dictionary;
 
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.owasp.passfault.MockPasswordResults;
+import org.owasp.passfault.PasswordPattern;
+
 import java.util.List;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.owasp.passfault.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class SubstitutionFinderTest {
 
@@ -28,20 +32,8 @@ public class SubstitutionFinderTest {
     finder = new DictionaryPatternsFinder(dictionary, new SubstitutionStrategy(1));
   }
 
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
-
   @Test
-  public void findWord_plain2() throws Exception {
+  public void plain2() throws Exception {
     System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("password");
     finder.analyze(p);
@@ -49,7 +41,7 @@ public class SubstitutionFinderTest {
   }
 
   @Test
-  public void findWord_plain() throws Exception {
+  public void plain() throws Exception {
     System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("wisp");
     finder.analyze(p);
@@ -65,17 +57,17 @@ public class SubstitutionFinderTest {
   }
 
   @Test
-  public void findWord_garbageinfront() throws Exception {
-    System.out.println("findWord_garbageinfront");
+  public void garbageInFront() throws Exception {
+    System.out.println("garbageinfront");
     MockPasswordResults p = new MockPasswordResults("xxxxw1sp");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_garbageinback() throws Exception {
+  public void garbageInBack() throws Exception {
 
-    System.out.println("findWord_garbageinback");
+    System.out.println("garbageinback");
     MockPasswordResults p = new MockPasswordResults("w1spxxxx");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());

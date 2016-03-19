@@ -12,51 +12,14 @@
  */
 package org.owasp.passfault.dictionary;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.dictionary.LevenshteinDistance;
 
-/**
- * @author cam
- *
- */
+import static org.junit.Assert.assertEquals;
+
 public class LevenshteinDistanceTest {
 
-  /**
-   * @throws java.lang.Exception
-   */
-  @BeforeClass
-  public static void setUpBeforeClass() throws Exception {
-  }
-
-  /**
-   * @throws java.lang.Exception
-   */
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  /**
-   * @throws java.lang.Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  /**
-   * @throws java.lang.Exception
-   */
-  @After
-  public void tearDown() throws Exception {
-  }
-
   @Test
-  public void test_partialDistance() {
+  public void partialDistance() {
     String s = "wisp";
     int expectedValue = 1;
     LevenshteinDistance ld = new LevenshteinDistance(s);
@@ -68,7 +31,7 @@ public class LevenshteinDistanceTest {
   }
 
   @Test
-  public void test_smaller_target() {
+  public void smaller_target() {
     String s = "country";
     String t = "cougar";
     int expectedValue = LevenshteinDistance.getLevenshteinDistance(s, t);
@@ -79,7 +42,7 @@ public class LevenshteinDistanceTest {
   }
 
   @Test
-  public void test_smaller_target2() {
+  public void smaller_target2() {
     String s = "country";
     String t = "(ougar";
     int expectedValue = LevenshteinDistance.getLevenshteinDistance(s, t);
@@ -90,7 +53,7 @@ public class LevenshteinDistanceTest {
   }
 
   @Test
-  public void test_same_size_target() {
+  public void same_size_target() {
     String s = "country";
     String t = "cougary";
     int expectedValue = LevenshteinDistance.getLevenshteinDistance(s, t);
@@ -101,7 +64,7 @@ public class LevenshteinDistanceTest {
   }
 
   @Test
-  public void test_larger_target() {
+  public void larger_target() {
     String s = "something";
     String t = "somethingelse";
     int expectedValue = LevenshteinDistance.getLevenshteinDistance(s, t);
@@ -112,7 +75,7 @@ public class LevenshteinDistanceTest {
   }
 
   @Test
-  public void test_larger_target2() {
+  public void larger_target2() {
     String s = "something";
     String t = "som31hingelse";
     int expectedValue = LevenshteinDistance.getLevenshteinDistance(s, t);
@@ -130,16 +93,15 @@ public class LevenshteinDistanceTest {
       ld.appendToTarget(t.charAt(i));
       actualValue = ld.updateDist();
       System.out.println("add char: " + t.charAt(i) + " dist = " + actualValue + "(" + ld.distance()
-          + "), relativeDistance = " + ld.partialDistance());
+        + "), relativeDistance = " + ld.partialDistance());
     }
     actualValue = ld.distance();
     return actualValue;
   }
 
   @Test
-  public void test_partial_distance() {
+  public void partial_distance() {
     String s = "country";
-    String t = "cougary";
 
     LevenshteinDistance ld = new LevenshteinDistance(s);
     ld.appendToTarget('c');
@@ -176,6 +138,5 @@ public class LevenshteinDistanceTest {
     ld.updateDist();
     assertEquals(2, ld.partialDistance());
     assertEquals(2, ld.distance());
-
   }
 }

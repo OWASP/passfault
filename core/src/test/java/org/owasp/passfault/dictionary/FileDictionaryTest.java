@@ -12,21 +12,18 @@
  */
 package org.owasp.passfault.dictionary;
 
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.owasp.passfault.dictionary.CandidatePattern;
-import org.owasp.passfault.dictionary.FileDictionary;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class FileDictionaryTest {
 
@@ -37,20 +34,8 @@ public class FileDictionaryTest {
     dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
   }
 
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
-
   @Test
-  public void testPartialSearch() throws IOException {
+  public void partialSearch() throws IOException {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     subString.add('w');
     subString.add('i');
@@ -79,7 +64,7 @@ public class FileDictionaryTest {
   }
 
   @Test
-  public void testPartialSearch_negative() throws IOException {
+  public void partialSearch_negative() throws IOException {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     subString.add('w');
     subString.add('i');
@@ -97,7 +82,7 @@ public class FileDictionaryTest {
   }
 
   @Test
-  public void testPartialSearch2() throws IOException {
+  public void partialSearch2() throws IOException {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     String word = "circumvent";
     for (int i = 0; i < word.length(); i++) {
@@ -109,13 +94,11 @@ public class FileDictionaryTest {
       if (i + 1 == word.length()) {
         assertTrue(isWord);
       }
-      //else
-      //assertFalse(isWord);
-
     }
   }
 
-  //@Test
+  @Test
+  @Ignore
   public void testStress() throws IOException, URISyntaxException {
     File sortedWordsFile = TestWords.getTestFile();
     BufferedReader buffered = new BufferedReader(new FileReader(sortedWordsFile));
@@ -151,7 +134,7 @@ public class FileDictionaryTest {
   }
 
   @Test
-  public void testComparePartial() {
+  public void comparePartial() {
     StringBuilder after = new StringBuilder("alaskan");
     String before = "alaska";
     int comparison = dictionary.comparePartial(after, before);
@@ -165,7 +148,7 @@ public class FileDictionaryTest {
   }
 
   @Test
-  public void testCompare() {
+  public void compare() {
     StringBuilder buffer = new StringBuilder("alaskan");
     String string = "alaska";
     int comparison = dictionary.compare(buffer, string);

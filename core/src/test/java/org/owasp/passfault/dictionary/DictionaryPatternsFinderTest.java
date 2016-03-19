@@ -12,11 +12,12 @@
  */
 package org.owasp.passfault.dictionary;
 
-import org.junit.*;
-import org.owasp.passfault.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.io.MockPasswordResults;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DictionaryPatternsFinderTest {
 
@@ -28,39 +29,22 @@ public class DictionaryPatternsFinderTest {
     finder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
   }
 
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
-
   @Test
   public void findWord() throws Exception {
-    System.out.println("findWord");
     PasswordAnalysis p = new PasswordAnalysis("wisp");
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
-
   }
 
   @Test
-  public void findWord_garbageinfront() throws Exception {
-    System.out.println("findWord_garbageinfront");
+  public void garbageInFront() throws Exception {
     PasswordAnalysis p = new PasswordAnalysis("1234wisp");
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
-  public void findWord_garbageinback() throws Exception {
-
-    System.out.println("findWord_garbageinback");
+  public void garbageInBack() throws Exception {
     PasswordAnalysis p = new PasswordAnalysis("wisp1234");
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
@@ -68,8 +52,6 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findNonWord() throws Exception {
-    System.out.println("findNonWord");
-
     PasswordAnalysis p = new PasswordAnalysis("qqq");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
@@ -77,7 +59,6 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findMultiWords() throws Exception {
-    System.out.println("findMultiWords");
     PasswordAnalysis p = new PasswordAnalysis("wispwisp");
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
@@ -85,7 +66,6 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findWordWithMulti() throws Exception {
-    System.out.println("findMultiWords");
     PasswordAnalysis p = new PasswordAnalysis("password");
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
@@ -94,7 +74,6 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findWordWithMultiUpper() throws Exception {
-    System.out.println("findMultiWords");
     MockPasswordResults p = new MockPasswordResults("Password");
     finder.analyze(p);
     assertEquals(6, p.getPossiblePatternCount());

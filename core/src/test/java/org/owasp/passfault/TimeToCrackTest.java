@@ -12,45 +12,14 @@
  */
 package org.owasp.passfault;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.TimeToCrack;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @author cam
- */
 public class TimeToCrackTest {
 
-  public TimeToCrackTest() {
-  }
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() {
-  }
-
-  @After
-  public void tearDown() {
-  }
-
-  /**
-   * Test of getTimeToCrackNanoSeconds method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrackNanoSeconds() {
+  public void nanoSeconds() {
     System.out.println("getTimeToCrackNanoSeconds");
     double crackability = 1;
     TimeToCrack instance = TimeToCrack.GPU1;
@@ -60,11 +29,8 @@ public class TimeToCrackTest {
     assertEquals(expResult, result, 0.0000000001);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_lessThan1Day() {
+  public void lessThan1Day() {
     System.out.println("getTimeToCrackString");
     double crackability = 2;
     TimeToCrack instance = TimeToCrack.GPU1;
@@ -73,154 +39,112 @@ public class TimeToCrackTest {
     assertEquals(expResult, result);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_days() {
+  public void days() {
     System.out.println("getTimeToCrackString");
     int days = 3;
     String expResult = "3 days";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_months() {
+  public void months() {
     System.out.println("getTimeToCrackString");
     int days = 31;
     String expResult = "1 month, 1 day";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_months2() {
+  public void months2() {
     System.out.println("getTimeToCrackString");
     int days = 62;
     String expResult = "2 months, 2 days";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_years() {
+  public void years() {
     System.out.println("getTimeToCrackString");
     int days = 366;
     String expResult = "1 year";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_years2() {
+  public void years2() {
     System.out.println("getTimeToCrackString");
     int days = 366 + 31;
     String expResult = "1 year, 1 month";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_years3() {
+  public void years3() {
     System.out.println("getTimeToCrackString");
     int days = 366 + 62;
     String expResult = "1 year, 2 months";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_years4() {
+  public void years4() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 3 + 31;
     String expResult = "3 years, 1 month";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_years5() {
+  public void years5() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 9 + 31;
     String expResult = "9 years, 2 months";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_decade() {
+  public void decade() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 10 + 31;
     String expResult = "1 decade";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_decade2() {
+  public void decade2() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 11 + 31;
     String expResult = "1 decade, 1 year";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_decades() {
+  public void decades() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 20 + 31;
     String expResult = "2 decades";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_decades2() {
+  public void decades2() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 22 + 31;
     String expResult = "2 decades, 2 years";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_century() {
+  public void century() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 100 + 31;
     String expResult = "1 century";
     testTime(days, expResult);
   }
 
-  /**
-   * Test of getTimeToCrackString method, of class TimeToCrack.
-   */
   @Test
-  public void testGetTimeToCrack_centurys() {
+  public void centurys() {
     System.out.println("getTimeToCrackString");
     int days = 365 * 200 + 31;
     String expResult = "2 centuries";
@@ -228,7 +152,7 @@ public class TimeToCrackTest {
   }
 
   @Test
-  public void testGetRoundedString() {
+  public void getRoundedString() {
     System.out.println("getRoundedString");
     String result = TimeToCrack.getRoundedSizeString(100000000);
     String expResult = "100 million";
@@ -236,18 +160,11 @@ public class TimeToCrackTest {
   }
 
   private void testTime(int days, String expResult) {
-    double crackability = (double) (1 * (double) days * 24 * 60 * 60);
+    double crackability = 1 * (double) days * 24 * 60 * 60;
     TimeToCrack instance = TimeToCrack.GPU1;
     instance.setTestTime(1000000000);
     String result = instance.getTimeToCrackString(crackability);
     assertEquals(expResult, result);
-  }
-
-  @Test
-  public void bcrypt() {
-
-    // Hash a password for the first time
-    String hashed = BCrypt.hashpw("something", BCrypt.gensalt());
   }
 
   @Test

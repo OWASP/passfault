@@ -12,6 +12,8 @@
  */
 package org.owasp.passfault;
 
+import org.owasp.passfault.finders.RepeatingPatternFinder;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,25 +21,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.owasp.passfault.AnalysisListener;
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PathCost;
-import org.owasp.passfault.RandomPattern;
-import org.owasp.passfault.finders.RepeatingPatternFinder;
-
-/**
- * This class holds the results of the analysis of a password.  An instance
- * of this class begins with a password to analyze.  Then it is handed to
- * multiple <code>PatternFinder<code>s.
- *
- * This class contains the logic for post-analysis of the finders found
- * (althought this logic might be better if separated from this class)  This
- * logic includes finding the weakest combination of finders and locating
- * repeated finders.
- *
- * @author cam
- */
 public class PasswordAnalysis_Unoptimized implements PasswordResults {
 
   private String password;

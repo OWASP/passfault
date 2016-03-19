@@ -13,12 +13,17 @@
 package org.owasp.passfault.dictionary;
 
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.owasp.passfault.MockPasswordResults;
+import org.owasp.passfault.PasswordPattern;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import static org.junit.Assert.*;
-import org.junit.*;
-import org.owasp.passfault.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class MisspellingFinderInMemoryTest {
 
@@ -28,18 +33,6 @@ public class MisspellingFinderInMemoryTest {
   public static void setUpBeforeClass() throws Exception {
     InMemoryDictionary dictionary = InMemoryDictionary.newInstance(TestWords.getTestReader(), false, "tiny-lower");
     finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1));
-  }
-
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
   }
 
   @Test
@@ -53,8 +46,8 @@ public class MisspellingFinderInMemoryTest {
   }
 
   @Test
-  public void findWord_garbageinfront() throws Exception {
-    System.out.println("findWord_garbageinfront");
+  public void garbageInFront() throws Exception {
+    System.out.println("garbageinfront");
     MockPasswordResults p = new MockPasswordResults("1234passwerd");
     finder.analyze(p);
     List<PasswordPattern> patterns = p.getFoundPatterns();
@@ -63,9 +56,9 @@ public class MisspellingFinderInMemoryTest {
   }
 
   @Test
-  public void findWord_garbageinback() throws Exception {
+  public void garbageInBack() throws Exception {
     {
-      System.out.println("findWord_garbageinback");
+      System.out.println("garbageinback");
       MockPasswordResults p = new MockPasswordResults("wisp");
       finder.analyze(p);
       assertTrue(p.getPossiblePatternCount() > 1);
@@ -116,7 +109,7 @@ public class MisspellingFinderInMemoryTest {
   }
 
   public Collection<PasswordPattern> getPatternsOfALength(Collection<PasswordPattern> patterns, int length) {
-    LinkedList<PasswordPattern> toReturn = new LinkedList<PasswordPattern>();
+    LinkedList<PasswordPattern> toReturn = new LinkedList<>();
 
     for (PasswordPattern pattern : patterns) {
       if (pattern.getLength() == length) {

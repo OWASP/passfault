@@ -12,6 +12,13 @@
 
 package org.owasp.passfault;
 
+import org.owasp.passfault.dictionary.*;
+import org.owasp.passfault.finders.DateFinder;
+import org.owasp.passfault.finders.ParallelFinder;
+import org.owasp.passfault.keyboard.EnglishKeyBoard;
+import org.owasp.passfault.keyboard.KeySequenceFinder;
+import org.owasp.passfault.keyboard.RussianKeyBoard;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,31 +28,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.owasp.passfault.dictionary.InsertionStrategy;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.ExactWordStrategy;
-import org.owasp.passfault.dictionary.InMemoryDictionary;
-import org.owasp.passfault.dictionary.MisspellingStrategy;
-import org.owasp.passfault.dictionary.ReverseDictionaryPatternFinder;
-import org.owasp.passfault.dictionary.SubstitutionStrategy;
-import org.owasp.passfault.dictionary.l337SubstitutionStrategy;
-import org.owasp.passfault.finders.DateFinder;
-import org.owasp.passfault.finders.ParallelFinder;
-import org.owasp.passfault.keyboard.EnglishKeyBoard;
-import org.owasp.passfault.keyboard.KeySequenceFinder;
-import org.owasp.passfault.keyboard.RussianKeyBoard;
-
-/**
- * Configuration Factory.  This should be replaced by some Dependency injection type
- * configuration, or the PropertiesFindersBuilder.
- * 
- * @author cam
- * @see FinderByPropsBuilder
- */
 public class BuildFinders {
-  
+
   /**
-   * @deprecated 
+   * @deprecated
    */
   public static ParallelFinder build(String baseResourcePath) throws IOException {
     URL engWords = new URL(baseResourcePath + "english" + TextAnalysis.WORD_LIST_EXTENSION);
@@ -66,11 +52,10 @@ public class BuildFinders {
   }
 
   /**
-   * @deprecated 
-   * This is a good place to replace with some dependency injection
    * @param in input stream
    * @return Collection of finders suitable to be wrapped up in a composite finder like ParallelFinder or ExecutorFinder
    * @throws IOException
+   * @deprecated This is a good place to replace with some dependency injection
    */
   public static Collection<PatternFinder> buildDictionaryFinders(String name, InputStream in) throws IOException {
     List<PatternFinder> finders = new LinkedList<PatternFinder>();

@@ -12,15 +12,20 @@
  */
 package org.owasp.passfault.finders;
 
-import java.util.LinkedList;
-
-import static org.junit.Assert.*;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.owasp.passfault.MockPasswordResults;
 import org.owasp.passfault.PasswordAnalysis;
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PatternFinder;
-import org.owasp.passfault.dictionary.*;
+import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
+import org.owasp.passfault.dictionary.ExactWordStrategy;
+import org.owasp.passfault.dictionary.FileDictionary;
+import org.owasp.passfault.dictionary.TestWords;
+
+import java.util.LinkedList;
+
+import static org.junit.Assert.assertEquals;
 
 public class ParallelPatternsFinderTest {
 
@@ -30,21 +35,9 @@ public class ParallelPatternsFinderTest {
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
     DictionaryPatternsFinder dictionaryFinder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
-    LinkedList<PatternFinder> l = new LinkedList<PatternFinder>();
+    LinkedList<PatternFinder> l = new LinkedList<>();
     l.add(dictionaryFinder);
     finder = new ParallelFinder(l);
-  }
-
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
   }
 
   @Test
@@ -58,7 +51,7 @@ public class ParallelPatternsFinderTest {
   }
 
   @Test
-  public void findWord_garbageinfront() throws Exception {
+  public void garbageInFront() throws Exception {
     System.out.println("findWord_garbageinfront");
     PasswordAnalysis p = new PasswordAnalysis("1234wisp");
     finder.analyze(p);
@@ -67,7 +60,7 @@ public class ParallelPatternsFinderTest {
   }
 
   @Test
-  public void findWord_garbageinback() throws Exception {
+  public void garbageInBack() throws Exception {
 
     System.out.println("findWord_garbageinback");
     PasswordAnalysis p = new PasswordAnalysis("wisp1234");
@@ -111,7 +104,7 @@ public class ParallelPatternsFinderTest {
     MockPasswordResults p = new MockPasswordResults("Password");
     finder.analyze(p);
     finder.waitForAnalysis(p);
-    for(PasswordPattern pattern: p.getFoundPatterns()){
+    for (PasswordPattern pattern : p.getFoundPatterns()) {
       System.out.println(pattern.getMatchString());
     }
     assertEquals(6, p.getPossiblePatternCount());
