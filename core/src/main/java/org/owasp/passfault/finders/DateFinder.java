@@ -12,12 +12,12 @@
 
 package org.owasp.passfault.finders;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PasswordResults;
 import org.owasp.passfault.PatternFinder;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * No, this is not a dating service.  It is a PatternFinder for numbers in date format
@@ -54,8 +54,10 @@ public class DateFinder implements PatternFinder {
         int length = end-start;
         CharSequence matchString = chars.subSequence(start, end);
 
-        pass.foundPattern(new PasswordPattern(
+        if (matchString.length() > 0) {
+          pass.foundPattern(new PasswordPattern(
             start, length, matchString, dateSize, "Date Format", DATE_PATTERN, null));
+        }
       }
     } while (found);
   }
