@@ -12,17 +12,17 @@
  */
 package org.owasp.passfault;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.Logger;
-
-import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.dictionary.Dictionary;
+import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.finders.DateFinder;
 import org.owasp.passfault.finders.RandomClassesFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;
+
+import java.io.*;
+import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * This class builds a set of pattern finders based on properties.  It follows the convention of wordlists located
@@ -36,12 +36,14 @@ import org.owasp.passfault.keyboard.RussianKeyBoard;
  * @author cam
  */
 public class FinderByPropsBuilder {
+  private static final Logger LOG = java.util.logging.Logger.getLogger(FinderByPropsBuilder.class.getName());
+
   public static final String WORDLIST_CONFIG_PROPERTIES = "words.properties";
   public static final String WORDLIST_GROUP_PREFIX = "words.";
-  private static final Logger log = java.util.logging.Logger.getLogger(FinderByPropsBuilder.class.getName());
   public static final String WORDLIST_NAME = ".name";
   public static final String WORDLIST_FILENAME = ".file";
   public static final String DEFAULT_WORDLISTS_LOCATION = "/org/owasp/passfault/wordlists";
+
   private ResourceLoaderStrategy resourceLoader;
   private boolean isInMemory;
 
@@ -130,7 +132,7 @@ public class FinderByPropsBuilder {
   }
 
   private Dictionary buildDictionary(String groupName, String wordListName) throws IOException {
-    log.fine("building dictionaries from "+wordListName);
+    LOG.fine("building dictionaries from " + wordListName);
     Dictionary dictionary;
     if (isInMemory) {
       Reader reader = resourceLoader.loadResource(wordListName);
@@ -228,7 +230,7 @@ public class FinderByPropsBuilder {
     @Override
     public Reader loadResource(String resource) throws IOException {
       InputStream stream = getClass().getResourceAsStream(parentPath + "/" + resource);
-      log.fine("attempt to load resource:"+parentPath+"/"+resource);
+      LOG.fine("attempt to load resource:" + parentPath + "/" + resource);
       if (stream == null) throw new IOException("could not load resource "+parentPath +"/"+resource);
       return new InputStreamReader(stream);
     }

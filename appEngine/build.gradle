@@ -3,21 +3,21 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'appengine'
 
 buildscript {
-    repositories {
-        mavenCentral()
-    }
+  repositories {
+    mavenCentral()
+  }
 
-    dependencies {
-        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.23'
-    }
+  dependencies {
+    classpath 'com.google.appengine:gradle-appengine-plugin:1.9.32'
+  }
 }
 
 dependencies {
-  compile 'com.google.appengine:appengine-api-1.0-sdk:1.9.23'
+  compile 'com.google.appengine:appengine-api-1.0-sdk:1.9.32'
   compile 'javax.servlet:servlet-api:2.5'
   compile project(':core')
   compile project(':jsonService')
-  appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.23'
+  appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.32'
 }
 
 appengine {

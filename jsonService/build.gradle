@@ -1,15 +1,31 @@
 apply plugin: 'war'
 apply plugin: 'jetty'
 
+configurations {
+  wordlists
+}
+
 dependencies {
   compile project(':core')
   compile 'javax.servlet:servlet-api:2.5'
+  wordlists project(':wordlists')
+}
+
+//this is all to extract the wordlists into the classes directory
+//and to remove the wordlists.jar from the lib directory
+//this makes it easier to overlay newer wordlists in the same path.
+war {
+  //extract the wordlists into classes
+  into('WEB-INF/classes') {
+    from zipTree(configurations.wordlists.filter {
+      it.name.startsWith('passfault-wordlists')
+    }.getSingleFile())
+  }
+  classpath = classpath.filter { file -> ! file.name.contains('wordlists')}
 }
 
 artifacts {
   archives war
   archives sourcesJar
 }
-
-
 
