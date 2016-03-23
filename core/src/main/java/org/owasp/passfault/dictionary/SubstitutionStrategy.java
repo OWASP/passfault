@@ -13,15 +13,16 @@
 
 package org.owasp.passfault.dictionary;
 
+import org.owasp.passfault.RandomPattern;
+
 import java.util.LinkedList;
 import java.util.List;
-
-import org.owasp.passfault.RandomPattern;
 
 /**
  * SubstitutionStrategy defines a matching strategy where letters in a word
  * can be substituted by a special character or number.  
  * @author cam
+ * @deprecated this is replaced by the leet-substitution pattern finder and will likely be removed.
  */
 public class SubstitutionStrategy implements DictionaryStrategy {
 

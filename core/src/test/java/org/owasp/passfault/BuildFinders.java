@@ -58,7 +58,7 @@ public class BuildFinders {
    * @deprecated This is a good place to replace with some dependency injection
    */
   public static Collection<PatternFinder> buildDictionaryFinders(String name, InputStream in) throws IOException {
-    List<PatternFinder> finders = new LinkedList<PatternFinder>();
+    List<PatternFinder> finders = new LinkedList<>();
 
     try {
       Reader dbWords = new InputStreamReader(in);
@@ -67,7 +67,6 @@ public class BuildFinders {
       finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy()));
       finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
       finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2)));
-      finders.add(new DictionaryPatternsFinder(diction, new SubstitutionStrategy(1)));
       finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
       finders.add(new ReverseDictionaryPatternFinder(diction, new ExactWordStrategy()));
     } catch (IOException ioe) {

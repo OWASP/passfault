@@ -34,7 +34,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void plain2() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("password");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
@@ -42,7 +41,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void plain() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("wisp");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
@@ -50,7 +48,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void findWord() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("w1sp");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
@@ -58,7 +55,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void garbageInFront() throws Exception {
-    System.out.println("garbageinfront");
     MockPasswordResults p = new MockPasswordResults("xxxxw1sp");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
@@ -66,8 +62,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void garbageInBack() throws Exception {
-
-    System.out.println("garbageinback");
     MockPasswordResults p = new MockPasswordResults("w1spxxxx");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
@@ -75,8 +69,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void findNonWord() throws Exception {
-    System.out.println("findNonWord");
-
     MockPasswordResults p = new MockPasswordResults("qqq123");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
@@ -84,7 +76,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void findMultiWords() throws Exception {
-    System.out.println("findMultiWords");
     MockPasswordResults p = new MockPasswordResults("w1spw1sp");//wasp, asp, wisp, was *2
     finder.analyze(p);
     assertEquals(8, p.getPossiblePatternCount());
@@ -92,7 +83,6 @@ public class SubstitutionFinderTest {
 
   @Test
   public void testLength() throws Exception {
-    System.out.println("findMultiWords");
     MockPasswordResults p = new MockPasswordResults("runr&n");//run, ran,
     finder.analyze(p);
     List<PasswordPattern> patterns = p.getFoundPatterns();

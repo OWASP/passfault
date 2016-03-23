@@ -19,70 +19,69 @@ import org.owasp.passfault.MockPasswordResults;
 
 import static org.junit.Assert.assertEquals;
 
-public class AugmentationFinderText {
+public class InsertionFinderTest {
 
   private static DictionaryPatternsFinder finder;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new InsertionStrategy(1));
+    finder = new DictionaryPatternsFinder(dictionary, new InsertionStrategy(5));
+  }
+
+  @Test
+  public void plain2() throws Exception {
+    MockPasswordResults p = new MockPasswordResults("trouble");
+    finder.analyze(p);
+    assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void plain() throws Exception {
-    System.out.println("findWord");
     MockPasswordResults p = new MockPasswordResults("wisp");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
-  public void numbersInFront() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("1wisp");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
-  }
-
-  @Test
-  public void numbersInBack() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("wisp1");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
-  }
-
-  @Test
   public void findWord() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("wi3sp");
+    MockPasswordResults p = new MockPasswordResults("trou$ble");
     finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(2, p.getPossiblePatternCount());
+  }
+
+  @Test
+  public void tooMany() throws Exception {
+    MockPasswordResults p = new MockPasswordResults("t$r$o$u$b$l$e");
+    finder.analyze(p);
+    assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("xxxxwi6sp");
+    MockPasswordResults p = new MockPasswordResults("xxxxtrou-ble");//wasp, asp, wisp, was
     finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("wi1spxxxx");
+    MockPasswordResults p = new MockPasswordResults("troub!lexxxx");//wasp, asp, wisp, was
     finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void findNonWord() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("qqq");
+    MockPasswordResults p = new MockPasswordResults("qqq123");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("wi3spwi3sp");
+    MockPasswordResults p = new MockPasswordResults("tr-oubletro+uble");//wasp, asp, wisp, was *2
     finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(4, p.getPossiblePatternCount());
   }
 }

@@ -105,7 +105,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
         //add the candidate for the next round
         list.add(newsubs);
 
-        //addvance the character in the context
+        //advance the character in the context
         l337Context newContext = newsubs.getDecorator(l337Context.class);
         char candidateLeetChar = newContext.currentLeetChar.normalChar;
         newContext.nextChar(c);

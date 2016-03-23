@@ -27,6 +27,7 @@ import java.util.List;
 public class InsertionStrategy implements DictionaryStrategy {
 
   public final static String NAME = "INSERTION";
+  private static final double SIZE_RATIO = 0.20; //no more thn 20% of the word can be special characters
 
   @Override
   public String getName() {
@@ -45,7 +46,7 @@ public class InsertionStrategy implements DictionaryStrategy {
 
   @Override
   public List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c) {
-    LinkedList<CandidatePattern> list = new LinkedList<CandidatePattern>();
+    LinkedList<CandidatePattern> list = new LinkedList<>();
     InsertionContext context = subs.getDecorator(InsertionContext.class);
     if (context!=null){
       context.currentChar = c;
@@ -90,7 +91,8 @@ public class InsertionStrategy implements DictionaryStrategy {
     } else {
       return (Character.isLetter(context.currentChar)) &&
           (context.count > 0) &&
-          (context.count <= this.allowedExtraCharacters);
+          (context.count <= this.allowedExtraCharacters) &&
+        ((double)context.count / candidate.getLength() < SIZE_RATIO);
     }
   }
 
