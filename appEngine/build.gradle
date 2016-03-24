@@ -21,6 +21,10 @@ dependencies {
 }
 
 appengine {
+  appcfg {
+    oauth2 = true
+    noCookies = true
+  }
   downloadSdk=true
   app {
     id = 'passfault-hrd'
