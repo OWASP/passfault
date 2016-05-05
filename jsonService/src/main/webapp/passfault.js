@@ -1,16 +1,28 @@
-var cracker = new Object(); //milliseconds with one graphics card based on oclhashcat 
-cracker.BCRYPT = 259.000;   
-cracker.MD4    = 1/3224000;
-cracker.MD5    = 1/2414000;
-cracker.SHA1   = 1/2510000;
-cracker.SHA512 = 1/114000;
-cracker.SHA3   = 1/175000;
-cracker.NTLM   = 1/20109000;
-cracker.LM     = 1/1285000;
-cracker.NetNTLMv2 = 1/555000;
+var passfault = new Object();
 
-var threshold = 31*24*60*60;  //31 days in milliseconds;
-var protection = {
+passfault.init = function (selectCracker, selectProtection) {
+   $.getJSON("policy.json").done(function (data){
+  	 passfault.policy = data;
+  	 passfault.time2crackMinDays = data.time2crackMinDays;
+     passfault.loadSelectCracker(selectCracker);
+     passfault.loadSelectProtection(selectProtection);
+   });
+ }
+
+passfault.cracker = {
+  //milliseconds with one graphics card based on oclhashcat
+  "BCRYPT": 259.000,
+  "MD4": 1/3224000,
+  "MD5": 1/2414000,
+  "SHA1": 1/2510000,
+  "SHA512": 1/114000,
+  "SHA3": 1/175000,
+  "NTLM": 1/20109000,
+  "LM": 1/1285000,
+  "NetNTLMv2": 1/555000
+};
+
+passfault.protection = {
 	"WINDOWS_NTLM": {
 	  "display": "Microsoft Windows NT Lan Manager",
 		"cracker": "NTLM",
@@ -53,17 +65,21 @@ var protection = {
 	}
 };
 
-function loadSelectProtection(select){
+passfault.loadSelectProtection = function (select){
   var htmlToInsert;
-  for(var type in protection){
-      htmlToInsert += '<option value="'+type+'" >'+ protection[type].display + '</option>';
+  for(var type in this.protection){
+		if (this.policy.algorithm && this.policy.algorithm == type) {
+			htmlToInsert += '<option value="'+type+'" selected>'+ passfault.protection[type].display + '</option>';
+		} else {
+      htmlToInsert += '<option value="'+type+'" >'+ passfault.protection[type].display + '</option>';
+		}
   }
   select.html(htmlToInsert);
 }
 
-var attacker = {
-	"EVERYDAY":{ 
-		"display": "Everyday Computer", 
+passfault.attacker = {
+	"EVERYDAY":{
+		"display": "Everyday Computer",
 		"multiplier": 1
 	},"5K": {
 		"display": "Dedicated Cracker ($5,000 machine)",
@@ -77,66 +93,73 @@ var attacker = {
 	}
 };
 
-function loadSelectCracker(select){
+passfault.loadSelectCracker = function (select){
   var htmlToInsert;
-  for(var cracker in attacker){
-    htmlToInsert += '<option value="' + cracker + '" >' + attacker[cracker].display + '</option>';
+  for(var cracker in this.attacker){
+		if (this.policy.cracker && this.policy.cracker == cracker) {
+    	htmlToInsert += '<option value="' + cracker + '" selected>' + this.attacker[cracker].display + '</option>';
+		} else {
+			htmlToInsert += '<option value="' + cracker + '" >' + this.attacker[cracker].display + '</option>';
+		}
   }
   select.html(htmlToInsert);
 }
 
-var patternImages = new Object();
-patternImages.LEET       = "leet.gif";
-patternImages.SUBSTITUTE = "subs.gif";
-patternImages.MISSPELL   = "miss.gif";
-patternImages.WORD       = "word.gif";
-patternImages.INSERTION  = "ins.gif";
-patternImages.DUPLICATE  = "dup.gif";
-patternImages.DIAGONAL   = "diag.gif";
-patternImages.HORIZONTAL = "horiz.gif";
-patternImages.REPEATED   = "repeat.gif";
-patternImages.RANDOM     = "random.gif";
 
-var patternDescription = new Object();
-patternDescription.LEET       = "A word was found with some 'leet substituted characters.  Leet is short for \"elite\".  It is a way of encoding characters with numbers and special characters. Such as 1 for the letter 'l', for example, leet is spelled 133+.";
-patternDescription.SUBSTITUTE = "A word was found with some characters substituted by special characters or numbers";
-patternDescription.MISSPELL   = "A misspelled word was found";
-patternDescription.WORD       = "A word was found.  To add more complexity, consider misspelling a word or inserting characters into a word";
-patternDescription.INSERTION  = "A word was found with some extra characters inserted.";
-patternDescription.DUPLICATE  = "The same pattern was found previously.";
-patternDescription.DIAGONAL   = "A diagonal sequence of keys was identified.  This is the weakest type of password pattern.";
-patternDescription.HORIZONTAL = "A horizontal sequence of keys was identified.  This is the weakest type of password pattern. ";
-patternDescription.REPEATED   = "Repeat characters were found.  This is an extremly weak type of password pattern.  ";
-patternDescription.RANDOM     = "No pattern was found.  This part of the pattern increases in strength by using many different types of characters, such as upper-case, lower-case, latin, cyrillic, numbers, or other special characers.";
-
-String.prototype.supplant = function (o) { 
-    return this.replace(/{([^{}]*)}/g, 
-        function (a, b) {
-            var r = o[b]+"";
-            return typeof r === 'string' ? 
-                r : a; 
-        }
-    ); 
+passfault.patternImages = {
+  "LEET": "leet.gif",
+  "SUBSTITUTE": "subs.gif",
+  "MISSPELL": "miss.gif",
+  "WORD": "word.gif",
+  "INSERTION": "ins.gif",
+  "DUPLICATE": "dup.gif",
+  "DIAGONAL": "diag.gif",
+  "HORIZONTAL": "horiz.gif",
+  "REPEATED": "repeat.gif",
+  "RANDOM": "random.gif"
 };
 
-function showDetail(id){
+passfault.patternDescription = {
+  "LEET": "A word was found with some 'leet substituted characters.  Leet is short for \"elite\".  It is a way of encoding characters with numbers and special characters. Such as 1 for the letter 'l', for example, leet is spelled 133+.",
+  "SUBSTITUTE": "A word was found with some characters substituted by special characters or numbers",
+  "MISSPELL": "A misspelled word was found",
+  "WORD": "A word was found.  To add more complexity, consider misspelling a word or inserting characters into a word",
+  "INSERTION": "A word was found with some extra characters inserted.",
+  "DUPLICATE": "The same pattern was found previously.",
+  "DIAGONAL": "A diagonal sequence of keys was identified.  This is the weakest type of password pattern.",
+  "HORIZONTAL": "A horizontal sequence of keys was identified.  This is the weakest type of password pattern. ",
+  "REPEATED": "Repeat characters were found.  This is an extremly weak type of password pattern.  ",
+  "RANDOM": "No pattern was found.  This part of the pattern increases in strength by using many different types of characters, such as upper-case, lower-case, latin, cyrillic, numbers, or other special characers."
+};
+
+String.prototype.supplant = function (o) {
+    return this.replace(/{([^{}]*)}/g,
+        function (a, b) {
+            var r = o[b]+"";
+            return typeof r === 'string' ?
+                r : a;
+        }
+    );
+};
+
+passfault.showDetail = function (id){
 	$("div.patternDetail").hide();
 	$("#"+id).show();
 }
 
-function hideDetail(id){
+passfault.hideDetail = function (id){
 	$("#"+id).hide();
 }
 
-var passwordPatternTemplate = 
-'<div class="sign white pattern" onmouseout="hideDetail(\'{id}\')" onmouseover="showDetail(\'{id}\')">'+
+passfault.passwordPatternTemplate =
+'<div class="sign white pattern" onmouseout="passfault.hideDetail(\'{id}\')" onmouseover="passfault.showDetail(\'{id}\')">'+
 	'<div class="normal"><label title="Found Pattern"/>{name}</div>' +
 	'<div class="small"><label title="Pattern Classification"/>{classification}</div>' +
 	'<div class="xxlarge">{percent}%</div>' +
 	'<div class="xsmall">of total strength</div>' +
 '</div>';
 
-var patternDetailTemplate = 
+passfault.patternDetailTemplate =
 '<div class="sign blue center patternDetail" id={id}>'+
 	'<div class="normal"><label>Found Pattern: </label>{name}</div>' +
 	'<div class="small"><label>Description: </label>{description} <br/>{detail}</div>' +
@@ -146,13 +169,13 @@ var patternDetailTemplate =
 	'<div class="normal"><label>Matches </label>\'{matchString}\'</div>' +
 '</div>';
 
-var patternSummaryTemplate = 
+passfault.patternSummaryTemplate =
 '<div class="sign {color} passSummary">'+
 	'<div class="large">{allowedString}</div>'+
 	'<div class="normal"><label>Time To Crack:</label></div><div id="timeToCrack" class="xxlarge">{timeToCrack}</div>'+
 	'<div class="normal"><label>Total Passwords in Pattern: </label><div class="large">{totalCostRounded}</div></div>';
-	
-function calculateTotal(analysis){
+
+passfault.calculateTotal = function (analysis){
 	var total = 0;
 	for(pIndex in analysis.patterns){
 		var pattern = analysis.patterns[pIndex];
@@ -161,45 +184,44 @@ function calculateTotal(analysis){
 	return total;
 }
 
-function applyTemplate(div, analysis, passlength){
-	analysis.totalCostRounded = getRoundedSizeString(analysis.cost);
-	analysis.timeToCrack = time2Crack(analysis.cost, $('#attacker').val(), $('#hasher').val());
-	var timeToCrackMilli = timeToCrackMilliSeconds(analysis.cost, $('#attacker').val(), $('#hasher').val());
-	
-	if(timeToCrackMilli > threshold){
+passfault.applyTemplate = function (div, analysis, passlength){
+	analysis.totalCostRounded = this.getRoundedSizeString(analysis.cost);
+	analysis.timeToCrack = this.time2Crack(analysis.cost, $('#attacker').val(), $('#hasher').val());
+	var timeToCrackDays = this.timeToCrackDays(analysis.cost, $('#attacker').val(), $('#hasher').val());
+
+	if(timeToCrackDays > this.time2crackMinDays){
 		analysis.color = "green";
 		analysis.allowedString = "";
 	} else {
 		analysis.color = "orange";
 		analysis.allowedString = "This password needs more strength";
 	}
-	
-	
-	var analysisHtml = patternSummaryTemplate.supplant(analysis);
+
+	var analysisHtml = this.patternSummaryTemplate.supplant(analysis);
 	var pattern;
 	for(var pIndex=0,len=analysis.patterns.length ; pIndex<len; pIndex++){
 		pattern = analysis.patterns[pIndex];
 		if (pattern.classification == "null")
 			pattern.classification = "&emsp;";
 		pattern.name = pattern.name.replace("_", " ");
-		pattern.percent = Math.round(pattern.patternSize / calculateTotal(analysis) * 100);
+		pattern.percent = Math.round(pattern.patternSize / this.calculateTotal(analysis) * 100);
 		pattern.id="pattern"+pIndex;
-		analysisHtml += passwordPatternTemplate.supplant(pattern);
+		analysisHtml += this.passwordPatternTemplate.supplant(pattern);
 	}
 	for(pIndex=0,len=analysis.patterns.length ; pIndex<len; pIndex++){
 		pattern = analysis.patterns[pIndex];
-		pattern.patternSizeRounded = getRoundedSizeString(pattern.patternSize);
-		pattern.detail = patternDescription[pattern.name];
-		analysisHtml += patternDetailTemplate.supplant(pattern);
+		pattern.patternSizeRounded = this.getRoundedSizeString(pattern.patternSize);
+		pattern.detail = this.patternDescription[pattern.name];
+		analysisHtml += this.patternDetailTemplate.supplant(pattern);
 	}
 	analysisHtml +='</div>';
 	div.innerHTML = analysisHtml;
-	
+
 	var summaryWidth = $("div.passSummary").width();
 	$("div.patternDetail").width(summaryWidth-25);
 }
 
-function getRoundedSizeString(size) {
+passfault.getRoundedSizeString = function (size) {
     var rounded = size;
     var rounds = 0;
     for (rounds = 0; rounded >= 1000; rounds++) {
@@ -210,7 +232,7 @@ function getRoundedSizeString(size) {
     var types = [
       "", "Thousand", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion",
       "Sextillion", "Septillion", "Octillion", "Nonillion", "Decillion"];
-    
+
     if (rounds + 1 > types.length) {
       for (var i = types.length; i <= rounds; i++) {
         sizeString+=",000";
@@ -224,27 +246,27 @@ function getRoundedSizeString(size) {
     return sizeString;
   }
 
-function time2Crack(words, attacker_type, protection_type){
-	return timeToCrack(words, 
-			cracker[protection[protection_type].cracker], 
-			attacker[attacker_type].multiplier,
-			protection[protection_type].iterations);
+passfault.time2Crack = function (words, attacker_type, protection_type){
+	return this.timeToCrack(words,
+			this.cracker[this.protection[protection_type].cracker],
+			this.attacker[attacker_type].multiplier,
+			this.protection[protection_type].iterations);
 }
 
-function timeToCrackMilliSeconds(words, attacker_type, protection_type){
-	
-	timePerPass = cracker[protection[protection_type].cracker];
-	numProcs = attacker[attacker_type].multiplier;
-	iterations = protection[protection_type].iterations;
-	
-	var millis = timePerPass * iterations / numProcs; 
-	return milliseconds = words * millis;
+passfault.timeToCrackDays = function (words, attacker_type, protection_type){
+
+	timePerPass = this.cracker[this.protection[protection_type].cracker];
+	numProcs = this.attacker[attacker_type].multiplier;
+	iterations = this.protection[protection_type].iterations;
+
+	var millis = timePerPass * iterations / numProcs;
+	return days = words * millis / 1000 / 60 / 60 / 24;
 }
 
-function timeToCrack(words, timePerPass, numProcs, iterations){
-	var millis = timePerPass * iterations / numProcs; 
+passfault.timeToCrack = function (words, timePerPass, numProcs, iterations){
+	var millis = timePerPass * iterations / numProcs;
 	var milliseconds = words * millis;
-	
+
 	var days = Math.round(milliseconds / 1000 / 60 / 60 / 24);
     var months = Math.round(milliseconds / 1000 / 60 / 60 / 24 / 30);
     var years = Math.round(milliseconds / 1000 / 60 / 60 / 24 / 365);
@@ -314,29 +336,23 @@ function timeToCrack(words, timePerPass, numProcs, iterations){
     return buf;
   }
 
-function submitPassword(){ //submit to applet or service
+passfault.submitPassword = function (){ //submit to applet or service
 	var applet = false;
-	
+
 	var password = document.getElementById("password").value;
-	if (applet){
-		var results = $("#passfaultlet")[0].analyze(password);
-		var analysis = JSON.parse(results);
-	  	applyTemplate(document.getElementById("patterns"),analysis);
-	  	$("div.goneOnAnalyze").hide();
-	} else {
-		$.ajax({
+	$.ajax({
 			  type: 'POST',
 			  url: 'analysis',
 			  data: password,
 			  contentType: 'text',
 			  success: function(results) {
 					$("div.goneOnAnalyze").hide();
-				  	applyTemplate(document.getElementById("patterns"), results);
+				  	passfault.applyTemplate(document.getElementById("patterns"), results);
 			  },
 			  error: function(jqXHR, textStatus, errorThrown) {
 				  alert('An error ocurred analyzing: '+errorThrown);
 			  },
 			  dataType: 'json'
-			});
-	}
+   });
+
 }
