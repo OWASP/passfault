@@ -5,7 +5,7 @@
 ## Running the Command-line Interface:
 1. install java
 2. `cd core`
-3. `gradlew installApp`
+3. `gradlew installDist`
 4. run `build/install/core/bin/core`
 
 
