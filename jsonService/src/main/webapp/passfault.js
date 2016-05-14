@@ -1,16 +1,18 @@
 var passfault = new Object();
 
+//initializes the default policy, found in policy.json.
 passfault.init = function (selectCracker, selectProtection) {
    $.getJSON("policy.json").done(function (data){
   	 passfault.policy = data;
   	 passfault.time2crackMinDays = data.time2crackMinDays;
-     passfault.loadSelectCracker(selectCracker);
-     passfault.loadSelectProtection(selectProtection);
+     if (selectCracker != null) passfault.loadSelectCracker(selectCracker);
+     if (selectProtection != null) passfault.loadSelectProtection(selectProtection);
    });
  }
 
 passfault.cracker = {
-  //milliseconds with one graphics card based on oclhashcat
+  //data gathered from oclhashcat: http://hashcat.net/oclhashcat/#performance
+  //number of hashes per second
   "BCRYPT": 259.000,
   "MD4": 1/3224000,
   "MD5": 1/2414000,
@@ -187,8 +189,8 @@ passfault.calculateTotal = function (analysis){
 passfault.applyTemplate = function (div, analysis, passlength){
 	analysis.totalCostRounded = this.getRoundedSizeString(analysis.cost);
 	analysis.timeToCrack = this.time2Crack(analysis.cost, $('#attacker').val(), $('#hasher').val());
-	var timeToCrackDays = this.timeToCrackDays(analysis.cost, $('#attacker').val(), $('#hasher').val());
-
+	var timeToCrackMilliseconds = this.timeToCrackMilliseconds(analysis.cost, $('#attacker').val(), $('#hasher').val());
+  var timeToCrackDays = timeToCrackMilliseconds / 1000 / 60 / 60 / 24;
 	if(timeToCrackDays > this.time2crackMinDays){
 		analysis.color = "green";
 		analysis.allowedString = "";
@@ -253,14 +255,14 @@ passfault.time2Crack = function (words, attacker_type, protection_type){
 			this.protection[protection_type].iterations);
 }
 
-passfault.timeToCrackDays = function (words, attacker_type, protection_type){
+passfault.timeToCrackMilliseconds = function (words, attacker_type, protection_type){
 
 	timePerPass = this.cracker[this.protection[protection_type].cracker];
 	numProcs = this.attacker[attacker_type].multiplier;
 	iterations = this.protection[protection_type].iterations;
 
 	var millis = timePerPass * iterations / numProcs;
-	return days = words * millis / 1000 / 60 / 60 / 24;
+	return days = words * millis;
 }
 
 passfault.timeToCrack = function (words, timePerPass, numProcs, iterations){
