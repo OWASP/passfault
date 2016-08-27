@@ -17,7 +17,7 @@ Note the war will be located in jsonService/build/lib/passfault-jsonService-[ver
 
 ## Running in Docker:
 1. Pull the Passfault image: `docker pull ccaamm/passfault`
-2. Create and run a passfault instance: `git run -p 8080:8080 --name myPassfault ccaamm/passfault`
+2. Create and run a passfault instance: `docker run -p 8080:8080 --name myPassfault ccaamm/passfault`
 3. Browse to localhost:8080
 
 License: Passfault is licensed under Apache 2.0 license, and is a project at OWASP, the Open Web Application Security Project, a non-profit organization dedicated to building security tools and learning resources.
