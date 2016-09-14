@@ -29,6 +29,8 @@ import java.util.List;
 public class PathCost implements Cloneable {
 
   private PasswordResults password;
+  List<PasswordPattern> path = new LinkedList<PasswordPattern>();
+  double cost = 1;
 
   public PathCost(PasswordResults password) {
     this.password = password;
@@ -39,8 +41,6 @@ public class PathCost implements Cloneable {
     this.path = new LinkedList<PasswordPattern>(toCopy.path);
     this.cost = toCopy.cost;
   }
-  List<PasswordPattern> path = new LinkedList<PasswordPattern>();
-  double cost = 1;
 
   /**
    * Adds a pattern to the current path and updates the
@@ -80,7 +80,7 @@ public class PathCost implements Cloneable {
       return RandomPattern.randomCost(password.getLength());
     }
     PasswordPattern pattern = path.get(0);
-    return RandomPattern.randomCost(pattern.getStartIndex()) * getRelativeCost();
+    return getRelativeCost() * RandomPattern.randomCost(pattern.getStartIndex());
   }
 
   /**

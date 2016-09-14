@@ -76,7 +76,7 @@ public class CandidatePattern {
 
   public PasswordPattern getMatchingPattern(double dictionarySize, String strategyName, String classification, int currentPosition) {
     double crackSize = dictionarySize;
-    String description = "Match";
+    String description = "Exact Match";
     if (decorator != null) {
       description = decorator.getDescription();
       crackSize = crackSize * decorator.getCrackSizeFactor();

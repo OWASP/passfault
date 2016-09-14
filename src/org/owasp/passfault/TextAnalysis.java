@@ -247,24 +247,24 @@ public class TextAnalysis {
 
     if (!output) {
       for (PasswordPattern subPattern : path) {
-        System.out.format("'%s' matches the pattern '%s' in %s\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
-        System.out.format("\t%s passwords in the pattern\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
+        System.out.format("'%s' matches the Rule: '%s' in '%s'\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
+        System.out.format("\taround %s passwords in this Rule\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
         System.out.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
       }
 
-      //PODE SER UTIL NA COMPLEXIDADE
-      //System.out.print("Total passwords in all finders: ");
-      //System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
+      System.out.print("Total complexity (size of smallest search space): ");
+      System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
 
       if (time2crackGPU) {
-        System.out.format("Estimated time to crack %s with %s GPU(s): %s\n",
+        System.out.format("Estimated time to crack %s-encrypted password with %s GPU(s): %s\n",
                 crack.getHashType(), crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
       }else if(time2crackSpeed){
         System.out.format("Estimated time to crack at %s H/s: %s\n",
                 hashSpeed, crack.getTimeToCrackString(worst.getTotalCost()));
       }
 
-      System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);
+      //verbose only
+      //System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);
       System.exit(0);
     }
   }

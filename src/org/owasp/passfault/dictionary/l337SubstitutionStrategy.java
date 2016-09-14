@@ -173,7 +173,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
     
     @Override
     public String getDescription() {
-      return "'Elite' Substitution";
+      return "l337 Substitution";
     }
 
     @Override

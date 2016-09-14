@@ -47,11 +47,11 @@ public enum TimeToCrack {
         break;
       case 2:
         crackTimeNanosecs = 226;
-        hashType = "md5";
+        hashType = "MD5";
         break;
       case 3:
         crackTimeNanosecs = 29247;
-        hashType = "sha512";
+        hashType = "SHA512";
         break;
       case 4:
         crackTimeNanosecs = 1543;
