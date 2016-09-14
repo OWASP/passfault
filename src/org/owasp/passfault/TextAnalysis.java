@@ -37,7 +37,7 @@ public class TextAnalysis {
   public static final String WORD_LIST_EXTENSION = ".words";
   public static TimeToCrack crack = TimeToCrack.GPU1;
   private static Dictionary cDict;
-  private static boolean time2crackGPU, time2crackSpeed, input, output, customDict, verbose;
+  private static boolean time2crackGPU, time2crackSpeed, input, output, customDict, customDictOnly, verbose;
   private static String password, inputPath, outputPath, customDictPath;
   private static int machineNum, hashNum;
   private static float hashSpeed;
@@ -61,8 +61,11 @@ public class TextAnalysis {
         loadDefaultWordLists().
         isInMemory(true).
         build();
-    if (customDict)
+    if (customDict){
+      if (customDictOnly)
+        finders.clear();
       finders.add(new DictionaryPatternsFinder(cDict, new ExactWordStrategy()));
+    }
 
     finder = new ParallelFinder(finders);
   }
@@ -73,9 +76,10 @@ public class TextAnalysis {
     options.addOption("i", "input", true, "path to input file");
     options.addOption("o", "output", true, "path to output file");
     options.addOption("g", "gpu", true, "number of GPUs for Time to Crack analysis");
+    options.addOption("c", "customDictionaryOnly", false, "ignore internal dictionaries and use custom dictionary only");
     options.addOption("d", "customDictionary", true, "path to custom dictionary");
     options.addOption("f", "hashFunction", true, "hash function for Time to Crack analysis");
-    options.addOption("s", "hashspeed", true, "hashes per second for Time to Crack analysis");
+    options.addOption("s", "hashSpeed", true, "hashes per second for Time to Crack analysis");
     options.addOption("v", "verbose", false, "verbose mode");
     options.addOption("h", "help", false, "help menu");
 
@@ -118,6 +122,14 @@ public class TextAnalysis {
         customDict = true;
       }
 
+      if(line.hasOption("customDictionaryOnly")){
+        customDictOnly = true;
+        if (!line.hasOption("customDictionary")){
+          System.out.println("CLI error: you need to give the path to a custom dictionary with option -d. See help for more info.");
+          exit = true;
+        }
+      }
+
       if(line.hasOption("password")){
         if (line.hasOption("input")){
           System.out.println("CLI error: too many input options! Use either -p or -i, never both! See help for more info.");
@@ -131,19 +143,19 @@ public class TextAnalysis {
         }
       }
 
-      if (line.hasOption("hashspeed") || line.hasOption("gpu") || line.hasOption("hashFunction")){
+      if (line.hasOption("hashSpeed") || line.hasOption("gpu") || line.hasOption("hashFunction")){
         if ((line.hasOption("gpu") && !line.hasOption("hashFunction")) || (!line.hasOption("gpu") && line.hasOption("hashFunction"))) {
           System.out.println("CLI error: in order to get Time to Crack analysis, you need to provide either only -s, or both -g and -f options. See help for more info.");
           exit = true;
 
-        }else if(line.hasOption("hashspeed") && line.hasOption("gpu") && line.hasOption("hashFunction")) {
+        }else if(line.hasOption("hashSpeed") && line.hasOption("gpu") && line.hasOption("hashFunction")) {
           System.out.println("CLI error: in order to get Time to Crack analysis, you need to provide either only -s, or both -g and -f options. See help for more info.");
           exit = true;
 
-        }else if(line.hasOption("hashspeed")){
+        }else if(line.hasOption("hashSpeed")){
           time2crackSpeed = true;
 
-          String hps = line.getOptionValue("hashspeed");
+          String hps = line.getOptionValue("hashSpeed");
           hashSpeed = new Float(hps);
 
           if (hashSpeed <= 0){
@@ -199,31 +211,25 @@ public class TextAnalysis {
   private void process()
       throws Exception {
     PasswordAnalysis analysis = new PasswordAnalysis(password);
-    
-    switch (machineNum) {
-      case 1: crack = TimeToCrack.GPU1;
-              break;
-      case 2: crack = TimeToCrack.GPU10;
-              break;
-      case 3: crack = TimeToCrack.GPU100;
-              break;
-      case 4: crack = TimeToCrack.GPU1000;
-              break;
-      default: crack = TimeToCrack.GPU1;
-               break;
-    }
-    
-    switch (hashNum) {
-      case 1: crack.setHashType("bcrypt", hashNum);
-              break;        
-      case 2: crack.setHashType("md5crypt", hashNum);
-              break;
-      case 3: crack.setHashType("sha512crypt", hashNum);
-              break;
-      case 4: crack.setHashType("Password Safe", hashNum);
-              break;
-      default: crack.setHashType("bcrypt", hashNum);
-              break;
+
+    if (time2crackGPU){
+      switch (machineNum) {
+        case 1: crack = TimeToCrack.GPU1;
+          break;
+        case 2: crack = TimeToCrack.GPU10;
+          break;
+        case 3: crack = TimeToCrack.GPU100;
+          break;
+        case 4: crack = TimeToCrack.GPU1000;
+          break;
+        default: crack = TimeToCrack.GPU1;
+          break;
+      }
+
+      crack.setHashType(hashNum);
+
+    }else if(time2crackSpeed){
+      crack.setHashSpeed(hashSpeed);
     }
 
     long then = System.currentTimeMillis();
@@ -246,12 +252,16 @@ public class TextAnalysis {
         System.out.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
       }
 
+      //PODE SER UTIL NA COMPLEXIDADE
       //System.out.print("Total passwords in all finders: ");
       //System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
 
-      if (time2crackGPU || time2crackSpeed) {
-        System.out.format("Estimated time to crack with %s GPU(s): %s\n",
-        crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
+      if (time2crackGPU) {
+        System.out.format("Estimated time to crack %s with %s GPU(s): %s\n",
+                crack.getHashType(), crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
+      }else if(time2crackSpeed){
+        System.out.format("Estimated time to crack at %s H/s: %s\n",
+                hashSpeed, crack.getTimeToCrackString(worst.getTotalCost()));
       }
 
       System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);

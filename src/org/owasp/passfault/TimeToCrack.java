@@ -31,7 +31,7 @@ public enum TimeToCrack {
   GPU1000(1000, "Government?, $500,000");
   
   int numberOfGPUs;
-  String displayName;
+  String displayName, hashType;
   long crackTimeNanosecs;
 
   TimeToCrack(int numberOfGPUs, String description) {
@@ -39,19 +39,37 @@ public enum TimeToCrack {
     this.displayName = description;
   }
   
-  public void setHashType(String hashType, int hashNum) {
+  public void setHashType(int hashNum) {
     switch (hashNum) {
-      case 1:  crackTimeNanosecs = 259000;//bcrypt
-         break;
-      case 2:  crackTimeNanosecs = 226;//md5crypt 
-               break;
-      case 3:  crackTimeNanosecs = 29247;//sha512crypt
-         break;
-      case 4:  crackTimeNanosecs = 1543;//Password Safe
-               break;  
-      default: crackTimeNanosecs = 259000;//default: bcrypt
-               break;
+      case 1:
+        crackTimeNanosecs = 259000;
+        hashType = "bcrypt";
+        break;
+      case 2:
+        crackTimeNanosecs = 226;
+        hashType = "md5";
+        break;
+      case 3:
+        crackTimeNanosecs = 29247;
+        hashType = "sha512";
+        break;
+      case 4:
+        crackTimeNanosecs = 1543;
+        hashType = "Password Safe";
+        break;
+      default:
+        crackTimeNanosecs = 259000;
+        hashType = "bcrypt";
+        break;
     }
+  }
+
+  public void setHashSpeed(float hashSpeed){
+    crackTimeNanosecs = (long) (1000000000/hashSpeed);
+  }
+
+  public String getHashType(){
+    return hashType;
   }
 
   public int getNumberOfGPUs() {
