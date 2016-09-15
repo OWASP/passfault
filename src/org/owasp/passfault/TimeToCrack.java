@@ -13,55 +13,47 @@
 
 package org.owasp.passfault;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * TimeToCrack enumerates different classes of hardware and can estimate the
- * time required to find one password in a password pattern.  The time to crack
- * is the average time to find the password, which on average is the time to
+ * TimeToCrack estimates the time required to find one password in a password pattern.
+ * The time to crack is the average time to find the password, which on average is the time to
  * enumerate half of the passwords.
  *
- * Note that currently this processing power is based on the crack time for
- * bcrypt on a 1.8 ghz processor
- * @author cam
+ * The cracking speeds are based on a Hashcat benchmark with a GeForce GTX TITAN X, 12287MB, 1215Mhz, 24MCU.
+ *
+ * @author cam, bernardo
  */
-public enum TimeToCrack {
+public class TimeToCrack {
+  private int numberOfGPUs, hashOption;
+  private double crackTimeNanosecs, crackSpeed;
+  private String hashType;
+  private Map<Integer, Float> speedMap;
+  private Map<Integer, String> algMap;
 
-  GPU1(1, "Every day hacker, $500"),
-  GPU10(10, "Dedicated hacker, $5,000"),
-  GPU100(100, "Organized crime hacker, $50,000"),
-  GPU1000(1000, "Government?, $500,000");
-  
-  int numberOfGPUs;
-  String displayName, hashType;
-  long crackTimeNanosecs;
+  public static final String BENCHMARK_INFO = "hashcat/hashcat.txt";
 
-  TimeToCrack(int numberOfGPUs, String description) {
+  TimeToCrack(int numberOfGPUs, int algOption) {
+    setMaps();
     this.numberOfGPUs = numberOfGPUs;
-    this.displayName = description;
+    this.hashOption = algOption;
+    this.hashType = algMap.get(algOption);
+
+    this.crackSpeed = speedMap.get(algOption);
+    this.crackTimeNanosecs = (double) (1000000000/crackSpeed);
   }
-  
-  public void setHashType(int hashNum) {
-    switch (hashNum) {
-      case 1:
-        crackTimeNanosecs = 259000;
-        hashType = "bcrypt";
-        break;
-      case 2:
-        crackTimeNanosecs = 226;
-        hashType = "MD5";
-        break;
-      case 3:
-        crackTimeNanosecs = 29247;
-        hashType = "SHA512";
-        break;
-      case 4:
-        crackTimeNanosecs = 1543;
-        hashType = "Password Safe";
-        break;
-      default:
-        crackTimeNanosecs = 259000;
-        hashType = "bcrypt";
-        break;
-    }
+
+  TimeToCrack(float hashSpeed) {
+    this.crackTimeNanosecs = (double) (1000000000/hashSpeed);
+  }
+
+  public double getCrackSpeed(){
+    return this.crackSpeed * this.numberOfGPUs;
   }
 
   public void setHashSpeed(float hashSpeed){
@@ -74,13 +66,6 @@ public enum TimeToCrack {
 
   public int getNumberOfGPUs() {
     return numberOfGPUs;
-  }
-
-  /**
-   * @return a display name suitable for a user interface
-   */
-  public String getDisplayName() {
-    return displayName;
   }
 
   /**
@@ -208,5 +193,28 @@ public enum TimeToCrack {
       builder.append(types[rounds]);
     }
     return builder.toString();
+  }
+
+  private void setMaps(){
+    speedMap = new HashMap<>();
+    algMap = new HashMap<>();
+    try{
+      BufferedReader buffered = new BufferedReader(new FileReader(BENCHMARK_INFO));
+      String line;
+
+      int i = 0;
+      while ((line = buffered.readLine()) != null){
+        String[] tokens = line.split(";");
+        speedMap.put(Integer.parseInt(tokens[0]), Float.parseFloat(tokens[2]));
+        algMap.put(Integer.parseInt(tokens[0]), tokens[1]);
+      }
+      buffered.close();
+    }catch (FileNotFoundException e){
+      System.out.println(e);
+      System.exit(0);
+    }catch (IOException e){
+      System.out.println("IOException");
+      System.exit(0);
+    }
   }
 }

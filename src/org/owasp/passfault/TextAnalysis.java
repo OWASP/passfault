@@ -35,7 +35,7 @@ import static java.util.logging.Logger.getLogger;
 public class TextAnalysis {
 
   public static final String WORD_LIST_EXTENSION = ".words";
-  public static TimeToCrack crack = TimeToCrack.GPU1;
+  public static TimeToCrack crack;
   private static Dictionary cDict;
   private static boolean time2crackGPU, time2crackSpeed, input, output, customDict, customDictOnly, verbose;
   private static String password, inputPath, outputPath, customDictPath;
@@ -172,8 +172,13 @@ public class TextAnalysis {
           String hashFunction = line.getOptionValue("hashFunction");
           hashNum = new Integer(hashFunction);
 
-          if (machineNum < 1 || machineNum > 4 || hashNum < 1 || hashNum > 4){
-            System.out.println("CLI error: you must provide a number between 1 and 4 for -g and -f options. See help for more info.");
+          if (machineNum < 1){
+            System.out.println("CLI error: you must use at least one GPU for the simulation. See help for more info.");
+            exit = true;
+          }
+
+          if (hashNum < 0 || hashNum > 142){
+            System.out.println("CLI error: invalid argument for -f. See help for more info.");
             exit = true;
           }
         }
@@ -213,23 +218,9 @@ public class TextAnalysis {
     PasswordAnalysis analysis = new PasswordAnalysis(password);
 
     if (time2crackGPU){
-      switch (machineNum) {
-        case 1: crack = TimeToCrack.GPU1;
-          break;
-        case 2: crack = TimeToCrack.GPU10;
-          break;
-        case 3: crack = TimeToCrack.GPU100;
-          break;
-        case 4: crack = TimeToCrack.GPU1000;
-          break;
-        default: crack = TimeToCrack.GPU1;
-          break;
-      }
-
-      crack.setHashType(hashNum);
-
+      crack = new TimeToCrack(machineNum, hashNum);
     }else if(time2crackSpeed){
-      crack.setHashSpeed(hashSpeed);
+      crack = new TimeToCrack(hashSpeed);
     }
 
     long then = System.currentTimeMillis();
@@ -256,7 +247,9 @@ public class TextAnalysis {
       System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
 
       if (time2crackGPU) {
-        System.out.format("Estimated time to crack %s-encrypted password with %s GPU(s): %s\n",
+        System.out.format("Estimated '%s' cracking speed with %s GPU(s): %s H/s\n",
+                crack.getHashType(), crack.getNumberOfGPUs(), crack.getRoundedSizeString(crack.getCrackSpeed()));
+        System.out.format("Estimated time to crack '%s' password with %s GPU(s): %s\n",
                 crack.getHashType(), crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
       }else if(time2crackSpeed){
         System.out.format("Estimated time to crack at %s H/s: %s\n",
