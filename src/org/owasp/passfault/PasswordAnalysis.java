@@ -247,8 +247,15 @@ public class PasswordAnalysis implements PasswordResults {
   }
 
   private PathCost getIthSmallestCost(int i) {
-    if (ithSmallestCost.containsKey(i)) {
-      return new PathCost(ithSmallestCost.get(i)); //need a deep copy since it will be added to
+    PathCost copy = ithSmallestCost.get(i);
+    if (ithSmallestCost.containsKey(i) && (copy != null)) {
+      try {
+        return new PathCost(copy); //need a deep copy since it will be added to
+      } catch (Exception e){
+        PathCost debug0 = ithSmallestCost.get(i);
+        PathCost debug = new PathCost(ithSmallestCost.get(i));
+        return null;
+      }
     } else {
       return null;
     }

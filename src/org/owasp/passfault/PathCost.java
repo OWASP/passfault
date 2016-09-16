@@ -42,6 +42,10 @@ public class PathCost implements Cloneable {
     this.cost = toCopy.cost;
   }
 
+  public PasswordResults getPassword(){
+    return this.password;
+  }
+
   /**
    * Adds a pattern to the current path and updates the
    * current cost of the path

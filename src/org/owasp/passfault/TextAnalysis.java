@@ -21,7 +21,6 @@ import org.owasp.passfault.finders.ParallelFinder;
 import org.owasp.passfault.dictionary.Dictionary;
 
 import java.io.*;
-import java.util.LinkedList;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,13 +30,13 @@ import java.util.List;
  */
 public class TextAnalysis {
 
-  public static final String WORD_LIST_EXTENSION = ".words";
   public static TimeToCrack crack;
   private static Dictionary cDict;
   private static BufferedReader inputFile;
   private static int inputFileSize;
+  private static PrintWriter outputFile;
   private static boolean time2crackGPU, time2crackSpeed, input, output, customDict, customDictOnly, verbose;
-  private static String password, inputPath, outputPath, customDictPath;
+  private static String password;
   private static int machineNum, hashNum;
   private static float hashSpeed;
 
@@ -56,6 +55,12 @@ public class TextAnalysis {
 
   public TextAnalysis(String[] args) throws IOException {
     cli(args);
+
+    if (time2crackGPU){
+      crack = new TimeToCrack(machineNum, hashNum);
+    }else if(time2crackSpeed){
+      crack = new TimeToCrack(hashSpeed);
+    }
 
     Collection<PatternFinder> finders = new FinderByPropsBuilder().
         loadDefaultWordLists().
@@ -95,15 +100,22 @@ public class TextAnalysis {
       }
 
       if(line.hasOption("input")){
-        inputPath = line.getOptionValue("input");
+        String inputPath = line.getOptionValue("input");
 
         try{
-          this.inputFile = new BufferedReader(new FileReader(inputPath));
+          //count lines
+          inputFile = new BufferedReader(new FileReader(inputPath));
+          inputFileSize = 0;
+          while (inputFile.readLine() != null) inputFileSize++;
+          inputFile.close();
+
+          inputFile = new BufferedReader(new FileReader(inputPath));
+
         }catch (FileNotFoundException e){
           System.out.println("CLI error: invalid path in -i option. See help for more info.");
           System.exit(0);
         }catch (IOException e){
-          System.out.println("IOException");
+          System.out.println(e);
           System.exit(0);
         }
 
@@ -111,14 +123,22 @@ public class TextAnalysis {
       }
 
       if (line.hasOption("output")){
-        outputPath = line.getOptionValue("output");
-        //create output file
+        String outputPath = line.getOptionValue("output");
+        try{
+          outputFile = new PrintWriter(outputPath, "UTF-8");
+        }catch (FileNotFoundException e){
+          System.out.println("?");
+          System.exit(0);
+        }catch (UnsupportedEncodingException e){
+          System.out.println(e);
+          System.exit(0);
+        }
 
         output = true;
       }
 
       if(line.hasOption("customDictionary")){
-        customDictPath = line.getOptionValue("customDictionary");
+        String customDictPath = line.getOptionValue("customDictionary");
 
         try {
           cDict = FileDictionary.newInstance(customDictPath, "customDict");
@@ -205,37 +225,58 @@ public class TextAnalysis {
   }
 
   public void printBanner(){
-    System.out.print(
-"                                         /******                    /**   /**                \n"+
-"                                        /**__  **                  | **  | **                \n"+
-"  /******   /******   /******* /*******| **  \\__//******  /**   /**| ** /******              \n"+
-" /**__  ** |____  ** /**_____//**_____/| ****   |____  **| **  | **| **|_  **_/              \n"+
-"| **  \\ **  /*******|  ******|  ****** | **_/    /*******| **  | **| **  | **                \n"+
-"| **  | ** /**__  ** \\____  **\\____  **| **     /**__  **| **  | **| **  | ** /**            \n"+
-"| *******/|  ******* /*******//*******/| **    |  *******|  ******/| **  |  ****/            \n"+
-"| **____/  \\_______/|_______/|_______/ |__/     \\_______/ \\______/ |__/   \\___/              \n"+
-"| **                                                                                         \n"+
-"| **                                                                                         \n"+
-"|__/                                                                                         \n"+
-"\n");
-
+    if (output){
+      outputFile.print(
+              "                                         /******                    /**   /**                \n"+
+                      "                                        /**__  **                  | **  | **                \n"+
+                      "  /******   /******   /******* /*******| **  \\__//******  /**   /**| ** /******              \n"+
+                      " /**__  ** |____  ** /**_____//**_____/| ****   |____  **| **  | **| **|_  **_/              \n"+
+                      "| **  \\ **  /*******|  ******|  ****** | **_/    /*******| **  | **| **  | **                \n"+
+                      "| **  | ** /**__  ** \\____  **\\____  **| **     /**__  **| **  | **| **  | ** /**            \n"+
+                      "| *******/|  ******* /*******//*******/| **    |  *******|  ******/| **  |  ****/            \n"+
+                      "| **____/  \\_______/|_______/|_______/ |__/     \\_______/ \\______/ |__/   \\___/              \n"+
+                      "| **                                                                                         \n"+
+                      "| **                                                                                         \n"+
+                      "|__/                                                                                         \n"+
+                      "\n");
+    }else{
+      System.out.print(
+              "                                         /******                    /**   /**                \n"+
+                      "                                        /**__  **                  | **  | **                \n"+
+                      "  /******   /******   /******* /*******| **  \\__//******  /**   /**| ** /******              \n"+
+                      " /**__  ** |____  ** /**_____//**_____/| ****   |____  **| **  | **| **|_  **_/              \n"+
+                      "| **  \\ **  /*******|  ******|  ****** | **_/    /*******| **  | **| **  | **                \n"+
+                      "| **  | ** /**__  ** \\____  **\\____  **| **     /**__  **| **  | **| **  | ** /**            \n"+
+                      "| *******/|  ******* /*******//*******/| **    |  *******|  ******/| **  |  ****/            \n"+
+                      "| **____/  \\_______/|_______/|_______/ |__/     \\_______/ \\______/ |__/   \\___/              \n"+
+                      "| **                                                                                         \n"+
+                      "| **                                                                                         \n"+
+                      "|__/                                                                                         \n"+
+                      "\n");
+    }
   }
 
   private void process() throws Exception {
-    if (time2crackGPU){
-      crack = new TimeToCrack(machineNum, hashNum);
-    }else if(time2crackSpeed){
-      crack = new TimeToCrack(hashSpeed);
-    }
+    if (output)
+      System.out.println("Please wait, results are being written to output file... ");
 
     if (input){
-      String line;
-      while ((line = inputFile.readLine()) != null) {
-        passwordAnalysis(line);
+      int line = 0;
+      while ((password = inputFile.readLine()) != null) {
+        line++;
+        double done = 100.0* ((double) line)/inputFileSize;
+        System.out.format("Analysing '%s', %3.2f percent done.\n", password, done);
+        passwordAnalysis(password);
       }
     }else{
       passwordAnalysis(password);
     }
+
+    if (output){
+      outputFile.close();
+      System.out.println("Finished writing output file.");
+    }
+
     System.exit(0);
   }
 
@@ -246,36 +287,78 @@ public class TextAnalysis {
     PathCost worst = analysis.calculateHighestProbablePatterns();
     long now = System.currentTimeMillis();
 
+    double analysisTime = (now - then) / 1000.0;
+
+    if (output){
+      writeOutput(worst, analysisTime);
+    }else{
+      printOutput(worst, analysisTime);
+    }
+  }
+
+  private void writeOutput(PathCost worst, double analysisTime){
     List<PasswordPattern> path = worst.getPath();
-    System.out.println("\n\nMost crackable patterns:");
+    outputFile.format("\n\nRules found in password '%s': \n", worst.getPassword().getCharSequence());
     double costSum = 0;
     for (PasswordPattern subPattern : path) {
       //get the sum of pattern costs:
       costSum += subPattern.getCost();
     }
 
-    if (!output) {
-      for (PasswordPattern subPattern : path) {
-        System.out.format("'%s' matches the Rule: '%s' in '%s'\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
-        System.out.format("\taround %s passwords in this Rule\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
-        System.out.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
-      }
-
-      System.out.print("Total complexity (size of smallest search space): ");
-      System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
-
-      if (time2crackGPU) {
-        System.out.format("Estimated '%s' cracking speed with %s GPU(s): %s H/s\n",
-                crack.getHashType(), crack.getNumberOfGPUs(), crack.getRoundedSizeString(crack.getCrackSpeed()));
-        System.out.format("Estimated time to crack '%s' password with %s GPU(s): %s\n",
-                crack.getHashType(), crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
-      } else if (time2crackSpeed) {
-        System.out.format("Estimated time to crack at %s H/s: %s\n",
-                hashSpeed, crack.getTimeToCrackString(worst.getTotalCost()));
-      }
-
-      //verbose only
-      //System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);
+    for (PasswordPattern subPattern : path) {
+      outputFile.format("'%s' matches the Rule: '%s' in '%s'\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
+      outputFile.format("\taround %s passwords in this Rule\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
+      outputFile.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
     }
+
+    outputFile.print("Total complexity (size of smallest search space): ");
+    outputFile.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
+
+    if (time2crackGPU) {
+      outputFile.format("Hashing Algorithm: '%s'\n", crack.getHashType());
+      outputFile.format("Estimated cracking speed with %s GPU(s): %s H/s\n",
+              crack.getNumberOfGPUs(), crack.getRoundedSizeString(crack.getCrackSpeed()));
+      outputFile.format("Estimated time to crack password with %s GPU(s): %s\n",
+              crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
+    } else if (time2crackSpeed) {
+      outputFile.format("Estimated time to crack at %s H/s: %s\n",
+              hashSpeed, crack.getTimeToCrackString(worst.getTotalCost()));
+    }
+
+    //verbose only
+    //outputFile.format("Analysis Time: %f seconds\n", analysisTime);
+  }
+
+  private void printOutput(PathCost worst, double analysisTime){
+    List<PasswordPattern> path = worst.getPath();
+    System.out.format("\n\nRules found in password '%s': \n", worst.getPassword().getCharSequence());
+    double costSum = 0;
+    for (PasswordPattern subPattern : path) {
+      //get the sum of pattern costs:
+      costSum += subPattern.getCost();
+    }
+
+    for (PasswordPattern subPattern : path) {
+      System.out.format("'%s' matches the Rule: '%s' in '%s'\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
+      System.out.format("\taround %s passwords in this Rule\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
+      System.out.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
+    }
+
+    System.out.print("Total complexity (size of smallest search space): ");
+    System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
+
+    if (time2crackGPU) {
+      System.out.format("Hashing Algorithm: '%s'\n", crack.getHashType());
+      System.out.format("Estimated cracking speed with %s GPU(s): %s H/s\n",
+              crack.getNumberOfGPUs(), crack.getRoundedSizeString(crack.getCrackSpeed()));
+      System.out.format("Estimated time to crack password with %s GPU(s): %s\n",
+              crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
+    } else if (time2crackSpeed) {
+      System.out.format("Estimated time to crack at %s H/s: %s\n",
+              hashSpeed, crack.getTimeToCrackString(worst.getTotalCost()));
+    }
+
+    //verbose only
+    //System.out.format("Analysis Time: %f seconds\n", analysisTime);
   }
 }
