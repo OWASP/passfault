@@ -21,12 +21,9 @@ import org.owasp.passfault.finders.ParallelFinder;
 import org.owasp.passfault.dictionary.Dictionary;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
-
-import static java.util.logging.Logger.getLogger;
-
 
 /**
  * Command line password evaluator.
@@ -37,6 +34,8 @@ public class TextAnalysis {
   public static final String WORD_LIST_EXTENSION = ".words";
   public static TimeToCrack crack;
   private static Dictionary cDict;
+  private static BufferedReader inputFile;
+  private static int inputFileSize;
   private static boolean time2crackGPU, time2crackSpeed, input, output, customDict, customDictOnly, verbose;
   private static String password, inputPath, outputPath, customDictPath;
   private static int machineNum, hashNum;
@@ -49,14 +48,15 @@ public class TextAnalysis {
       System.out.println("CLI error: you must provide some information. See help for more info.");
       System.exit(0);
     }
-    cli(args);
 
-    TextAnalysis analyzer = new TextAnalysis();
+    TextAnalysis analyzer = new TextAnalysis(args);
     analyzer.printBanner();
     analyzer.process();
   }
 
-  public TextAnalysis() throws IOException {
+  public TextAnalysis(String[] args) throws IOException {
+    cli(args);
+
     Collection<PatternFinder> finders = new FinderByPropsBuilder().
         loadDefaultWordLists().
         isInMemory(true).
@@ -70,7 +70,7 @@ public class TextAnalysis {
     finder = new ParallelFinder(finders);
   }
 
-  private static void cli(String[] args){
+  private void cli(String[] args){
     Options options = new Options();
     options.addOption("p", "password", true, "password to be analyzed");
     options.addOption("i", "input", true, "path to input file");
@@ -96,7 +96,16 @@ public class TextAnalysis {
 
       if(line.hasOption("input")){
         inputPath = line.getOptionValue("input");
-        //read input file
+
+        try{
+          this.inputFile = new BufferedReader(new FileReader(inputPath));
+        }catch (FileNotFoundException e){
+          System.out.println("CLI error: invalid path in -i option. See help for more info.");
+          System.exit(0);
+        }catch (IOException e){
+          System.out.println("IOException");
+          System.exit(0);
+        }
 
         input = true;
       }
@@ -111,7 +120,6 @@ public class TextAnalysis {
       if(line.hasOption("customDictionary")){
         customDictPath = line.getOptionValue("customDictionary");
 
-        //create output file
         try {
           cDict = FileDictionary.newInstance(customDictPath, "customDict");
         }catch (IOException e){
@@ -177,7 +185,7 @@ public class TextAnalysis {
             exit = true;
           }
 
-          if (hashNum < 0 || hashNum > 142){
+          if (hashNum < 0 || hashNum > 101){
             System.out.println("CLI error: invalid argument for -f. See help for more info.");
             exit = true;
           }
@@ -213,16 +221,26 @@ public class TextAnalysis {
 
   }
 
-  private void process()
-      throws Exception {
-    PasswordAnalysis analysis = new PasswordAnalysis(password);
-
+  private void process() throws Exception {
     if (time2crackGPU){
       crack = new TimeToCrack(machineNum, hashNum);
     }else if(time2crackSpeed){
       crack = new TimeToCrack(hashSpeed);
     }
 
+    if (input){
+      String line;
+      while ((line = inputFile.readLine()) != null) {
+        passwordAnalysis(line);
+      }
+    }else{
+      passwordAnalysis(password);
+    }
+    System.exit(0);
+  }
+
+  private void passwordAnalysis(String password) throws Exception{
+    PasswordAnalysis analysis = new PasswordAnalysis(password);
     long then = System.currentTimeMillis();
     finder.blockingAnalyze(analysis);
     PathCost worst = analysis.calculateHighestProbablePatterns();
@@ -251,14 +269,13 @@ public class TextAnalysis {
                 crack.getHashType(), crack.getNumberOfGPUs(), crack.getRoundedSizeString(crack.getCrackSpeed()));
         System.out.format("Estimated time to crack '%s' password with %s GPU(s): %s\n",
                 crack.getHashType(), crack.getNumberOfGPUs(), crack.getTimeToCrackString(worst.getTotalCost()));
-      }else if(time2crackSpeed){
+      } else if (time2crackSpeed) {
         System.out.format("Estimated time to crack at %s H/s: %s\n",
                 hashSpeed, crack.getTimeToCrackString(worst.getTotalCost()));
       }
 
       //verbose only
       //System.out.format("Analysis Time: %f seconds\n", (now - then) / (double) 1000);
-      System.exit(0);
     }
   }
 }

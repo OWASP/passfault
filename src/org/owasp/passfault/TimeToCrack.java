@@ -189,8 +189,10 @@ public class TimeToCrack {
       builder.append(' ');
       builder.append(types[types.length - 1]);
     } else {
-      builder.append(' ');
-      builder.append(types[rounds]);
+      if (size > 1000){
+        builder.append(' ');
+        builder.append(types[rounds]);
+      }
     }
     return builder.toString();
   }
