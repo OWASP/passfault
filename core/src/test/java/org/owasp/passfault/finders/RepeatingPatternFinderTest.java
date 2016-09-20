@@ -13,7 +13,7 @@
 package org.owasp.passfault.finders;
 
 import org.junit.Test;
-import org.owasp.passfault.PasswordAnalysis;
+import org.owasp.passfault.PasswordResultsImpl;
 import org.owasp.passfault.PasswordPattern;
 import org.owasp.passfault.PathCost;
 
@@ -28,7 +28,7 @@ public class RepeatingPatternFinderTest {
   public void dup() {
     System.out.println("process");
 
-    PasswordAnalysis password = new PasswordAnalysis("abcabc");
+    PasswordResultsImpl password = new PasswordResultsImpl("abcabc");
     PathCost cost = new PathCost(password);
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(0, 3, "abc", 100, "test pattern"));
@@ -45,7 +45,7 @@ public class RepeatingPatternFinderTest {
   public void nonDup() {
     System.out.println("process");
 
-    PasswordAnalysis password = new PasswordAnalysis("abcabc");
+    PasswordResultsImpl password = new PasswordResultsImpl("abcabc");
     PathCost cost = new PathCost(password);
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(0, 3, "xyz", 100, "test pattern"));
@@ -62,7 +62,7 @@ public class RepeatingPatternFinderTest {
   public void twoDup() {
     System.out.println("process");
 
-    PasswordAnalysis password = new PasswordAnalysis("abcabcabc");
+    PasswordResultsImpl password = new PasswordResultsImpl("abcabcabc");
     PathCost cost = new PathCost(password);
     cost.addPattern(new PasswordPattern(6, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
@@ -81,7 +81,7 @@ public class RepeatingPatternFinderTest {
   public void dupExtra() {
     System.out.println("process");
 
-    PasswordAnalysis password = new PasswordAnalysis("123abc456abc789");
+    PasswordResultsImpl password = new PasswordResultsImpl("123abc456abc789");
     PathCost cost = new PathCost(password);
     cost.addPattern(new PasswordPattern(9, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));

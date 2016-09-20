@@ -11,7 +11,10 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault;
+package org.owasp.passfault.api;
+
+import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.PathCost;
 
 /**
  *

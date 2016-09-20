@@ -13,6 +13,8 @@
 
 package org.owasp.passfault;
 
+import org.owasp.passfault.api.PasswordResults;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;

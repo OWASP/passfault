@@ -19,11 +19,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.PasswordAnalysis;
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PathCost;
 
-public class PasswordAnalysisTest {
+public class PasswordResultsImplTest {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -43,7 +40,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void randomNumbers() {
-    PasswordAnalysis pa = new PasswordAnalysis("1234");
+    PasswordResultsImpl pa = new PasswordResultsImpl("1234");
     PathCost patterns = pa.calculateHighestProbablePatterns();
 
     List<PasswordPattern> list = patterns.getPath();
@@ -56,7 +53,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void onePattern_Middle() {
-    PasswordAnalysis pa = new PasswordAnalysis("1234");
+    PasswordResultsImpl pa = new PasswordResultsImpl("1234");
     pa.foundPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
 
     PathCost patterns = pa.calculateHighestProbablePatterns();
@@ -72,7 +69,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void onePattern_End() {
-    PasswordAnalysis pa = new PasswordAnalysis("1234");
+    PasswordResultsImpl pa = new PasswordResultsImpl("1234");
     pa.foundPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
 
     PathCost patterns = pa.calculateHighestProbablePatterns();
@@ -87,7 +84,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void onePattern_beginning() {
-    PasswordAnalysis pa = new PasswordAnalysis("1234");
+    PasswordResultsImpl pa = new PasswordResultsImpl("1234");
     pa.foundPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
 
     PathCost patterns = pa.calculateHighestProbablePatterns();
@@ -102,7 +99,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void twoPattern_middle() {
-    PasswordAnalysis pa = new PasswordAnalysis("12345");
+    PasswordResultsImpl pa = new PasswordResultsImpl("12345");
     pa.foundPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
     pa.foundPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
@@ -119,7 +116,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void onePattern_overlap() {
-    PasswordAnalysis pa = new PasswordAnalysis("12345");
+    PasswordResultsImpl pa = new PasswordResultsImpl("12345");
     pa.foundPattern(new PasswordPattern(1, 2, "23", 15, "worstPattern"));
     pa.foundPattern(new PasswordPattern(1, 2, "23", 4, "bestPattern"));
     pa.foundPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
@@ -137,7 +134,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void twoPattern_overlap() {
-    PasswordAnalysis pa = new PasswordAnalysis("12345");
+    PasswordResultsImpl pa = new PasswordResultsImpl("12345");
     pa.foundPattern(new PasswordPattern(1, 1, "2", 15, "badPattern"));
     pa.foundPattern(new PasswordPattern(1, 1, "2", 4, "bestPattern"));
     pa.foundPattern(new PasswordPattern(1, 1, "2", 20, "worserPattern"));
@@ -165,7 +162,7 @@ public class PasswordAnalysisTest {
 
   @Test
   public void allPossibleRandom() {
-    PasswordAnalysis pa = new PasswordAnalysis("37384756683");
+    PasswordResultsImpl pa = new PasswordResultsImpl("37384756683");
     RandomAddAll.RandomAddAll(pa);
     PathCost patterns = pa.calculateHighestProbablePatterns();
 

@@ -1,30 +1,17 @@
 package org.owasp.passfault.web;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.nio.CharBuffer;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PatternFinder;
-import org.owasp.passfault.PasswordAnalysis;
-import org.owasp.passfault.PathCost;
-import org.owasp.passfault.SecureString;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.finders.ExecutorFinder;
-import org.owasp.passfault.finders.SequentialFinder;
-import org.owasp.passfault.io.JsonWriter;
-import org.owasp.passfault.CompositeFinder;
+import org.owasp.passfault.api.CompositeFinder;
 
 /**
  * Servlet implementation class PassfaultServlet  This specialization of PassfaultServlet
@@ -34,12 +21,8 @@ import org.owasp.passfault.CompositeFinder;
 public class AppEnginePassfaultServlet extends PassfaultServlet {
     public AppEnginePassfaultServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
 	public void init(ServletConfig config) throws ServletException {
     super.init(config);
 	}
@@ -64,20 +47,19 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
     }
 
     @Override
-    public void blockingAnalyze(PasswordResults pass)
+    public void analyze(PasswordAnalysis pass)
       throws Exception
     {
-      super.blockingAnalyze(pass);
+      super.analyze(pass);
       super.shutdown();  
     }
 
     @Override
-    public void waitForAnalysis(PasswordResults pass)
-      throws Exception
+    public Future<PasswordAnalysis> analyzeFuture(PasswordAnalysis pass) 
     {
-      // TODO Auto-generated method stub
-      super.waitForAnalysis(pass);
+      Future<PasswordAnalysis> result = super.analyzeFuture(pass);
       super.shutdown();
+      return result;
     }
   }
 }

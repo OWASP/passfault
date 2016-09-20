@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.owasp.passfault.FinderByPropsBuilder;
-import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.api.PatternFinder;
 
 /**
  * This builds finders for analyzing passwords.  It could be extended to add additional custom word lists

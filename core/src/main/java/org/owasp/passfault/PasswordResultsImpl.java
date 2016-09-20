@@ -13,6 +13,8 @@
 
 package org.owasp.passfault;
 
+import org.owasp.passfault.api.AnalysisListener;
+import org.owasp.passfault.api.PasswordResults;
 import org.owasp.passfault.finders.RepeatingPatternFinder;
 
 import java.util.HashMap;
@@ -36,15 +38,15 @@ import static java.util.logging.Logger.getLogger;
  *
  * @author cam
  */
-public class PasswordAnalysis implements PasswordResults {
+public class PasswordResultsImpl implements PasswordResults {
 
-  private static final Logger log = getLogger(PasswordAnalysis.class.getName());
+  private static final Logger log = getLogger(PasswordResultsImpl.class.getName());
 
   private CharSequence password;
-  private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<Integer, List<PasswordPattern>>();
-  private Map<Integer, PathCost> ithSmallestCost = new HashMap<Integer, PathCost>();
+  private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<>();
+  private Map<Integer, PathCost> ithSmallestCost = new HashMap<>();
   private int patternCount = 0;
-  private List<AnalysisListener> analysisListeners = new LinkedList<AnalysisListener>();
+  private List<AnalysisListener> analysisListeners = new LinkedList<>();
   private RepeatingPatternFinder repeatingPatternFinder = new RepeatingPatternFinder();
   private PathCost finalResults = null;
   private RandomPattern randomPatternFinder = new RandomPattern();
@@ -52,29 +54,18 @@ public class PasswordAnalysis implements PasswordResults {
   //todo remove counter, this is just for debugging to measure the optmization effectiveness
   private int counter = 0;
 
-  public PasswordAnalysis(CharSequence password) {
+  public PasswordResultsImpl(CharSequence password) {
     this.password = password;
   }
 
   @Override
-  public CharSequence getCharSequence() {
+  public CharSequence getPassword() {
     return password;
   }
 
   @Override
   public int getLength() {
     return password.length();
-  }
-
-  /**
-   * Adds a listener that will be notified when a pattern is found and when
-   * a password analysis is complete
-   * @param listener callback object to be notified when a pattern is found and
-   * when analysis is complete.
-   */
-  @Override
-  public void addListener(AnalysisListener listener) {
-    this.analysisListeners.add(listener);
   }
 
   /**
@@ -131,7 +122,7 @@ public class PasswordAnalysis implements PasswordResults {
    */
   private List<PasswordPattern> getIndexSet(int startIndex) {
     if (!foundPatterns.containsKey(startIndex)) {
-      foundPatterns.put(startIndex, new LinkedList<PasswordPattern>());
+      foundPatterns.put(startIndex, new LinkedList<>());
     }
     return foundPatterns.get(startIndex);
   }

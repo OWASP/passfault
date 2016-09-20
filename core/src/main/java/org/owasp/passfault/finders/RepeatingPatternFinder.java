@@ -16,7 +16,7 @@ package org.owasp.passfault.finders;
 import java.util.List;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
+import org.owasp.passfault.api.PasswordResults;
 import org.owasp.passfault.PathCost;
 import org.owasp.passfault.RandomPattern;
 

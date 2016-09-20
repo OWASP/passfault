@@ -13,7 +13,9 @@
 
 package org.owasp.passfault;
 
-import org.owasp.passfault.finders.ParallelFinder;
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.finders.ExecutorFinder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,7 +45,7 @@ public class TextAnalysis {
         loadDefaultWordLists().
         isInMemory(true).
         build();
-    finder = new ParallelFinder(finders);
+    finder = new ExecutorFinder(finders);
   }
 
   public void printBanner(){
@@ -108,7 +110,7 @@ public class TextAnalysis {
 
   private void process(final String password, int machineNum, int hashNum)
       throws Exception {
-    PasswordAnalysis analysis = new PasswordAnalysis(password);
+    PasswordResultsImpl analysis = new PasswordResultsImpl(password);
     
     switch (machineNum) {
       case 1: crack = TimeToCrack.GPU1;
@@ -137,7 +139,7 @@ public class TextAnalysis {
     }
 
     long then = System.currentTimeMillis();
-    finder.blockingAnalyze(analysis);
+    finder.analyzeFuture(analysis);
     PathCost worst = analysis.calculateHighestProbablePatterns();
     long now = System.currentTimeMillis();
     List<PasswordPattern> path = worst.getPath();

@@ -13,6 +13,7 @@
 package org.owasp.passfault;
 
 import org.junit.Test;
+import org.owasp.passfault.api.PatternFinder;
 
 import java.io.File;
 import java.util.Collection;

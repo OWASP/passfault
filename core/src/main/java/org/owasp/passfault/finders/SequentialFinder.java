@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.owasp.passfault.CompositeFinder;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternFinder;
 
 /**
  * This file simply iterates through each finder calling analyze.  Before
@@ -27,27 +28,18 @@ import org.owasp.passfault.PatternFinder;
  * multithreading (Google App Engine).
  * @author cam
  */
-public class SequentialFinder implements CompositeFinder{
+public class SequentialFinder implements PatternFinder{
 
   private List<PatternFinder> finders = new ArrayList<PatternFinder>();
 
   public SequentialFinder(Collection<PatternFinder> finders) {
     this.finders.addAll(finders);
   }
+
   @Override
-  public void analyze(PasswordResults pass) throws Exception {
+  public void analyze(PasswordAnalysis pass) throws Exception {
     for(PatternFinder finder: finders){
       finder.analyze(pass);
     }
-  }
-
-  @Override
-  public void blockingAnalyze(PasswordResults pass) throws Exception {
-    analyze(pass);
-  }
-
-  @Override
-  public void waitForAnalysis(PasswordResults pass) throws Exception {
-    //already done
   }
 }
