@@ -9,28 +9,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.owasp.passfault;
+package org.owasp.passfault.api;
+
+import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternFinder;
+
+import java.util.concurrent.Future;
 
 /**
  * CompositeFinders combine multiple finders and treat them as one. It has methods declared for parallel processing.
- * the existing analyze method is non-blocking, the two new methods blockingAnalyze and waitForAnalysis are blocking.
- * waitForAnalysis is used after analyze is called.
+ * the existing analyze method is blocking, the new analyzeFuture lets you block later.
  */
 public interface CompositeFinder extends PatternFinder
 {
-
-	/**
-	 * Blocking analyze.  This is equivalent to calling analyze and waitForAnalysis.
-   * @param pass password results to store found patterns
-	 */
-  public abstract void blockingAnalyze(PasswordResults pass)
-    throws Exception;
-
-  /**
-   * To be used AFTER analyze is called.
-   *
-   */
-  public abstract void waitForAnalysis(PasswordResults pass)
-    throws Exception;
-
+  public Future<PasswordAnalysis> analyzeFuture(PasswordAnalysis pass);
 }

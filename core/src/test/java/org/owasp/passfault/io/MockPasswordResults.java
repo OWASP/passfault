@@ -12,9 +12,9 @@
  */
 package org.owasp.passfault.io;
 
-import org.owasp.passfault.AnalysisListener;
+import org.owasp.passfault.api.AnalysisListener;
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
+import org.owasp.passfault.api.PasswordResults;
 import org.owasp.passfault.PathCost;
 
 import java.util.LinkedList;
@@ -56,11 +56,6 @@ public class MockPasswordResults implements PasswordResults {
   }
 
   @Override
-  public void addListener(AnalysisListener listener) {
-    throw new UnsupportedOperationException("Not supported yet.");
-  }
-
-  @Override
   public PathCost calculateHighestProbablePatterns() {
     PathCost pathCost = new PathCost(this);
     for (PasswordPattern patt : this.foundPatterns) {
@@ -80,7 +75,7 @@ public class MockPasswordResults implements PasswordResults {
   }
 
   @Override
-  public CharSequence getCharSequence() {
+  public CharSequence getPassword() {
     return password;
   }
 

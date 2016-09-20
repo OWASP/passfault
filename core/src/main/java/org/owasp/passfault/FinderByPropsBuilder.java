@@ -12,6 +12,7 @@
  */
 package org.owasp.passfault;
 
+import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.Dictionary;
 import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.finders.DateFinder;
@@ -167,7 +168,7 @@ public class FinderByPropsBuilder {
   }
 
   protected Collection<PatternFinder> buildStandardFinders(){
-    Collection<PatternFinder> toReturn = new LinkedList<PatternFinder>();
+    Collection<PatternFinder> toReturn = new LinkedList<>();
     
     toReturn.add(new KeySequenceFinder(new EnglishKeyBoard()));
     toReturn.add(new KeySequenceFinder(new RussianKeyBoard()));
@@ -177,14 +178,15 @@ public class FinderByPropsBuilder {
   }
   
   protected Collection<PatternFinder> buildDictionaryFinders(Dictionary diction) throws IOException {
-    List<PatternFinder> finders = new LinkedList<PatternFinder>();
+    List<PatternFinder> finders = new LinkedList<>();
 
     finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy()));
     finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
     finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2)));
     finders.add(new DictionaryPatternsFinder(diction, new SubstitutionStrategy(2)));
     finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
-    finders.add(new ReverseDictionaryPatternFinder(diction, new ExactWordStrategy()));
+    finders.add(new ReversePatternDecoratorFinder(
+        new DictionaryPatternsFinder(diction, new ExactWordStrategy())));
     
     return finders;
   }

@@ -11,20 +11,28 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault;
+package org.owasp.passfault.api;
+
+import org.owasp.passfault.PathCost;
 
 /**
- * This interface represents a password pattern finder.
+ * This interface represents a collection of discovered password patterns.
+ *
+ * @author cam, ray
  */
-public interface PatternFinder {
+public interface PasswordResults extends PasswordAnalysis {
 
   /**
-   * A password is handed to the finder through this method and the results 
-   * will be placed into the same object 
-   * @param pass holds the password and any finders that will be found as the
-   * result of analysis
-   *
-   * @throws Exception 
+   * Calculates the highest probable combination of finders.  In other words,
+   * the weakest combination of found patterns.
+   * @return List of finders that make up the weakest combination of found passwords
    */
-  void analyze(PasswordResults pass) throws Exception;
+  PathCost calculateHighestProbablePatterns();
+
+  /**
+   * @return total number of finders identified.
+   */
+  int getPossiblePatternCount();
+
+  public int getLength();
 }

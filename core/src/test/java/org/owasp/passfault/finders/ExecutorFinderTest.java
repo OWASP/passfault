@@ -15,6 +15,8 @@ package org.owasp.passfault.finders;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.*;
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.FileDictionary;
@@ -40,16 +42,16 @@ public class ExecutorFinderTest {
   @Test
   public void findWord() throws Exception {
     System.out.println("findWord");
-    PasswordAnalysis p = new PasswordAnalysis("wisp");
-    finder.blockingAnalyze(p);
+    PasswordResultsImpl p = new PasswordResultsImpl("wisp");
+    finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInFront() throws Exception {
     System.out.println("findWord_garbageinfront");
-    PasswordAnalysis p = new PasswordAnalysis("1234wisp");
-    finder.blockingAnalyze(p);
+    PasswordResultsImpl p = new PasswordResultsImpl("1234wisp");
+    finder.analyzeFuture(p);
 
     assertEquals(1, p.getPossiblePatternCount());
   }
@@ -57,29 +59,29 @@ public class ExecutorFinderTest {
   @Test
   public void garbageInBack() throws Exception {
 
-    PasswordAnalysis p = new PasswordAnalysis("wisp1234");
-    finder.blockingAnalyze(p);
+    PasswordResultsImpl p = new PasswordResultsImpl("wisp1234");
+    finder.analyzeFuture(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
   public void findNonWord() throws Exception {
-    PasswordAnalysis p = new PasswordAnalysis("qqq");
-    finder.blockingAnalyze(p);
+    PasswordResultsImpl p = new PasswordResultsImpl("qqq");
+    finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    PasswordAnalysis p = new PasswordAnalysis("wispwisp");
-    finder.blockingAnalyze(p);
+    PasswordResultsImpl p = new PasswordResultsImpl("wispwisp");
+    finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWordWithMulti() throws Exception {
     MockPasswordResults p = new MockPasswordResults("password");
-    finder.blockingAnalyze(p);
+    finder.analyze(p);
     assertEquals(6, p.getPossiblePatternCount());
     for (PasswordPattern pattern : p.getFoundPatterns()) {
       System.out.println(pattern.getMatchString());
@@ -89,7 +91,7 @@ public class ExecutorFinderTest {
   @Test
   public void findWordWithMultiUpper() throws Exception {
     MockPasswordResults p = new MockPasswordResults("Password");
-    finder.blockingAnalyze(p);
+    finder.analyze(p);
     assertEquals(6, p.getPossiblePatternCount());
   }
 
@@ -106,17 +108,13 @@ public class ExecutorFinderTest {
       "1234e34t%46", "what3ver", "djhfjgnt", "3e35cdF3f",
       "password", "drowssap", "2pass$word", "3drowsap",
       "1234e34t%46", "what3ver", "djhfjgnt", "3e35cdF3f",};
-    PasswordAnalysis analysis[] = new PasswordAnalysis[passwords.length];
+    PasswordResultsImpl analysis[] = new PasswordResultsImpl[passwords.length];
     for (int i = 0; i < passwords.length; i++) {
-      analysis[i] = new PasswordAnalysis(passwords[i]);
+      analysis[i] = new PasswordResultsImpl(passwords[i]);
     }
 
     for (int i = 0; i < passwords.length; i++) {
       finder.analyze(analysis[i]);
-    }
-
-    for (int i = 0; i < passwords.length; i++) {
-      finder.waitForAnalysis(analysis[i]);
     }
   }
 }

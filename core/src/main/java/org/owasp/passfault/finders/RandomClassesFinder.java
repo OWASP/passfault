@@ -2,8 +2,8 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.RandomPattern;
 import org.owasp.passfault.RandomPattern.RandomClasses;
 /**
@@ -34,10 +34,10 @@ public class RandomClassesFinder
   }
   
   @Override
-  public void analyze(PasswordResults pass)
+  public void analyze(PasswordAnalysis pass)
     throws Exception
   {
-    CharSequence chars = pass.getCharSequence();
+    CharSequence chars = pass.getPassword();
     RandomClasses previousType = null;
     int typeCount = 0;
     for(int i=0, len = chars.length(); i<len; i++){
@@ -53,13 +53,13 @@ public class RandomClassesFinder
     }
   }
 
-  private void reportPattern(PasswordResults pass, int currentIndex, int countOfType, RandomClasses type)
+  private void reportPattern(PasswordAnalysis pass, int currentIndex, int countOfType, RandomClasses type)
   {
     if (countOfType >= threshold && (type == RandomClasses.Numbers || type == RandomClasses.SpecialChars) ){
       int start = (currentIndex+1)-countOfType;
       //report every sequence from the first type to the current index
       for(int i=start; i <= start + countOfType - threshold; i++){
-        CharSequence chars = pass.getCharSequence().subSequence(i, currentIndex+1);
+        CharSequence chars = pass.getPassword().subSequence(i, currentIndex+1);
         double size = Math.pow(type.getSize(),  countOfType);
         
         PasswordPattern pattern = new PasswordPattern(

@@ -12,9 +12,11 @@
 
 package org.owasp.passfault;
 
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.finders.DateFinder;
-import org.owasp.passfault.finders.ParallelFinder;
+import org.owasp.passfault.finders.ExecutorFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;
@@ -33,7 +35,7 @@ public class BuildFinders {
   /**
    * @deprecated
    */
-  public static ParallelFinder build(String baseResourcePath) throws IOException {
+  public static CompositeFinder build(String baseResourcePath) throws IOException {
     URL engWords = new URL(baseResourcePath + "english" + TextAnalysis.WORD_LIST_EXTENSION);
     URL commonEngWords = new URL(baseResourcePath + "tiny-lower" + TextAnalysis.WORD_LIST_EXTENSION);
     URL uscities = new URL(baseResourcePath + "us_cities" + TextAnalysis.WORD_LIST_EXTENSION);
@@ -48,7 +50,7 @@ public class BuildFinders {
     finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
     finders.add(new KeySequenceFinder(new RussianKeyBoard()));
     finders.add(new DateFinder());
-    return new ParallelFinder(finders);
+    return new ExecutorFinder(finders);
   }
 
   /**
@@ -68,7 +70,9 @@ public class BuildFinders {
       finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
       finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2)));
       finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
-      finders.add(new ReverseDictionaryPatternFinder(diction, new ExactWordStrategy()));
+      finders.add(new ReversePatternDecoratorFinder(
+          new DictionaryPatternsFinder(diction, new ExactWordStrategy())));
+
     } catch (IOException ioe) {
       ioe.printStackTrace();
     } finally {

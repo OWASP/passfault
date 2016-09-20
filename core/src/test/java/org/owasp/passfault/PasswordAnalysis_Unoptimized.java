@@ -12,6 +12,8 @@
  */
 package org.owasp.passfault;
 
+import org.owasp.passfault.api.AnalysisListener;
+import org.owasp.passfault.api.PasswordResults;
 import org.owasp.passfault.finders.RepeatingPatternFinder;
 
 import java.util.HashMap;
@@ -38,23 +40,12 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
     this.password = password;
   }
 
-  public CharSequence getCharSequence() {
+  public CharSequence getPassword() {
     return password;
   }
 
   public int getLength() {
     return password.length();
-  }
-
-  /**
-   * Adds a listener that will be notified when a pattern is found and when
-   * a password analysis is complete
-   * @param listener callback object to be notified when a pattern is found and
-   * when analysis is complete.
-   */
-  @Override
-  public void addListener(AnalysisListener listener) {
-    this.analysisListeners.add(listener);
   }
 
   /**

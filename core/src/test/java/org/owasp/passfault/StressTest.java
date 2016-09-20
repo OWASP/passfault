@@ -13,13 +13,18 @@
 
 package org.owasp.passfault;
 
-import org.owasp.passfault.finders.ParallelFinder;
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.finders.ExecutorFinder;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class StressTest {
   int recordStart = 0;
@@ -41,16 +46,16 @@ public class StressTest {
     File sortedWordsFile = new File("..\\wordlists\\unsorted\\rockyou.txt");
     BufferedReader buffered = new BufferedReader(new FileReader(sortedWordsFile));
     String word = buffered.readLine().trim();
-    ParallelFinder finder = BuildFinders.build("..\\wordlists\\sorted");
+    CompositeFinder finder = BuildFinders.build("..\\wordlists\\sorted");
     double currStrengthAverage = 0;
     double currTimeAverage = 0;
     int count = 1;
     int batchCount = 0;
-    PasswordResults passwords[] = new PasswordResults[batchSize];
     for (int i = 0; i < recordStart; i++) {
       buffered.readLine();
       count++;
     }
+    LinkedList<Future<PasswordAnalysis>> backlog = new LinkedList<>();
     long start = System.currentTimeMillis();
     while (word != null) {
       word = buffered.readLine();
@@ -59,16 +64,15 @@ public class StressTest {
       }
       word = word.trim();
 
-      PasswordResults normal = new PasswordAnalysis(word);
-      finder.analyze(normal);
-      passwords[batchCount] = normal;
+      PasswordResults normal = new PasswordResultsImpl(word);
+      backlog.add(finder.analyzeFuture(normal));
       if (batchCount == batchSize - 1) {
-        for (PasswordResults password : passwords) {
-          finder.waitForAnalysis(password);
+        for (Future<PasswordAnalysis> future : backlog) {
+          PasswordResults password = (PasswordResults) future.get();
           PathCost normCost = password.calculateHighestProbablePatterns();
           // password# cost patternsCount
           out.printf("%s\t%s\t%s\t",
-            password.getCharSequence(), normCost.cost, normCost.getPath().size());
+            password.getPassword(), normCost.cost, normCost.getPath().size());
           List<PasswordPattern> path = normCost.getPath();
           for (PasswordPattern pattern : path) {
             out.print(pattern.getName());

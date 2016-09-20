@@ -15,8 +15,9 @@ package org.owasp.passfault.keyboard;
 import java.util.Map;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.keyboard.Key.Direction;
 
 /**
@@ -50,8 +51,8 @@ public class KeySequenceFinder implements PatternFinder {
   }
 
   @Override
-  public void analyze(PasswordResults pass) throws Exception {
-    CharSequence password = pass.getCharSequence();
+  public void analyze(PasswordAnalysis pass) throws Exception {
+    CharSequence password = pass.getPassword();
     Key previous = keyboard.get(password.charAt(0));
     Direction currentDirection = null;
     int startOfSequence = 0;
@@ -105,7 +106,7 @@ public class KeySequenceFinder implements PatternFinder {
     }
   }
 
-  private void reportPattern(PasswordResults pass, int start, int length, Direction currentDirection, boolean[] isUpper) {
+  private void reportPattern(PasswordAnalysis pass, int start, int length, Direction currentDirection, boolean[] isUpper) {
     long patternSize = 1;
     String patternName = null;
     StringBuilder pattern = new StringBuilder();
@@ -131,7 +132,7 @@ public class KeySequenceFinder implements PatternFinder {
         patternName = DIAGONAL;
         break;
       case SELF:
-        patternSize *= this.keyCount * (pass.getCharSequence().length() - 2);
+        patternSize *= this.keyCount * (pass.getPassword().length() - 2);
         pattern.append("Keyboard repeated character");
         patternName = REPEATED;
         //how many possible passwords fit this pattern?
@@ -162,7 +163,7 @@ public class KeySequenceFinder implements PatternFinder {
       patternSize *= 2;  //two possibilities, all upper, or all lower
     }
     CharSequence passString;
-    passString = pass.getCharSequence().subSequence(start, length + start);
+    passString = pass.getPassword().subSequence(start, length + start);
     pass.foundPattern(
         new PasswordPattern(start, length, passString,
         patternSize, pattern.toString(), patternName, keys.getName()));

@@ -13,8 +13,9 @@
 
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternFinder;
 
 import java.text.MessageFormat;
 import java.util.LinkedList;
@@ -41,8 +42,8 @@ public class DictionaryPatternsFinder implements PatternFinder {
   }
 
   @Override
-  public void analyze(PasswordResults pass) throws Exception {
-    CharSequence password = pass.getCharSequence();
+  public void analyze(PasswordAnalysis pass) throws Exception {
+    CharSequence password = pass.getPassword();
     List<CandidatePattern> currGen = new LinkedList<CandidatePattern>();
     List<CandidatePattern> nextGen = new LinkedList<CandidatePattern>();
     List<CandidatePattern> swap;

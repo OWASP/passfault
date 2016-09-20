@@ -13,9 +13,9 @@
 
 package org.owasp.passfault.finders;
 
-import org.owasp.passfault.CompositeFinder;
-import org.owasp.passfault.PasswordResults;
-import org.owasp.passfault.PatternFinder;
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PatternFinder;
 
 import java.util.Collection;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class ExecutorFinder implements CompositeFinder {
 
   private final PatternFinder finder;
   private final ExecutorService exec;
-  Map<PasswordResults, Future<PasswordResults>> jobsMap = new ConcurrentHashMap<PasswordResults, Future<PasswordResults>>();
+  Map<PasswordAnalysis, Future<PasswordAnalysis>> jobsMap = new ConcurrentHashMap<>();
   
   
   public ExecutorFinder(Collection<PatternFinder> finders) {
@@ -43,13 +43,6 @@ public class ExecutorFinder implements CompositeFinder {
     this.exec = Executors.newCachedThreadPool(factory);
   }
 
-  @Override
-  public void blockingAnalyze(PasswordResults pass) throws Exception {
-    Analyze toRun = new Analyze(pass, finder);
-    Future<PasswordResults> result = exec.submit(toRun);
-    result.get();
-  }
-
   /**
    * The method returns as soon as all threads have started, not completed.
    * To wait until completion call {#waitForAnalysis} or register an
@@ -58,9 +51,9 @@ public class ExecutorFinder implements CompositeFinder {
    * @throws Exception
    */
   @Override
-  public void analyze(PasswordResults pass) throws Exception {
+  public void analyze(PasswordAnalysis pass) throws Exception {
     Analyze toRun = new Analyze(pass, finder);
-    Future<PasswordResults> future = exec.submit(toRun);
+    Future<PasswordAnalysis> future = exec.submit(toRun);
     jobsMap.put(pass, future);
   }
 
@@ -70,9 +63,11 @@ public class ExecutorFinder implements CompositeFinder {
    * @throws InterruptedException
    */
   @Override
-  public void waitForAnalysis(PasswordResults pass) throws Exception {
-    Future<PasswordResults> job = jobsMap.get(pass);
-    PasswordResults call = job.get();
+  public Future<PasswordAnalysis> analyzeFuture(PasswordAnalysis pass) {
+    Analyze toRun = new Analyze(pass, finder);
+    Future<PasswordAnalysis> future = exec.submit(toRun);
+    jobsMap.put(pass, future);
+    return jobsMap.get(pass);
   }
   
   /**
@@ -82,17 +77,17 @@ public class ExecutorFinder implements CompositeFinder {
     this.exec.shutdown();
   }
   
-  static class Analyze implements Callable<PasswordResults>{
-    private final PasswordResults pw;
+  static class Analyze implements Callable<PasswordAnalysis>{
+    private final PasswordAnalysis pw;
     private final PatternFinder finder;
 
-    public Analyze(PasswordResults pw, PatternFinder finders){
+    public Analyze(PasswordAnalysis pw, PatternFinder finders){
       this.pw = pw;
       this.finder = finders;
     }
 
     @Override
-    public PasswordResults call() throws Exception {
+    public PasswordAnalysis call() throws Exception {
       finder.analyze(pw);
       return pw;  
     }

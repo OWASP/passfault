@@ -11,23 +11,22 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault.dictionary;
+package org.owasp.passfault.api;
 
-import org.owasp.passfault.PasswordResults;
+import org.owasp.passfault.api.PasswordResults;
 
 /**
- * ReverseDictionaryPatternFinder uses the BackwardsAnalysisAdapter to reverse
- * a password to find reverse passwords in a dictionary according to a strategy.
- * @author cam
+ * This interface represents a password pattern finder.
  */
-public class ReverseDictionaryPatternFinder extends DictionaryPatternsFinder {
+public interface PatternFinder {
 
-  public ReverseDictionaryPatternFinder(Dictionary diction, DictionaryStrategy strategy) {
-    super(diction, strategy);
-  }
-
-  @Override
-  public void analyze(PasswordResults pass) throws Exception {
-    super.analyze(new BackwardsAnalysisAdapter(pass));
-  }
+  /**
+   * A password is handed to the finder through this method and the results 
+   * will be placed into the same object 
+   * @param pass holds the password and any finders that will be found as the
+   * result of analysis
+   *
+   * @throws Exception 
+   */
+  void analyze(PasswordAnalysis pass) throws Exception;
 }

@@ -13,7 +13,7 @@
 package org.owasp.passfault.keyboard;
 
 import org.junit.Test;
-import org.owasp.passfault.PasswordAnalysis;
+import org.owasp.passfault.PasswordResultsImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,7 +22,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_right() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("asdfg");
+    PasswordResultsImpl pass = new PasswordResultsImpl("asdfg");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -32,7 +32,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_rightMixed() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("aSdFg");
+    PasswordResultsImpl pass = new PasswordResultsImpl("aSdFg");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -42,7 +42,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_left() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("[poi");
+    PasswordResultsImpl pass = new PasswordResultsImpl("[poi");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -52,7 +52,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_upperleft() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("zaq1");
+    PasswordResultsImpl pass = new PasswordResultsImpl("zaq1");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -62,7 +62,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_upperright() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("zse4");
+    PasswordResultsImpl pass = new PasswordResultsImpl("zse4");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -72,7 +72,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_lowerleft() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("4esz");
+    PasswordResultsImpl pass = new PasswordResultsImpl("4esz");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -82,7 +82,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_lowerright() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("1qaz");
+    PasswordResultsImpl pass = new PasswordResultsImpl("1qaz");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -92,7 +92,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_repeating() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("eeee");
+    PasswordResultsImpl pass = new PasswordResultsImpl("eeee");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -102,7 +102,7 @@ public class KeySequenceFinderTest {
   @Test
   public void analyze_extraBeforeAndAfter() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("fredasdfcougar");
+    PasswordResultsImpl pass = new PasswordResultsImpl("fredasdfcougar");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -112,7 +112,7 @@ public class KeySequenceFinderTest {
   @Test
   public void testAnalyze_extraBeforeAndAfter_MixedCase() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("freSdFcougar2WsX");
+    PasswordResultsImpl pass = new PasswordResultsImpl("freSdFcougar2WsX");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -122,7 +122,7 @@ public class KeySequenceFinderTest {
   @Test
   public void testAnalyze_random() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis("&7U8(b^j(*(l:';");
+    PasswordResultsImpl pass = new PasswordResultsImpl("&7U8(b^j(*(l:';");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
@@ -132,7 +132,7 @@ public class KeySequenceFinderTest {
   @Test
   public void testAnalyze_colon() throws Exception {
     System.out.println("analyze");
-    PasswordAnalysis pass = new PasswordAnalysis(":");
+    PasswordResultsImpl pass = new PasswordResultsImpl(":");
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
     instance.analyze(pass);
     int count = pass.getPossiblePatternCount();
