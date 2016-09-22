@@ -214,4 +214,5 @@ public class FileDictionary implements Dictionary {
     long wordsToMiddle = middle / lineSize;
     return wordsToMiddle * lineSize;
   }
+
 }

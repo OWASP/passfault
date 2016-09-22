@@ -118,9 +118,10 @@ public class FinderByPropsBuilder {
       int runningTotal = 0, i=1;
       while (wordsConfig.containsKey(buildFileName(group, i))){
         String wordListName = wordsConfig.getProperty(buildFileName(group, i)); //for example: wordlist.english.1=english.words
+
         Dictionary dictionary = buildDictionary(groupName, wordListName);
         runningTotal += dictionary.getWordCount();
-        dictionary.setWordCount(runningTotal);
+        //dictionary.setWordCount(runningTotal);
         finders.addAll(buildDictionaryFinders(dictionary, modFinderBool));
         i++;
       }
@@ -142,7 +143,7 @@ public class FinderByPropsBuilder {
         throw new IOException ("Could not resource: "+wordListName);
       }
       try {
-        dictionary = InMemoryDictionary.newInstance(reader, false, groupName);
+        dictionary = InMemoryDictionary.newInstance(reader, true, wordListName);
       } finally {
         reader.close();
       }

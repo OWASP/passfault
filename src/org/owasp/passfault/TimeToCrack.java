@@ -73,7 +73,10 @@ public class TimeToCrack {
    * @return the milliseconds needed to crack the pattern
    */
   public double getTimeToCrackNanoSeconds(double patternSize) {
-    return (crackTimeNanosecs * (patternSize)) / numberOfGPUs;
+    if (numberOfGPUs == 0)
+      return (crackTimeNanosecs * (patternSize));
+    else
+      return (crackTimeNanosecs * (patternSize)) / numberOfGPUs;
   }
 
   /**
@@ -147,7 +150,22 @@ public class TimeToCrack {
       }
     }
     if (remainderDays == 0 && remainderMonths == 0 && years == 0) {
-      buf.append("less than 1 day");
+      //buf.append("less than 1 day");
+      int hours = (int) seconds / 60;
+      int minutes = (int) seconds % 60;
+      if (hours > 0){
+        buf.append(hours);
+        buf.append(" hours, ");
+      }
+
+      if (minutes > 0){
+        buf.append(minutes);
+        buf.append("minutes");
+      }else{
+        String ns = String.format("%12.2f", nanoseconds);
+        buf.append(ns.replace(" ", ""));
+        buf.append(" nanoseconds");
+      }
     }
     return buf.toString();
   }

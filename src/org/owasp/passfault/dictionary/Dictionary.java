@@ -53,4 +53,5 @@ public interface Dictionary {
    * @param newWordCount
    */
   void setWordCount(int newWordCount);
+
 }

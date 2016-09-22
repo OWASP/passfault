@@ -58,6 +58,7 @@ public class DictionaryPatternsFinder implements PatternFinder {
       currGen = nextGen;
       nextGen = swap;
       nextGen.clear();
+
       for (CandidatePattern subs : currGen) {
         List<CandidatePattern> nextCandidates = patternStrategy.buildNextSubStrings(subs, c);
         //go through candidates

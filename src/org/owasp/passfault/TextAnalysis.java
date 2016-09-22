@@ -17,6 +17,7 @@ import org.apache.commons.cli.*;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.FileDictionary;
+import org.owasp.passfault.finders.ExecutorFinder;
 import org.owasp.passfault.finders.ParallelFinder;
 import org.owasp.passfault.dictionary.Dictionary;
 
@@ -35,7 +36,7 @@ public class TextAnalysis {
   private static BufferedReader inputFile;
   private static int inputFileSize;
   private static PrintWriter outputFile;
-  private static boolean time2crackGPU, time2crackSpeed, input, output, customDict, customDictOnly, verbose;
+  private static boolean time2crackGPU, time2crackSpeed, input, output, verbose, matlab;
   private static String password;
   private static int machineNum, hashNum;
   private static float hashSpeed;
@@ -66,13 +67,8 @@ public class TextAnalysis {
         loadDefaultWordLists().
         isInMemory(true).
         build();
-    if (customDict){
-      if (customDictOnly)
-        finders.clear();
-      finders.add(new DictionaryPatternsFinder(cDict, new ExactWordStrategy()));
-    }
 
-    finder = new ParallelFinder(finders);
+    finder = new ExecutorFinder(finders);
   }
 
   private void cli(String[] args){
@@ -81,10 +77,9 @@ public class TextAnalysis {
     options.addOption("i", "input", true, "path to input file");
     options.addOption("o", "output", true, "path to output file");
     options.addOption("g", "gpu", true, "number of GPUs for Time to Crack analysis");
-    options.addOption("c", "customDictionaryOnly", false, "ignore internal dictionaries and use custom dictionary only");
-    options.addOption("d", "customDictionary", true, "path to custom dictionary");
     options.addOption("f", "hashFunction", true, "hash function for Time to Crack analysis");
     options.addOption("s", "hashSpeed", true, "hashes per second for Time to Crack analysis");
+    options.addOption("m", "matlab", true, "formatted output");
     options.addOption("v", "verbose", false, "verbose mode");
     options.addOption("h", "help", false, "help menu");
 
@@ -135,27 +130,6 @@ public class TextAnalysis {
         }
 
         output = true;
-      }
-
-      if(line.hasOption("customDictionary")){
-        String customDictPath = line.getOptionValue("customDictionary");
-
-        try {
-          cDict = FileDictionary.newInstance(customDictPath, "customDict");
-        }catch (IOException e){
-          System.out.println("CLI error: invalid path in -d option. See help for more info.");
-          exit = true;
-        }
-
-        customDict = true;
-      }
-
-      if(line.hasOption("customDictionaryOnly")){
-        customDictOnly = true;
-        if (!line.hasOption("customDictionary")){
-          System.out.println("CLI error: you need to give the path to a custom dictionary with option -d. See help for more info.");
-          exit = true;
-        }
       }
 
       if(line.hasOption("password")){
@@ -212,6 +186,21 @@ public class TextAnalysis {
         }
       }
 
+      if (line.hasOption("matlab")){
+        String outputPath = line.getOptionValue("matlab");
+        try{
+          outputFile = new PrintWriter(outputPath, "UTF-8");
+        }catch (FileNotFoundException e){
+          System.out.println("?");
+          System.exit(0);
+        }catch (UnsupportedEncodingException e){
+          System.out.println(e);
+          System.exit(0);
+        }
+
+        matlab = true;
+      }
+
       if (exit){
         System.out.println("Leaving.");
         System.exit(0);
@@ -257,22 +246,34 @@ public class TextAnalysis {
   }
 
   private void process() throws Exception {
-    if (output)
+    if (output || matlab)
       System.out.println("Please wait, results are being written to output file... ");
 
     if (input){
       int line = 0;
+      double sumAnalysisTime = 0, analysisTime, remainingTime, avgAnalysisTime, done;
       while ((password = inputFile.readLine()) != null) {
+        done = 100.0* ((double) line)/inputFileSize;
         line++;
-        double done = 100.0* ((double) line)/inputFileSize;
-        System.out.format("Analysing '%s', %3.2f percent done.\n", password, done);
-        passwordAnalysis(password);
+
+        if (output || matlab)
+          System.out.format("Analyzing '%s', %3.2f percent done, ", password, done);
+
+        analysisTime = 0;
+        if (password.length() != 0)
+          analysisTime = passwordAnalysis(password);
+        sumAnalysisTime += analysisTime;
+        avgAnalysisTime = sumAnalysisTime/line;
+        remainingTime = (inputFileSize - line) * avgAnalysisTime;
+
+        if (output || matlab)
+          System.out.format("around %5.1f seconds remaining.\n", remainingTime);
       }
     }else{
       passwordAnalysis(password);
     }
 
-    if (output){
+    if (output || matlab){
       outputFile.close();
       System.out.println("Finished writing output file.");
     }
@@ -280,7 +281,7 @@ public class TextAnalysis {
     System.exit(0);
   }
 
-  private void passwordAnalysis(String password) throws Exception{
+  private double passwordAnalysis(String password) throws Exception{
     PasswordAnalysis analysis = new PasswordAnalysis(password);
     long then = System.currentTimeMillis();
     finder.blockingAnalyze(analysis);
@@ -290,13 +291,17 @@ public class TextAnalysis {
     double analysisTime = (now - then) / 1000.0;
 
     if (output){
-      writeOutput(worst, analysisTime);
+      writeOutput(worst);
+    }else if(matlab){
+      writeMatlab(worst);
     }else{
-      printOutput(worst, analysisTime);
+      printOutput(worst);
     }
+
+    return analysisTime;
   }
 
-  private void writeOutput(PathCost worst, double analysisTime){
+  private void writeOutput(PathCost worst){
     List<PasswordPattern> path = worst.getPath();
     outputFile.format("\n\nRules found in password '%s': \n", worst.getPassword().getCharSequence());
     double costSum = 0;
@@ -307,12 +312,11 @@ public class TextAnalysis {
 
     for (PasswordPattern subPattern : path) {
       outputFile.format("'%s' matches the Rule: '%s' in '%s'\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
-      outputFile.format("\taround %s passwords in this Rule\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
+      outputFile.format("\taround %d passwords in this Rule\n", (long) subPattern.getCost());
       outputFile.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
     }
 
-    outputFile.print("Total complexity (size of smallest search space): ");
-    outputFile.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
+    outputFile.format("Total complexity (size of smallest search space): %d\n", (long) worst.getTotalCost());
 
     if (time2crackGPU) {
       outputFile.format("Hashing Algorithm: '%s'\n", crack.getHashType());
@@ -329,7 +333,7 @@ public class TextAnalysis {
     //outputFile.format("Analysis Time: %f seconds\n", analysisTime);
   }
 
-  private void printOutput(PathCost worst, double analysisTime){
+  private void printOutput(PathCost worst){
     List<PasswordPattern> path = worst.getPath();
     System.out.format("\n\nRules found in password '%s': \n", worst.getPassword().getCharSequence());
     double costSum = 0;
@@ -339,13 +343,13 @@ public class TextAnalysis {
     }
 
     for (PasswordPattern subPattern : path) {
+      String a = subPattern.getClassification();
       System.out.format("'%s' matches the Rule: '%s' in '%s'\n", subPattern.getMatchString(), subPattern.getDescription(), subPattern.getClassification());
-      System.out.format("\taround %s passwords in this Rule\n", TimeToCrack.getRoundedSizeString(subPattern.getCost()));
+      System.out.format("\taround %d passwords in this Rule\n", (long) subPattern.getCost());
       System.out.format("\tcontains %3.2f percent of password strength\n", subPattern.getCost() / costSum * 100);
     }
 
-    System.out.print("Total complexity (size of smallest search space): ");
-    System.out.println(TimeToCrack.getRoundedSizeString(worst.getTotalCost()));
+    System.out.format("Total complexity (size of smallest search space): %d\n", (long) worst.getTotalCost());
 
     if (time2crackGPU) {
       System.out.format("Hashing Algorithm: '%s'\n", crack.getHashType());
@@ -360,5 +364,61 @@ public class TextAnalysis {
 
     //verbose only
     //System.out.format("Analysis Time: %f seconds\n", analysisTime);
+  }
+
+  private void writeMatlab2(PathCost worst){
+    List<PasswordPattern> path = worst.getPath();
+    CharSequence p = worst.getPassword().getCharSequence();
+    outputFile.format("\n\npassword:%s\n", p);
+    double costSum = 0;
+    for (PasswordPattern subPattern : path) {
+      //get the sum of pattern costs:
+      costSum += subPattern.getCost();
+    }
+
+    int i = 0;
+    for (PasswordPattern subPattern : path) {
+      outputFile.format("rule.%d.substring:%s\n", i, subPattern.getMatchString());
+      outputFile.format("rule.%d.rule:%s\n", i, subPattern.getDescription());
+      outputFile.format("rule.%d.dictionary:%s\n", i, subPattern.getClassification());
+      outputFile.format("rule.%d.complexity:%s\n", i, (long) subPattern.getCost());
+      outputFile.format("rule.%d.percent:%3.2f\n", i, subPattern.getCost() / costSum * 100);
+      i++;
+    }
+
+    outputFile.format("totalComplexity:%d\n", (long) worst.getTotalCost());
+
+    if (time2crackSpeed) {
+      outputFile.format("crackingSpeed:%s\n", hashSpeed);
+      outputFile.format("timeToCrack:%s\n", crack.getTimeToCrackString(worst.getTotalCost()));
+    }
+  }
+
+  private void writeMatlab(PathCost worst){
+    List<PasswordPattern> path = worst.getPath();
+    CharSequence p = worst.getPassword().getCharSequence();
+    outputFile.format("\n\npassword:%s\n", p);
+    double costSum = 0;
+    for (PasswordPattern subPattern : path) {
+      //get the sum of pattern costs:
+      costSum += subPattern.getCost();
+    }
+
+    int i = 0;
+    for (PasswordPattern subPattern : path) {
+      outputFile.format("rule.%d.substring:%s\n", i, subPattern.getMatchString());
+      outputFile.format("rule.%d.rule:%s\n", i, subPattern.getDescription());
+      outputFile.format("rule.%d.dictionary:%s\n", i, subPattern.getClassification());
+      outputFile.format("rule.%d.complexity:%s\n", i, (long) subPattern.getCost());
+      outputFile.format("rule.%d.percent:%3.2f\n", i, subPattern.getCost() / costSum * 100);
+      i++;
+    }
+
+    outputFile.format("totalComplexity:%d\n", (long) worst.getTotalCost());
+
+    if (time2crackSpeed) {
+      outputFile.format("crackingSpeed:%s\n", hashSpeed);
+      outputFile.format("timeToCrack:%s\n", crack.getTimeToCrackString(worst.getTotalCost()));
+    }
   }
 }

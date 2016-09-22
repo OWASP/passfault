@@ -42,7 +42,7 @@ public class InMemoryDictionary implements Dictionary {
 
   InMemoryDictionary(String[] dictionary, String name) {
     this.words = dictionary;
-    this.name = name;
+    this.name = name.replace(".words", "");
     this.wordCount = words.length;
   }
 
@@ -74,7 +74,7 @@ public class InMemoryDictionary implements Dictionary {
     if (sort) {
       Arrays.sort(wordArray);
     }
-    log.info(MessageFormat.format("Word Count for {0}: {1}\n", name, wordArray.length));
+    //log.info(MessageFormat.format("Word Count for {0}: {1}\n", name, wordArray.length));
     return new InMemoryDictionary(wordArray, name);
   }
 
@@ -196,6 +196,5 @@ public class InMemoryDictionary implements Dictionary {
   public void setWordCount(int newWordCount) {
     this.wordCount = newWordCount;
   }
-
 
 }

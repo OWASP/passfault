@@ -93,8 +93,8 @@ public class PasswordAnalysis implements PasswordResults {
    */
   @Override
   synchronized public void foundPattern(PasswordPattern patt) {
-//    System.out.format("Found a pattern: matches '%s' as a '%s' pattern, size=%f\n",
-//        patt.getMatchString(), patt.getDescription(), patt.getCost());
+    //System.out.format("Found a pattern: matches '%s' as a '%s' pattern, size=%f\n",
+    //    patt.getMatchString(), patt.getDescription(), patt.getCost());
     PasswordPattern randomPattern = randomPatternFinder.getRandomPattern(password, patt.getStartIndex(), patt.getLength());
     if (patt.getCost() > randomPattern.getCost()) {
       //random is less expensive so throw away the pattern
@@ -249,13 +249,7 @@ public class PasswordAnalysis implements PasswordResults {
   private PathCost getIthSmallestCost(int i) {
     PathCost copy = ithSmallestCost.get(i);
     if (ithSmallestCost.containsKey(i) && (copy != null)) {
-      try {
-        return new PathCost(copy); //need a deep copy since it will be added to
-      } catch (Exception e){
-        PathCost debug0 = ithSmallestCost.get(i);
-        PathCost debug = new PathCost(ithSmallestCost.get(i));
-        return null;
-      }
+      return new PathCost(copy); //need a deep copy since it will be added to
     } else {
       return null;
     }

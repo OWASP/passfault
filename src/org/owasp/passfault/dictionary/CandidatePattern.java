@@ -82,7 +82,7 @@ public class CandidatePattern {
       crackSize = crackSize * decorator.getCrackSizeFactor();
     }
     int length = currentPosition - getStartOffset() + 1;
-    crackSize = crackSize * getUpperCaseFactor(length, upperCharCount);
+    //crackSize = crackSize * getUpperCaseFactor(length, upperCharCount);
     return new PasswordPattern(
         getStartOffset(), length, subString.toString(),
         crackSize, description, strategyName, classification);
