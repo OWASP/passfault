@@ -13,17 +13,15 @@
 
 package org.owasp.passfault;
 
-import org.apache.commons.cli.*;
-import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
-import org.owasp.passfault.dictionary.ExactWordStrategy;
-import org.owasp.passfault.dictionary.FileDictionary;
-import org.owasp.passfault.finders.ExecutorFinder;
-import org.owasp.passfault.finders.ParallelFinder;
-import org.owasp.passfault.dictionary.Dictionary;
-
 import java.io.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
+import org.apache.commons.cli.*;
+import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.dictionary.Dictionary;
+
+
 
 /**
  * Command line password evaluator.
@@ -36,6 +34,8 @@ public class TextAnalysis {
   private static BufferedReader inputFile;
   private static int inputFileSize;
   private static PrintWriter outputFile;
+  private static ArrayList matlabList;
+  private static String matlabPath;
   private static boolean time2crackGPU, time2crackSpeed, input, output, verbose, matlab;
   private static String password;
   private static int machineNum, hashNum;
@@ -364,34 +364,6 @@ public class TextAnalysis {
 
     //verbose only
     //System.out.format("Analysis Time: %f seconds\n", analysisTime);
-  }
-
-  private void writeMatlab2(PathCost worst){
-    List<PasswordPattern> path = worst.getPath();
-    CharSequence p = worst.getPassword().getCharSequence();
-    outputFile.format("\n\npassword:%s\n", p);
-    double costSum = 0;
-    for (PasswordPattern subPattern : path) {
-      //get the sum of pattern costs:
-      costSum += subPattern.getCost();
-    }
-
-    int i = 0;
-    for (PasswordPattern subPattern : path) {
-      outputFile.format("rule.%d.substring:%s\n", i, subPattern.getMatchString());
-      outputFile.format("rule.%d.rule:%s\n", i, subPattern.getDescription());
-      outputFile.format("rule.%d.dictionary:%s\n", i, subPattern.getClassification());
-      outputFile.format("rule.%d.complexity:%s\n", i, (long) subPattern.getCost());
-      outputFile.format("rule.%d.percent:%3.2f\n", i, subPattern.getCost() / costSum * 100);
-      i++;
-    }
-
-    outputFile.format("totalComplexity:%d\n", (long) worst.getTotalCost());
-
-    if (time2crackSpeed) {
-      outputFile.format("crackingSpeed:%s\n", hashSpeed);
-      outputFile.format("timeToCrack:%s\n", crack.getTimeToCrackString(worst.getTotalCost()));
-    }
   }
 
   private void writeMatlab(PathCost worst){
