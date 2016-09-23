@@ -21,8 +21,6 @@ import org.apache.commons.cli.*;
 import org.owasp.passfault.finders.ExecutorFinder;
 import org.owasp.passfault.dictionary.Dictionary;
 
-
-
 /**
  * Command line password evaluator.
  * @author cam
@@ -267,7 +265,7 @@ public class TextAnalysis {
         remainingTime = (inputFileSize - line) * avgAnalysisTime;
 
         if (output || matlab)
-          System.out.format("around %5.1f seconds remaining.\n", remainingTime);
+          System.out.format("around %s remaining.\n", TimeToCrack.formatSeconds(remainingTime));
       }
     }else{
       passwordAnalysis(password);
