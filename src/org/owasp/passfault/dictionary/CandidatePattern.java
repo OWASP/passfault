@@ -71,18 +71,41 @@ public class CandidatePattern {
       clone.decorator = decorator.copy();
       clone.decoratorClass = decoratorClass;
     }
+
     return clone;
   }
 
-  public PasswordPattern getMatchingPattern(double dictionarySize, String strategyName, String classification, int currentPosition) {
+  public PasswordPattern getMatchingPattern(double dictionarySize, String strategyName, String classification, int currentPosition, int nToggleCaseLetters) {
+    String description;
+    int nLetters = 0;
+
+    for (int i = 0; i < subString.length(); i++){
+      if (Character.isLetter(subString.charAt(i)))
+        nLetters++;
+    }
+
+    if (nToggleCaseLetters == 0){
+      description = "Exact Match";
+    }else if (nToggleCaseLetters == nLetters){
+      description = "Match with all letters Case Toggled";
+    }else{
+      description = "Match with " + Integer.toString(nToggleCaseLetters) + " Toggled Case letter(s)";
+    }
+
     double crackSize = dictionarySize;
-    String description = "Exact Match";
     if (decorator != null) {
       description = decorator.getDescription();
+      if (nToggleCaseLetters == nLetters){
+        description += " + Toggle Case";
+      }else if (nToggleCaseLetters > 0){
+        description += " + " + Integer.toString(nToggleCaseLetters) + " Toggled Case letter(s)";;
+      }
+
       crackSize = crackSize * decorator.getCrackSizeFactor();
     }
+
     int length = currentPosition - getStartOffset() + 1;
-    //crackSize = crackSize * getUpperCaseFactor(length, upperCharCount);
+    crackSize = crackSize * getUpperCaseFactor(nLetters, nToggleCaseLetters);
     return new PasswordPattern(
         getStartOffset(), length, subString.toString(),
         crackSize, description, strategyName, classification);

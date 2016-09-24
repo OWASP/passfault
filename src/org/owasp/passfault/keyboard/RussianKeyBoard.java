@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class RussianKeyBoard implements KeyboardLayout {
 
-  public static final String NAME = "Russian";
+  public static final String NAME = "Russian Keyboard";
   static char[][] lower_horiz = new char[][]{
     {'ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='},
     {'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\'},

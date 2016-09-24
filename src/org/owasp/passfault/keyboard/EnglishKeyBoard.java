@@ -88,7 +88,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
     {'#', 'W', 'A'},
     {'@', 'Q'}
   };
-  public final static String NAME = "English";
+  public final static String NAME = "English Keyboard";
 
   @Override
   public Map<Character, Key> generateKeyboard() {

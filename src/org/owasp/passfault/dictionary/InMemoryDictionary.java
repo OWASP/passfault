@@ -157,9 +157,10 @@ public class InMemoryDictionary implements Dictionary {
         return +1;
       }
 
-      int diff = Character.toLowerCase(subString.charAt(i)) - Character.toLowerCase(string.charAt(i));
-      if (diff != 0) {
-        return diff;
+      int diff0 = Character.toLowerCase(subString.charAt(i)) - Character.toLowerCase(string.charAt(i));
+
+      if ((diff0 != 0)) {
+        return diff0;
       }
 
     }
@@ -195,6 +196,43 @@ public class InMemoryDictionary implements Dictionary {
   @Override
   public void setWordCount(int newWordCount) {
     this.wordCount = newWordCount;
+  }
+
+  @Override
+  public int nToggleCaseLetters(CandidatePattern candidate){
+    int nToggleCaseLetters = 0;
+    long middle = candidate.end;
+    long end = candidate.end;
+    long start = candidate.start;
+    long oldMiddle = candidate.start;
+
+    while (oldMiddle != middle) {
+      oldMiddle = middle;
+      middle = (end + start) / 2;
+      String middleString = words[(int) middle];
+
+      if (candidate.subString.toString().equals("beRNARdo") && middleString.equals("bernardi")){
+        int debug = 0;
+      }
+
+      nToggleCaseLetters = 0;
+
+      for (int i = 0, length = Math.max(candidate.subString.length(), middleString.length()); i < length; i++) {
+        if (i >= candidate.subString.length() || i >= candidate.subString.length()) {
+          return nToggleCaseLetters;
+        }
+
+        int diff1 = Character.toLowerCase(candidate.subString.charAt(i)) - Character.toLowerCase(middleString.charAt(i));
+        int diff2 = candidate.subString.charAt(i) - middleString.charAt(i);
+
+        if (diff1 == 0 && diff2 != 0){
+          nToggleCaseLetters++;
+        }
+      }
+
+    }
+
+    return nToggleCaseLetters;
   }
 
 }

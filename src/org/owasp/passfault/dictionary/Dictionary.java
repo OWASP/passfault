@@ -54,4 +54,6 @@ public interface Dictionary {
    */
   void setWordCount(int newWordCount);
 
+  int nToggleCaseLetters(CandidatePattern pattern);
+
 }

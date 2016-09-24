@@ -42,6 +42,7 @@ public class TextAnalysis {
   private final CompositeFinder finder;
 
   public static void main(String[] args) throws Exception {
+
     if (args.length == 0){
       System.out.println("CLI error: you must provide some information. See help for more info.");
       System.exit(0);
@@ -265,7 +266,8 @@ public class TextAnalysis {
         remainingTime = (inputFileSize - line) * avgAnalysisTime;
 
         if (output || matlab)
-          System.out.format("around %s remaining.\n", TimeToCrack.formatSeconds(remainingTime));
+          System.out.format("around %s remaining.\n", remainingTime);
+          //System.out.format("around %s remaining.\n", TimeToCrack.formatSeconds(remainingTime));
       }
     }else{
       passwordAnalysis(password);
@@ -378,7 +380,7 @@ public class TextAnalysis {
     for (PasswordPattern subPattern : path) {
       outputFile.format("rule.%d.substring:%s\n", i, subPattern.getMatchString());
       outputFile.format("rule.%d.rule:%s\n", i, subPattern.getDescription());
-      outputFile.format("rule.%d.dictionary:%s\n", i, subPattern.getClassification());
+      outputFile.format("rule.%d.search space:%s\n", i, subPattern.getClassification());
       outputFile.format("rule.%d.complexity:%s\n", i, (long) subPattern.getCost());
       outputFile.format("rule.%d.percent:%3.2f\n", i, subPattern.getCost() / costSum * 100);
       i++;

@@ -64,7 +64,7 @@ public class RandomClassesFinder
         
         PasswordPattern pattern = new PasswordPattern(
             i, chars.length(), chars, size, 
-            "Random Characters with:" + type.name(), RandomPattern.RANDOM_PATTERN, type.name());
+            "Random Characters", RandomPattern.RANDOM_PATTERN, type.name());
         pass.foundPattern(pattern);
       }
     } 

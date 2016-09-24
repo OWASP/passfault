@@ -215,4 +215,9 @@ public class FileDictionary implements Dictionary {
     return wordsToMiddle * lineSize;
   }
 
+  @Override
+  public int nToggleCaseLetters(CandidatePattern candidate){
+    return 0;
+  }
+
 }

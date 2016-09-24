@@ -7,18 +7,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8fc0441a-ebea-483e-9041-f87730a52dee" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/passfault_jar.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/500" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cain" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/jtr" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/matlab" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/rockyou" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/rockyouMATLAB" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/passfault_jar/passfault.jar" afterPath="$PROJECT_DIR$/out/artifacts/passfault_jar/passfault.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/FinderByPropsBuilder$FileReaderStrategy.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/FinderByPropsBuilder$FileReaderStrategy.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/FinderByPropsBuilder$SystemResourceReader.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/FinderByPropsBuilder$SystemResourceReader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/FinderByPropsBuilder.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/FinderByPropsBuilder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/PasswordPattern.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/PasswordPattern.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$1.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$2.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$3.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$4.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern$RandomClasses.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/RandomPattern.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/TextAnalysis.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/TextAnalysis.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/TimeToCrack.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/TimeToCrack.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/CandidatePattern.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/CandidatePattern.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/Dictionary.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/Dictionary.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/DictionaryPatternsFinder.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/DictionaryPatternsFinder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/FileDictionary.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/FileDictionary.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/InMemoryDictionary.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/dictionary/InMemoryDictionary.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/finders/RandomClassesFinder.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/finders/RandomClassesFinder.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/keyboard/EnglishKeyBoard.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/keyboard/EnglishKeyBoard.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/keyboard/RussianKeyBoard.class" afterPath="$PROJECT_DIR$/out/production/passfault/org/owasp/passfault/keyboard/RussianKeyBoard.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtr" afterPath="$PROJECT_DIR$/jtr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/passfault.iml" afterPath="$PROJECT_DIR$/passfault.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/RandomPattern.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/RandomPattern.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/wordlists/words.properties" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/wordlists/words.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/Dictionary.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/Dictionary.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryPatternsFinder.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryPatternsFinder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/FileDictionary.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/FileDictionary.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/finders/RandomClassesFinder.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/finders/RandomClassesFinder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/keyboard/EnglishKeyBoard.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/keyboard/EnglishKeyBoard.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/owasp/passfault/keyboard/RussianKeyBoard.java" afterPath="$PROJECT_DIR$/src/org/owasp/passfault/keyboard/RussianKeyBoard.java" />
     </list>
     <ignored path="passfault.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -42,11 +66,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TextAnalysis.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TextAnalysis.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="267" column="38" selection-start-line="267" selection-start-column="38" selection-end-line="267" selection-end-column="38" />
+            <state relative-caret-position="169">
+              <caret line="346" column="92" selection-start-line="346" selection-start-column="92" selection-end-line="346" selection-end-column="92" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -54,11 +78,61 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TimeToCrack.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java">
+      <file leaf-file-name="PasswordPattern.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordPattern.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1152">
-              <caret line="173" column="44" selection-start-line="173" selection-start-column="44" selection-end-line="173" selection-end-column="44" />
+            <state relative-caret-position="205">
+              <caret line="47" column="83" selection-start-line="47" selection-start-column="83" selection-end-line="47" selection-end-column="83" />
+              <folding>
+                <element signature="e#3218#3219#0" expanded="true" />
+                <element signature="e#3241#3242#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LevenshteinDistance.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/LevenshteinDistance.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3960">
+              <caret line="228" column="0" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#7899#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CandidatePattern.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="472">
+              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+              <folding>
+                <element signature="e#1447#1448#0" expanded="true" />
+                <element signature="e#1475#1476#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="l337SubstitutionStrategy.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/l337SubstitutionStrategy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="140">
+              <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+              <folding>
+                <element signature="e#3989#4007#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FinderByPropsBuilder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="282">
+              <caret line="187" column="83" selection-start-line="187" selection-start-column="83" selection-end-line="187" selection-end-column="83" />
               <folding />
             </state>
           </provider>
@@ -84,21 +158,26 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/l337SubstitutionStrategy.java" />
         <option value="$PROJECT_DIR$/src/org/owasp/passfault/CLI.java" />
         <option value="$PROJECT_DIR$/src/org/owasp/passfault/PathCost.java" />
         <option value="$PROJECT_DIR$/src/org/owasp/passfault/PasswordAnalysis.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/Dictionary.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/FileDictionary.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryPatternsFinder.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/PasswordPattern.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java" />
         <option value="$PROJECT_DIR$/src/com/jmatio/io/MatFileHeader.java" />
         <option value="$PROJECT_DIR$/src/com/jmatio/types/MLChar.java" />
-        <option value="$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java" />
         <option value="$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/finders/RandomClassesFinder.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/keyboard/EnglishKeyBoard.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/keyboard/RussianKeyBoard.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/RandomPattern.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/LevenshteinDistance.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/Dictionary.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/FileDictionary.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryPatternsFinder.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/dictionary/l337SubstitutionStrategy.java" />
+        <option value="$PROJECT_DIR$/src/org/owasp/passfault/PasswordPattern.java" />
       </list>
     </option>
   </component>
@@ -110,7 +189,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
+    <option name="x" value="1433" />
     <option name="y" value="24" />
     <option name="width" value="1855" />
     <option name="height" value="1056" />
@@ -142,6 +221,7 @@
     <panes>
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -191,10 +271,53 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passfault" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="keyboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passfault" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passfault" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passfault" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dictionary" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passfault" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="passfault" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -202,14 +325,14 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="SearchEverywhereHistoryKey" value="analyze&#9;PSI&#9;JAVA://org.owasp.passfault.PatternFinder#analyze&#10;calculateHighestProbablePatterns&#9;PSI&#9;JAVA://org.owasp.passfault.PasswordResults#calculateHighestProbablePatterns" />
+    <property name="SearchEverywhereHistoryKey" value="LAtin&#9;PSI&#9;JAVA://java.lang.CharacterDataLatin1&#10;analyze&#9;PSI&#9;JAVA://org.owasp.passfault.PatternFinder#analyze&#10;calculateHighestProbablePatterns&#9;PSI&#9;JAVA://org.owasp.passfault.PasswordResults#calculateHighestProbablePatterns" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="org.owasp.passfault.TextAnalysis" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="-p obrigado" />
+      <option name="PROGRAM_PARAMETERS" value="-p BERNArdo" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -467,7 +590,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
+    <frame x="1433" y="24" width="1855" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -477,16 +600,16 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29357797" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2925586" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12884097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18328841" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25993884" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25993884" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -512,12 +635,6 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordPattern.java</url>
-          <line>71</line>
-          <properties />
-          <option name="timeStamp" value="164" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java</url>
           <line>47</line>
           <properties />
@@ -531,18 +648,30 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java</url>
-          <line>367</line>
+          <line>369</line>
           <properties />
           <option name="timeStamp" value="219" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java</url>
-          <line>173</line>
+          <url>file://$PROJECT_DIR$/src/org/owasp/passfault/RandomPattern.java</url>
+          <line>58</line>
           <properties />
-          <option name="timeStamp" value="220" />
+          <option name="timeStamp" value="229" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java</url>
+          <line>214</line>
+          <properties />
+          <option name="timeStamp" value="291" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java</url>
+          <line>78</line>
+          <properties />
+          <option name="timeStamp" value="295" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="221" />
+      <option name="time" value="296" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -551,70 +680,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3708">
-          <caret line="206" column="0" selection-start-line="206" selection-start-column="0" selection-end-line="206" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2124">
-          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/finders/ParallelFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="28" column="50" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InsertionStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1566">
-          <caret line="112" column="0" selection-start-line="112" selection-start-column="0" selection-end-line="112" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -685,24 +750,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/l337SubstitutionStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="175" column="18" selection-start-line="175" selection-start-column="18" selection-end-line="175" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InsertionStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1566">
           <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/RandomPattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -735,13 +786,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/MisspellingStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/finders/ParallelFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
@@ -749,85 +793,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordAnalysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="96" column="6" selection-start-line="96" selection-start-column="6" selection-end-line="96" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/ExactWordStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/LevenshteinDistance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2565">
-          <caret line="223" column="0" selection-start-line="223" selection-start-column="0" selection-end-line="223" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/Dictionary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="55" column="0" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/FileDictionary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="74" column="64" selection-start-line="74" selection-start-column="64" selection-end-line="74" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordPattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="47" column="83" selection-start-line="47" selection-start-column="83" selection-end-line="47" selection-end-column="83" />
-          <folding>
-            <element signature="e#3303#3304#0" expanded="false" />
-            <element signature="e#3324#3325#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryPatternsFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1098">
-          <caret line="78" column="39" selection-start-line="78" selection-start-column="39" selection-end-line="78" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/finders/ExecutorFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="471">
           <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/finders/SequentialFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1146">
-          <caret line="136" column="36" selection-start-line="136" selection-start-column="21" selection-end-line="136" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -842,21 +811,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="237">
           <caret line="904" column="0" selection-start-line="904" selection-start-column="0" selection-end-line="904" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PathCost.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -892,18 +846,220 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TimeToCrack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1152">
-          <caret line="173" column="44" selection-start-line="173" selection-start-column="44" selection-end-line="173" selection-end-column="44" />
+        <state relative-caret-position="2646">
+          <caret line="173" column="0" selection-start-line="173" selection-start-column="0" selection-end-line="173" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/keyboard/Key.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12">
+          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/keyboard/KeySequenceFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/keyboard/RussianKeyBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="23" column="53" selection-start-line="23" selection-start-column="53" selection-end-line="23" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/lang/CharacterDataLatin1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/finders/RandomClassesFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="677">
+          <caret line="66" column="31" selection-start-line="66" selection-start-column="31" selection-end-line="66" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/RandomPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="63" column="29" selection-start-line="63" selection-start-column="29" selection-end-line="63" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/keyboard/EnglishKeyBoard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="90" column="53" selection-start-line="90" selection-start-column="53" selection-end-line="90" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/finders/SequentialFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/MisspellingStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/StrategyContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/ExactWordStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding>
+            <element signature="e#981#982#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PathCost.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1170">
+          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordAnalysis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/FileDictionary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="40" column="28" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding>
+            <element signature="e#6293#6294#0" expanded="true" />
+            <element signature="e#6311#6312#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/TextAnalysis.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="267" column="38" selection-start-line="267" selection-start-column="38" selection-end-line="267" selection-end-column="38" />
+        <state relative-caret-position="169">
+          <caret line="346" column="92" selection-start-line="346" selection-start-column="92" selection-end-line="346" selection-end-column="92" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/Dictionary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="56" column="51" selection-start-line="56" selection-start-column="2" selection-end-line="56" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/InMemoryDictionary.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="211" column="48" selection-start-line="211" selection-start-column="48" selection-end-line="211" selection-end-column="48" />
+          <folding>
+            <element signature="e#1593#1594#0" expanded="true" />
+            <element signature="e#1614#1615#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-191">
+          <caret line="21" column="17" selection-start-line="21" selection-start-column="17" selection-end-line="21" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/DictionaryPatternsFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/FinderByPropsBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="187" column="83" selection-start-line="187" selection-start-column="83" selection-end-line="187" selection-end-column="83" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/l337SubstitutionStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <folding>
+            <element signature="e#3989#4007#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/CandidatePattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding>
+            <element signature="e#1447#1448#0" expanded="true" />
+            <element signature="e#1475#1476#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/PasswordPattern.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="47" column="83" selection-start-line="47" selection-start-column="83" selection-end-line="47" selection-end-column="83" />
+          <folding>
+            <element signature="e#3218#3219#0" expanded="true" />
+            <element signature="e#3241#3242#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/owasp/passfault/dictionary/LevenshteinDistance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3960">
+          <caret line="228" column="0" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#7899#0" expanded="true" />
           </folding>
         </state>
       </provider>
