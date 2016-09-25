@@ -71,11 +71,6 @@ public class DictionaryPatternsFinder implements PatternFinder {
               //if the dictionary says it is a match and the strategy says it is a match
               if (candidate.getLength() > 2 && dictionary.isMatch(candidate) && patternStrategy.isMatch(candidate)) {
 
-                if (dictionary.getName().equals("USLastNames-82Percentile") && candidate.subString.toString().equals("beRNARdo")){
-                  int debug = dictionary.nToggleCaseLetters(candidate);
-                  int d = 0;
-                }
-
                 //report found pattern
                 pass.foundPattern(
                     candidate.getMatchingPattern(dictionary.getWordCount(),

@@ -55,10 +55,6 @@ public class RandomPattern {
    * @param length
    */
   public PasswordPattern getRandomPattern(CharSequence chars, int start, int length) {
-    if (chars.equals("just4me") && (start == 4) && (length == 3)){
-      int debug = 1;
-    }
-
     EnumSet<RandomClasses> set = EnumSet.noneOf(RandomClasses.class);
     boolean hasUpper = false;
     boolean hasLower = false;

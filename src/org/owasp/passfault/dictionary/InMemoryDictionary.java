@@ -211,10 +211,6 @@ public class InMemoryDictionary implements Dictionary {
       middle = (end + start) / 2;
       String middleString = words[(int) middle];
 
-      if (candidate.subString.toString().equals("beRNARdo") && middleString.equals("bernardi")){
-        int debug = 0;
-      }
-
       nToggleCaseLetters = 0;
 
       for (int i = 0, length = Math.max(candidate.subString.length(), middleString.length()); i < length; i++) {
