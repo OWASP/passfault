@@ -117,7 +117,7 @@ public class KeySequenceFinder implements PatternFinder {
         } else {
           patternSize *= this.horiz3n4Count;
         }
-        pattern.append("Keyboard horizontal sequence");
+        pattern.append(String.format("%d Keyboard Horizontal Characters", length));
         patternName = HORIZONTAL;
         break;
       case LOWER_LEFT:
@@ -125,14 +125,14 @@ public class KeySequenceFinder implements PatternFinder {
       case UPPER_LEFT:
       case UPPER_RIGHT:
         patternSize *= this.diagCount;
-        pattern.append("Keyboard Diagonal sequence (");
+        pattern.append(String.format("%d Keyboard Diagonal Characters (", length));
         pattern.append(currentDirection);
         pattern.append(')');
         patternName = DIAGONAL;
         break;
       case SELF:
         patternSize *= this.keyCount * (pass.getCharSequence().length() - 2);
-        pattern.append("Keyboard repeated character");
+        pattern.append(String.format("%d Keyboard Repeated Character(s)", length));
         patternName = REPEATED;
         //how many possible passwords fit this pattern?
         //keyCount times the possible count of repeated characters
@@ -143,28 +143,42 @@ public class KeySequenceFinder implements PatternFinder {
     //add calculation for SHIFT key
     boolean hasUpper = false;
     boolean hasLower = false;
+    int nUpper = 0;
     for (int i = start; i < start + length; i++) {
       if (isUpper[i]) {
         hasUpper = true;
+        nUpper++;
       } else {
         hasLower = true;
-      }
-
-      if (hasUpper && hasLower) {
-        break;
       }
     }
 
     if (hasUpper && hasLower) {
-      patternSize *= 2 * length;  //for each key there are two possibilities
-      pattern.append(", random SHIFT");
-    } else {
-      patternSize *= 2;  //two possibilities, all upper, or all lower
+      patternSize *= 2 * getUpperCaseFactor(length, nUpper);  //for each key there are two possibilities
+      pattern.append(String.format(" with %d Upper Case letter(s)", nUpper));
+    } else if (nUpper == length){
+      pattern.append(", Upper Case"); //all Upper Case
     }
+
     CharSequence passString;
     passString = pass.getCharSequence().subSequence(start, length + start);
     pass.foundPattern(
         new PasswordPattern(start, length, passString,
         patternSize, pattern.toString(), patternName, keys.getName()));
+  }
+
+  static int getUpperCaseFactor(int length, int upperLetters) {
+    int upperCaseFactor = 1;
+    //after half the length we assume all caps with a selective lower case
+    int charsToGuess;
+    if (upperLetters > length/2){
+      charsToGuess = length - upperLetters;
+    } else {
+      charsToGuess = upperLetters;
+    }
+    for(int letterChoices=length; letterChoices>length - charsToGuess; letterChoices--){
+      upperCaseFactor *= letterChoices;
+    }
+    return upperCaseFactor;
   }
 }

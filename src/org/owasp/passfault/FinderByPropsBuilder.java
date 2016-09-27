@@ -184,7 +184,7 @@ public class FinderByPropsBuilder {
 
     finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy()));
     if (modFinders){
-      //finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
+      finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
       finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2)));
       finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
       finders.add(new ReverseDictionaryPatternFinder(diction, new ExactWordStrategy()));

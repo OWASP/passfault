@@ -1,0 +1,8 @@
+
+password:	poIuy
+rule.0.substring:	poIuy
+rule.0.rule:	5 Keyboard Horizontal Characters with 1 Upper Case letter(s)
+rule.0.search space:	English Keyboard
+rule.0.complexity:	2780
+rule.0.percent:	100.00
+totalComplexity:	2780

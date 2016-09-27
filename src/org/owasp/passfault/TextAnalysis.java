@@ -28,16 +28,17 @@ import org.owasp.passfault.dictionary.Dictionary;
 public class TextAnalysis {
 
   public static TimeToCrack crack;
-  private static Dictionary cDict;
   private static BufferedReader inputFile;
   private static int inputFileSize;
   private static PrintWriter outputFile;
   private static ArrayList matlabList;
   private static String matlabPath;
-  private static boolean time2crackGPU, time2crackSpeed, input, output, verbose, matlab;
+  private static boolean time2crackGPU, time2crackSpeed, input, output, matlab, count;
   private static String password;
   private static int machineNum, hashNum;
   private static float hashSpeed;
+  //temporary
+  private static int freq;
 
   private final CompositeFinder finder;
 
@@ -74,6 +75,7 @@ public class TextAnalysis {
     Options options = new Options();
     options.addOption("p", "password", true, "password to be analyzed");
     options.addOption("i", "input", true, "path to input file");
+    options.addOption("c", "inputWithCount", false, "input file with count");
     options.addOption("o", "output", true, "path to output file");
     options.addOption("g", "gpu", true, "number of GPUs for Time to Crack analysis");
     options.addOption("f", "hashFunction", true, "hash function for Time to Crack analysis");
@@ -129,6 +131,15 @@ public class TextAnalysis {
         }
 
         output = true;
+      }
+
+      if (line.hasOption("inputWithCount")){
+        if (!line.hasOption("input")){
+          System.out.println("CLI error: no input file! See help for more info.");
+          exit = true;
+        }
+
+        count = true;
       }
 
       if(line.hasOption("password")){
@@ -251,7 +262,18 @@ public class TextAnalysis {
     if (input){
       int line = 0;
       double sumAnalysisTime = 0, analysisTime, remainingTime, avgAnalysisTime, done;
-      while ((password = inputFile.readLine()) != null) {
+
+      //temporary
+      String l;
+      while ((l = inputFile.readLine()) != null) {
+        if (count){
+          password = l.substring(8);
+          freq = Integer.parseInt(l.substring(0, 7).replace(" ", ""));
+        }else{
+          password = l;
+        }
+
+
         done = 100.0* ((double) line)/inputFileSize;
         line++;
 
@@ -266,7 +288,7 @@ public class TextAnalysis {
         remainingTime = (inputFileSize - line) * avgAnalysisTime;
 
         if (output || matlab)
-          System.out.format("around %s remaining.\n", remainingTime);
+          System.out.format("around %3.2f remaining.\n", remainingTime);
           //System.out.format("around %s remaining.\n", TimeToCrack.formatSeconds(remainingTime));
       }
     }else{
@@ -369,7 +391,7 @@ public class TextAnalysis {
   private void writeMatlab(PathCost worst){
     List<PasswordPattern> path = worst.getPath();
     CharSequence p = worst.getPassword().getCharSequence();
-    outputFile.format("\n\npassword:%s\n", p);
+    outputFile.format("\npassword:\t%s\n", p);
     double costSum = 0;
     for (PasswordPattern subPattern : path) {
       //get the sum of pattern costs:
@@ -378,19 +400,23 @@ public class TextAnalysis {
 
     int i = 0;
     for (PasswordPattern subPattern : path) {
-      outputFile.format("rule.%d.substring:%s\n", i, subPattern.getMatchString());
-      outputFile.format("rule.%d.rule:%s\n", i, subPattern.getDescription());
-      outputFile.format("rule.%d.search space:%s\n", i, subPattern.getClassification());
-      outputFile.format("rule.%d.complexity:%s\n", i, (long) subPattern.getCost());
-      outputFile.format("rule.%d.percent:%3.2f\n", i, subPattern.getCost() / costSum * 100);
+      outputFile.format("rule.%d.substring:\t%s\n", i, subPattern.getMatchString());
+      outputFile.format("rule.%d.rule:\t%s\n", i, subPattern.getDescription());
+      outputFile.format("rule.%d.search space:\t%s\n", i, subPattern.getClassification());
+      outputFile.format("rule.%d.complexity:\t%s\n", i, (long) subPattern.getCost());
+      outputFile.format("rule.%d.percent:\t%3.2f\n", i, subPattern.getCost() / costSum * 100);
       i++;
     }
 
-    outputFile.format("totalComplexity:%d\n", (long) worst.getTotalCost());
+    outputFile.format("totalComplexity:\t%d\n", (long) worst.getTotalCost());
 
     if (time2crackSpeed) {
-      outputFile.format("crackingSpeed:%s\n", hashSpeed);
-      outputFile.format("timeToCrack:%s\n", crack.getTimeToCrackString(worst.getTotalCost()));
+      outputFile.format("crackingSpeed:\t%s\n", hashSpeed);
+      outputFile.format("timeToCrack:\t%s\n", crack.getTimeToCrackString(worst.getTotalCost()));
     }
+
+    //temporary
+    if(count)
+      outputFile.format("frequency:\t%d\n", freq);
   }
 }

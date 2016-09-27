@@ -47,7 +47,7 @@ public class RepeatingPatternFinder {
       }
       if (foundDuplicate) {
         PasswordPattern dupp = new PasswordPattern(pass.getStartIndex(), pass.getLength(), pass.getMatchString(), 1,
-            "Duplication of an earlier pattern: " + pass.getName(), DUPLICATE_PATTERN, null);
+            "Duplication of an earlier pattern: " + pass.getName(), DUPLICATE_PATTERN, pass.getClassification());
         newPath.addPattern(dupp);
       } else {
         newPath.addPattern(pass);

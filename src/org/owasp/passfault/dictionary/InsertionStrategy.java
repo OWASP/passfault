@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class InsertionStrategy implements DictionaryStrategy {
 
-  public final static String NAME = "INSERTION";
+  public final static String NAME = "Augmentation";
   private static final double SIZE_RATIO = 0.20; //no more thn 20% of the word can be special characters
 
   @Override

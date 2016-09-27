@@ -26,7 +26,7 @@ import org.owasp.passfault.PathCost;
  */
 public class BackwardsAnalysisAdapter implements PasswordResults {
 
-  public final static String NAME = "BACKWARDS";
+  public final static String NAME = "Backwards";
   private final PasswordResults wrappedPasswordAnalysis;
   private final char[] backwardsChars;
 

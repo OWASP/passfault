@@ -58,6 +58,8 @@ public class RandomPattern {
     EnumSet<RandomClasses> set = EnumSet.noneOf(RandomClasses.class);
     boolean hasUpper = false;
     boolean hasLower = false;
+    int nUpper = 0;
+    int nLower = 0;
     for (int i = start; i < start + length; i++) {
       char ch = chars.charAt(i);
       for (RandomClasses charType : RandomClasses.values()) {
@@ -66,9 +68,11 @@ public class RandomPattern {
         }
       }
       if (Character.isLowerCase(ch)) {
+        nLower++;
         hasLower = true;
       }
       if (Character.isUpperCase(ch)) {
+        nUpper++;
         hasUpper = true;
       }
     }
@@ -81,9 +85,19 @@ public class RandomPattern {
     if (charsPerChar == 0) {
       charsPerChar = 1; //zero based numbers will mess up all the multiplications later on
     }
-    return new PasswordPattern(
-        start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
-        "Random Characters", RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+    if (chars.length() == nUpper){
+      return new PasswordPattern(
+              start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
+              String.format("%d\tRandom Characters, all Upper Case", chars.length()), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+    }else if(nUpper == 0){
+      return new PasswordPattern(
+              start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
+              String.format("%d\tRandom Characters, all Lower Case", chars.length()), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+    }else{
+      return new PasswordPattern(
+              start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
+              String.format("%d\tRandom Characters, Mixed Case", chars.length()), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+    }
   }
 
   static public enum RandomClasses {

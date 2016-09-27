@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class MisspellingStrategy implements DictionaryStrategy {
 
-  public final static String NAME = "MISSPELL";
+  public final static String NAME = "Misspelling";
 
   @Override
   public String getName() {

@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class ExactWordStrategy implements DictionaryStrategy {
 
-  public final static String NAME = "WORD";
+  public final static String NAME = "Exact Match";
 
   @Override
   public String getName() {

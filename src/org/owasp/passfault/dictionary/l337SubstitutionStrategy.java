@@ -28,7 +28,7 @@ import java.util.Set;
  */
 public class l337SubstitutionStrategy implements DictionaryStrategy {
 
-  public final static String NAME = "LEET";
+  public final static String NAME = "l337 Substitution";
   private final static Map<Character, Set<LeetChar>> leetList =
       new HashMap<Character, Set<LeetChar>>();
 
