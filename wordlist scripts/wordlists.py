@@ -3,7 +3,7 @@ from wordfreq import zipf_frequency
 from wordfreq import top_n_list
 import matplotlib.pyplot as plt
 
-dest = "/home/bernardo/Documents/MestradoCripto/wordlists"
+dest = "../src/org/owasp/passfault/wordlists/"
 
 de = top_n_list('de', 1e5, wordlist='large')
 en = top_n_list('en', 1e5, wordlist='large')
