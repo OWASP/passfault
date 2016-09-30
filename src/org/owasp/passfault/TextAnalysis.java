@@ -149,10 +149,6 @@ public class TextAnalysis {
         }
 
         password = line.getOptionValue("password");
-        if (password.length() < 4){
-          System.out.println("CLI error: password too small!");
-          exit = true;
-        }
       }
 
       if (line.hasOption("hashSpeed") || line.hasOption("gpu") || line.hasOption("hashFunction")){

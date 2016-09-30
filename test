@@ -1,8 +1,8 @@
 
-password:	poIuy
-rule.0.substring:	poIuy
-rule.0.rule:	5 Keyboard Horizontal Characters with 1 Upper Case letter(s)
-rule.0.search space:	English Keyboard
-rule.0.complexity:	2780
+password:	bzil1
+rule.0.substring:	bzil1
+rule.0.rule:	5	Random Characters, all Lower Case
+rule.0.search space:	Latin, Numbers
+rule.0.complexity:	60466176
 rule.0.percent:	100.00
-totalComplexity:	2780
+totalComplexity:	60466176

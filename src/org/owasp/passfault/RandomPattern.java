@@ -59,7 +59,7 @@ public class RandomPattern {
     boolean hasUpper = false;
     boolean hasLower = false;
     int nUpper = 0;
-    int nLower = 0;
+
     for (int i = start; i < start + length; i++) {
       char ch = chars.charAt(i);
       for (RandomClasses charType : RandomClasses.values()) {
@@ -68,7 +68,6 @@ public class RandomPattern {
         }
       }
       if (Character.isLowerCase(ch)) {
-        nLower++;
         hasLower = true;
       }
       if (Character.isUpperCase(ch)) {
@@ -85,18 +84,25 @@ public class RandomPattern {
     if (charsPerChar == 0) {
       charsPerChar = 1; //zero based numbers will mess up all the multiplications later on
     }
-    if (chars.length() == nUpper){
-      return new PasswordPattern(
-              start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
-              String.format("%d\tRandom Characters, all Upper Case", chars.length()), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
-    }else if(nUpper == 0){
-      return new PasswordPattern(
-              start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
-              String.format("%d\tRandom Characters, all Lower Case", chars.length()), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+
+    if (hasLower || hasUpper){
+      if (length == nUpper){
+        return new PasswordPattern(
+                start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
+                String.format("%d Random Character(s), all Upper Case", length), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+      }else if(nUpper == 0){
+        return new PasswordPattern(
+                start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
+                String.format("%d Random Character(s), all Lower Case", length), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+      }else{
+        return new PasswordPattern(
+                start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
+                String.format("%d Random Character(s), Mixed Case", length), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+      }
     }else{
       return new PasswordPattern(
               start, length, chars.subSequence(start, length + start), Math.pow(charsPerChar, length),
-              String.format("%d\tRandom Characters, Mixed Case", chars.length()), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
+              String.format("%d Random Character(s)", length), RandomPattern.RANDOM_PATTERN, set.toString().replace("[", "").replace("]", ""));
     }
   }
 
