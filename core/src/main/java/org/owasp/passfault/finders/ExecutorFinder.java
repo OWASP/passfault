@@ -55,6 +55,7 @@ public class ExecutorFinder implements CompositeFinder {
     Analyze toRun = new Analyze(pass, finder);
     Future<PasswordAnalysis> future = exec.submit(toRun);
     jobsMap.put(pass, future);
+    future.get();
   }
 
   /**

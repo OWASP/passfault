@@ -16,6 +16,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.*;
 import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordResults;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
@@ -23,6 +25,7 @@ import org.owasp.passfault.dictionary.FileDictionary;
 import org.owasp.passfault.dictionary.TestWords;
 
 import java.util.LinkedList;
+import java.util.concurrent.Future;
 
 import static org.junit.Assert.assertEquals;
 
@@ -51,17 +54,21 @@ public class ExecutorFinderTest {
   public void garbageInFront() throws Exception {
     System.out.println("findWord_garbageinfront");
     PasswordResultsImpl p = new PasswordResultsImpl("1234wisp");
-    finder.analyzeFuture(p);
+    Future<PasswordAnalysis> future = finder.analyzeFuture(p);
+    PasswordResults result = (PasswordResults) future.get();
 
-    assertEquals(1, p.getPossiblePatternCount());
+
+    assertEquals(1, result.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInBack() throws Exception {
 
     PasswordResultsImpl p = new PasswordResultsImpl("wisp1234");
-    finder.analyzeFuture(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    Future<PasswordAnalysis> future = finder.analyzeFuture(p);
+    PasswordResults result = (PasswordResults) future.get();
+
+    assertEquals(1, result.getPossiblePatternCount());
   }
 
   @Test
