@@ -1,5 +1,5 @@
 # Welcome to OWASP Passfault
-### Objective: Do Passwords Better
+### Objective: Do Passwords Better!
 
 
 ## Running the Command-line Interface:
