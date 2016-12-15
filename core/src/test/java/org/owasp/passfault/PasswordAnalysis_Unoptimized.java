@@ -13,7 +13,7 @@
 package org.owasp.passfault;
 
 import org.owasp.passfault.api.AnalysisListener;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.finders.RepeatingPatternFinder;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PasswordAnalysis_Unoptimized implements PasswordResults {
+public class PasswordAnalysis_Unoptimized implements PatternsAnalyzer {
 
   private String password;
   private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<Integer, List<PasswordPattern>>();
@@ -54,7 +54,7 @@ public class PasswordAnalysis_Unoptimized implements PasswordResults {
    * @param patt pattern found in the password.
    */
   @Override
-  synchronized public void foundPattern(PasswordPattern patt) {
+  synchronized public void putPattern(PasswordPattern patt) {
 //    PasswordPattern randomPattern = randomPatternFinder.getRandomPattern(password, patt.startIndex, patt.length);
 //    if (patt.cost > randomPattern.cost){
 //      //random is less expensive so throw away the pattern

@@ -1,7 +1,7 @@
 package org.owasp.passfault.web;
 
+import org.owasp.passfault.PatternsAnalyzerImpl;
 import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.PasswordResultsImpl;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.SecureString;
 import org.owasp.passfault.finders.ExecutorFinder;
@@ -50,7 +50,7 @@ public class PassfaultServlet extends HttpServlet {
 
     CompositeFinder finder = getCompositeFinder();
     try {
-      PasswordResultsImpl analysis = new PasswordResultsImpl(password);
+      PatternsAnalyzerImpl analysis = new PatternsAnalyzerImpl(password);
       finder.analyze(analysis);
       writeJSON(analysis, response.getWriter());
     } catch (Exception e) {
@@ -85,7 +85,7 @@ public class PassfaultServlet extends HttpServlet {
     }
   }
 
-  private void writeJSON(PasswordResultsImpl analysis, PrintWriter writer) throws IOException {
+  private void writeJSON(PatternsAnalyzerImpl analysis, PrintWriter writer) throws IOException {
     jsonWriter.write(writer, analysis.calculateHighestProbablePatterns());
   }
 

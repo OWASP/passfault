@@ -1,4 +1,4 @@
-/* ©Copyright 2011 Cameron Morris
+/* ©Copyright 2015 Cameron Morris
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,29 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.owasp.passfault.api;
 
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.PasswordPattern;
+
+import java.util.List;
 
 /**
- * This interface represents a collection of discovered password patterns.
- *
+ * PasswordPatternCollection stores the analysis of password pattern finders.
  * @author cam, ray
  */
-public interface PasswordResults extends PasswordAnalysis {
+public interface PasswordPatternCollection {
 
   /**
-   * Calculates the highest probable combination of finders.  In other words,
-   * the weakest combination of found patterns.
-   * @return List of finders that make up the weakest combination of found passwords
+   * This method is called by pattern finders to store a newly discovered pattern
+   * in a password.
+   * @param patt pattern found in the password.
    */
-  PathCost calculateHighestProbablePatterns();
+  void putPattern(PasswordPattern patt);
 
   /**
-   * @return total number of finders identified.
+   * @return the password to be analyzed
    */
-  int getPossiblePatternCount();
+  CharSequence getPassword();
 
-  public int getLength();
+  List<CharSequence> getPatternsByIndex(int i);
+
+  List<CharSequence> getAllPatterns();
 }

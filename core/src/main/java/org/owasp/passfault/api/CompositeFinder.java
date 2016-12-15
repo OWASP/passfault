@@ -11,9 +11,6 @@
  */
 package org.owasp.passfault.api;
 
-import org.owasp.passfault.api.PasswordResults;
-import org.owasp.passfault.api.PatternFinder;
-
 import java.util.concurrent.Future;
 
 /**
@@ -22,5 +19,5 @@ import java.util.concurrent.Future;
  */
 public interface CompositeFinder extends PatternFinder
 {
-  public Future<PasswordAnalysis> analyzeFuture(PasswordAnalysis pass);
+  public Future<PasswordPatternCollection> analyzeFuture(PasswordPatternCollection pass);
 }

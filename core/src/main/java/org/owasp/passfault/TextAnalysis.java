@@ -110,7 +110,7 @@ public class TextAnalysis {
 
   private void process(final String password, int machineNum, int hashNum)
       throws Exception {
-    PasswordResultsImpl analysis = new PasswordResultsImpl(password);
+    PatternsAnalyzerImpl analysis = new PatternsAnalyzerImpl(password);
     
     switch (machineNum) {
       case 1: crack = TimeToCrack.GPU1;

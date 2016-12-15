@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PasswordAnalysis;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 /**
@@ -37,7 +35,7 @@ public class SequentialFinder implements PatternFinder{
   }
 
   @Override
-  public void analyze(PasswordAnalysis pass) throws Exception {
+  public void analyze(PasswordPatternCollection pass) throws Exception {
     for(PatternFinder finder: finders){
       finder.analyze(pass);
     }

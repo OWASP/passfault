@@ -14,9 +14,8 @@
 package org.owasp.passfault;
 
 import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PasswordAnalysis;
-import org.owasp.passfault.api.PasswordResults;
-import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.api.PatternsAnalyzer;
+import org.owasp.passfault.api.PasswordPatternCollection;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,7 +54,7 @@ public class StressTest {
       buffered.readLine();
       count++;
     }
-    LinkedList<Future<PasswordAnalysis>> backlog = new LinkedList<>();
+    LinkedList<Future<PasswordPatternCollection>> backlog = new LinkedList<>();
     long start = System.currentTimeMillis();
     while (word != null) {
       word = buffered.readLine();
@@ -64,11 +63,11 @@ public class StressTest {
       }
       word = word.trim();
 
-      PasswordResults normal = new PasswordResultsImpl(word);
+      PatternsAnalyzer normal = new PatternsAnalyzerImpl(word);
       backlog.add(finder.analyzeFuture(normal));
       if (batchCount == batchSize - 1) {
-        for (Future<PasswordAnalysis> future : backlog) {
-          PasswordResults password = (PasswordResults) future.get();
+        for (Future<PasswordPatternCollection> future : backlog) {
+          PatternsAnalyzer password = (PatternsAnalyzer) future.get();
           PathCost normCost = password.calculateHighestProbablePatterns();
           // password# cost patternsCount
           out.printf("%s\t%s\t%s\t",

@@ -15,7 +15,7 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.MockPasswordResults;
+import org.owasp.passfault.MockPatternsAnalyzer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,56 +31,56 @@ public class InsertionFinderTest {
 
   @Test
   public void plain2() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("trouble");
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("trouble");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void plain() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("wisp");
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("wisp");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWord() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("trou$ble");
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("trou$ble");
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void tooMany() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("t$r$o$u$b$l$e");
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("t$r$o$u$b$l$e");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("xxxxtrou-ble");//wasp, asp, wisp, was
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("xxxxtrou-ble");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("troub!lexxxx");//wasp, asp, wisp, was
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("troub!lexxxx");//wasp, asp, wisp, was
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void findNonWord() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("qqq123");
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("qqq123");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("tr-oubletro+uble");//wasp, asp, wisp, was *2
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("tr-oubletro+uble");//wasp, asp, wisp, was *2
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
   }

@@ -13,8 +13,7 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordAnalysis;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 import java.util.regex.Matcher;
@@ -43,7 +42,7 @@ public class DateFinder implements PatternFinder {
   double dateSize = 12 * 31 * 2500; // days * chars * years (future proof by 500 years
 
   @Override
-  public void analyze(PasswordAnalysis pass) throws Exception {
+  public void analyze(PasswordPatternCollection pass) throws Exception {
     CharSequence chars = pass.getPassword();
     Matcher matcher = dateRegex.matcher(chars);
     boolean found = false;
@@ -56,7 +55,7 @@ public class DateFinder implements PatternFinder {
         CharSequence matchString = chars.subSequence(start, end);
 
         if (matchString.length() > 0) {
-          pass.foundPattern(new PasswordPattern(
+          pass.putPattern(new PasswordPattern(
             start, length, matchString, dateSize, "Date Format", DATE_PATTERN, null));
         }
       }

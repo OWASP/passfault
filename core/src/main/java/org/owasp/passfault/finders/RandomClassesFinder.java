@@ -2,7 +2,7 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.RandomPattern;
 import org.owasp.passfault.RandomPattern.RandomClasses;
@@ -34,7 +34,7 @@ public class RandomClassesFinder
   }
   
   @Override
-  public void analyze(PasswordAnalysis pass)
+  public void analyze(PasswordPatternCollection pass)
     throws Exception
   {
     CharSequence chars = pass.getPassword();
@@ -53,7 +53,7 @@ public class RandomClassesFinder
     }
   }
 
-  private void reportPattern(PasswordAnalysis pass, int currentIndex, int countOfType, RandomClasses type)
+  private void reportPattern(PasswordPatternCollection pass, int currentIndex, int countOfType, RandomClasses type)
   {
     if (countOfType >= threshold && (type == RandomClasses.Numbers || type == RandomClasses.SpecialChars) ){
       int start = (currentIndex+1)-countOfType;
@@ -65,7 +65,7 @@ public class RandomClassesFinder
         PasswordPattern pattern = new PasswordPattern(
             i, chars.length(), chars, size, 
             "Random Characters with:" + type.name(), RandomPattern.RANDOM_PATTERN, type.name());
-        pass.foundPattern(pattern);
+        pass.putPattern(pattern);
       }
     } 
   }

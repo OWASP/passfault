@@ -13,8 +13,6 @@
 
 package org.owasp.passfault.api;
 
-import org.owasp.passfault.api.PasswordResults;
-
 /**
  * This interface represents a password pattern finder.
  */
@@ -28,5 +26,5 @@ public interface PatternFinder {
    *
    * @throws Exception 
    */
-  void analyze(PasswordAnalysis pass) throws Exception;
+  void analyze(PasswordPatternCollection pass) throws Exception;
 }

@@ -15,8 +15,7 @@ package org.owasp.passfault.keyboard;
 import java.util.Map;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordAnalysis;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.keyboard.Key.Direction;
 
@@ -51,7 +50,7 @@ public class KeySequenceFinder implements PatternFinder {
   }
 
   @Override
-  public void analyze(PasswordAnalysis pass) throws Exception {
+  public void analyze(PasswordPatternCollection pass) throws Exception {
     CharSequence password = pass.getPassword();
     Key previous = keyboard.get(password.charAt(0));
     Direction currentDirection = null;
@@ -106,7 +105,7 @@ public class KeySequenceFinder implements PatternFinder {
     }
   }
 
-  private void reportPattern(PasswordAnalysis pass, int start, int length, Direction currentDirection, boolean[] isUpper) {
+  private void reportPattern(PasswordPatternCollection pass, int start, int length, Direction currentDirection, boolean[] isUpper) {
     long patternSize = 1;
     String patternName = null;
     StringBuilder pattern = new StringBuilder();
@@ -164,7 +163,7 @@ public class KeySequenceFinder implements PatternFinder {
     }
     CharSequence passString;
     passString = pass.getPassword().subSequence(start, length + start);
-    pass.foundPattern(
+    pass.putPattern(
         new PasswordPattern(start, length, passString,
         patternSize, pattern.toString(), patternName, keys.getName()));
   }
