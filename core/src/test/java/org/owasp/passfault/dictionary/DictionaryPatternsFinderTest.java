@@ -14,8 +14,8 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.PasswordResultsImpl;
-import org.owasp.passfault.io.MockPasswordResults;
+import org.owasp.passfault.PatternsAnalyzerImpl;
+import org.owasp.passfault.io.MockPatternsAnalyzer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,42 +31,42 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findWord() throws Exception {
-    PasswordResultsImpl p = new PasswordResultsImpl("wisp");
+    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("wisp");
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    PasswordResultsImpl p = new PasswordResultsImpl("1234wisp");
+    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("1234wisp");
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    PasswordResultsImpl p = new PasswordResultsImpl("wisp1234");
+    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("wisp1234");
     finder.analyze(p);
     assertEquals(1, p.getPossiblePatternCount());
   }
 
   @Test
   public void findNonWord() throws Exception {
-    PasswordResultsImpl p = new PasswordResultsImpl("qqq");
+    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("qqq");
     finder.analyze(p);
     assertEquals(0, p.getPossiblePatternCount());
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    PasswordResultsImpl p = new PasswordResultsImpl("wispwisp");
+    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("wispwisp");
     finder.analyze(p);
     assertEquals(2, p.getPossiblePatternCount());
   }
 
   @Test
   public void findWordWithMulti() throws Exception {
-    PasswordResultsImpl p = new PasswordResultsImpl("password");
+    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("password");
     finder.analyze(p);
     assertEquals(4, p.getPossiblePatternCount());
     assertEquals("password", p.calculateHighestProbablePatterns().getPath().get(0).getMatchString());
@@ -74,7 +74,7 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findWordWithMultiUpper() throws Exception {
-    MockPasswordResults p = new MockPasswordResults("Password");
+    MockPatternsAnalyzer p = new MockPatternsAnalyzer("Password");
     finder.analyze(p);
     assertEquals(6, p.getPossiblePatternCount());
   }

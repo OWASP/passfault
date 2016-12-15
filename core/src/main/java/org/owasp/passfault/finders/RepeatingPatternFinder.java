@@ -16,7 +16,7 @@ package org.owasp.passfault.finders;
 import java.util.List;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.PathCost;
 import org.owasp.passfault.RandomPattern;
 
@@ -29,7 +29,7 @@ public class RepeatingPatternFinder {
 
   public static final String DUPLICATE_PATTERN = "DUPLICATE";
 
-  public PathCost process(PathCost cost, PasswordResults password) {
+  public PathCost process(PathCost cost, PatternsAnalyzer password) {
     PathCost newPath = new PathCost(password);
     List<PasswordPattern> path = cost.getPath();
     for (int len = path.size() - 1, i = len; i >= 0; i--) {

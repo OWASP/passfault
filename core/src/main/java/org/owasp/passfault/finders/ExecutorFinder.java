@@ -14,7 +14,7 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PasswordAnalysis;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 import java.util.Collection;
@@ -30,7 +30,7 @@ public class ExecutorFinder implements CompositeFinder {
 
   private final PatternFinder finder;
   private final ExecutorService exec;
-  Map<PasswordAnalysis, Future<PasswordAnalysis>> jobsMap = new ConcurrentHashMap<>();
+  Map<PasswordPatternCollection, Future<PasswordPatternCollection>> jobsMap = new ConcurrentHashMap<>();
   
   
   public ExecutorFinder(Collection<PatternFinder> finders) {
@@ -51,9 +51,9 @@ public class ExecutorFinder implements CompositeFinder {
    * @throws Exception
    */
   @Override
-  public void analyze(PasswordAnalysis pass) throws Exception {
+  public void analyze(PasswordPatternCollection pass) throws Exception {
     Analyze toRun = new Analyze(pass, finder);
-    Future<PasswordAnalysis> future = exec.submit(toRun);
+    Future<PasswordPatternCollection> future = exec.submit(toRun);
     jobsMap.put(pass, future);
     future.get();
   }
@@ -64,9 +64,9 @@ public class ExecutorFinder implements CompositeFinder {
    * @throws InterruptedException
    */
   @Override
-  public Future<PasswordAnalysis> analyzeFuture(PasswordAnalysis pass) {
+  public Future<PasswordPatternCollection> analyzeFuture(PasswordPatternCollection pass) {
     Analyze toRun = new Analyze(pass, finder);
-    Future<PasswordAnalysis> future = exec.submit(toRun);
+    Future<PasswordPatternCollection> future = exec.submit(toRun);
     jobsMap.put(pass, future);
     return jobsMap.get(pass);
   }
@@ -78,17 +78,17 @@ public class ExecutorFinder implements CompositeFinder {
     this.exec.shutdown();
   }
   
-  static class Analyze implements Callable<PasswordAnalysis>{
-    private final PasswordAnalysis pw;
+  static class Analyze implements Callable<PasswordPatternCollection>{
+    private final PasswordPatternCollection pw;
     private final PatternFinder finder;
 
-    public Analyze(PasswordAnalysis pw, PatternFinder finders){
+    public Analyze(PasswordPatternCollection pw, PatternFinder finders){
       this.pw = pw;
       this.finder = finders;
     }
 
     @Override
-    public PasswordAnalysis call() throws Exception {
+    public PasswordPatternCollection call() throws Exception {
       finder.analyze(pw);
       return pw;  
     }

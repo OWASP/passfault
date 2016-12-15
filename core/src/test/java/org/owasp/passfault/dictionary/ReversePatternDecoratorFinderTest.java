@@ -12,12 +12,6 @@
  */
 package org.owasp.passfault.dictionary;
 
-import org.junit.Test;
-import org.owasp.passfault.PasswordResultsImpl;
-import org.owasp.passfault.PasswordPattern;
-
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +22,7 @@ public class ReversePatternDecoratorFinderTest {
 //    System.out.println("getChars");
 //
 //    ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(
-//        new PasswordResultsImpl("backwards"));
+//        new PatternsAnalyzerImpl("backwards"));
 //    CharSequence expResult = new StringBuilder("backwards").reverse().toString();
 //    CharSequence result = instance.getPassword();
 //    assertEquals(expResult, result);
@@ -39,7 +33,7 @@ public class ReversePatternDecoratorFinderTest {
 //    System.out.println("testAdaptedBackwards");
 //
 //    {
-//      ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(new PasswordResultsImpl(
+//      ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(new PatternsAnalyzerImpl(
 //        "012drow78"));
 //      //reversed would be= 87word210
 //      //it would find 'word' at index 2
@@ -49,7 +43,7 @@ public class ReversePatternDecoratorFinderTest {
 //      assertAdaptedReverse(instance, reverseStartingIndex, actualStartingIndex);
 //    }
 //    {
-//      ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(new PasswordResultsImpl(
+//      ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(new PatternsAnalyzerImpl(
 //        "012drow"));
 //      //reversed would be= word210
 //      //it would find 'word' at index 0
@@ -59,7 +53,7 @@ public class ReversePatternDecoratorFinderTest {
 //      assertAdaptedReverse(instance, reverseStartingIndex, actualStartingIndex);
 //    }
 //    {
-//      ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(new PasswordResultsImpl(
+//      ReversePatternDecoratorFinder instance = new ReversePatternDecoratorFinder(new PatternsAnalyzerImpl(
 //        "drow78"));
 //      //reversed would be= 87word
 //      //it would find 'word' at index 2
@@ -71,15 +65,15 @@ public class ReversePatternDecoratorFinderTest {
 //  }
 //
 //  private void assertAdaptedReverse(ReversePatternDecoratorFinder instance, int reverseStartingIndex, int actualStartingIndex) {
-//    instance.foundPattern(new PasswordPattern(reverseStartingIndex, 4, "word", 4, "word", "word", "english"));
+//    instance.putPattern(new PasswordPattern(reverseStartingIndex, 4, "word", 4, "word", "word", "english"));
 //    List<PasswordPattern> path = instance.calculateHighestProbablePatterns().getPath();
-//    boolean foundPattern = false;
+//    boolean putPattern = false;
 //    for (PasswordPattern patt : path) {
 //      if (ReversePatternDecoratorFinder.NAME.equalsIgnoreCase(patt.getName())) {
 //        assertEquals(actualStartingIndex, patt.getStartIndex());
-//        foundPattern = true;
+//        putPattern = true;
 //      }
 //    }
-//    assertTrue(foundPattern);
+//    assertTrue(putPattern);
 //  }
 }

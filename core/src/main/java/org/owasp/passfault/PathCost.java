@@ -13,7 +13,7 @@
 
 package org.owasp.passfault;
 
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternsAnalyzer;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -30,9 +30,9 @@ import java.util.List;
  */
 public class PathCost implements Cloneable {
 
-  private PasswordResults password;
+  private PatternsAnalyzer password;
 
-  public PathCost(PasswordResults password) {
+  public PathCost(PatternsAnalyzer password) {
     this.password = password;
   }
 
@@ -66,7 +66,7 @@ public class PathCost implements Cloneable {
    * included.  See. GetTotalCost
    *
    */
-  double getRelativeCost() {
+  public double getRelativeCost() {
     if (path.isEmpty()) {
       return RandomPattern.randomCost(password.getLength());
     }

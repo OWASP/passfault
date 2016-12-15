@@ -13,8 +13,8 @@
 package org.owasp.passfault.keyboard;
 
 import org.junit.Test;
-import org.owasp.passfault.PasswordResultsImpl;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.PatternsAnalyzerImpl;
+import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.PathCost;
 
 import static org.junit.Assert.assertEquals;
@@ -26,14 +26,14 @@ public class EnglishKeyBoardTest {
     System.out.println("generateKeyboard");
     KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.HORIZONTAL;
-    assertPattern(finder, new PasswordResultsImpl("1234567890-="), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("!@#$%^&*()_+"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("qwertyuiop[]\\"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("QWERTYUIOP{}|"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("asdfghjkl;'"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("ASDFGHJKL:"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("zxcvbnm,./"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("ZXCVBNM<>?"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("1234567890-="), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("!@#$%^&*()_+"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("qwertyuiop[]\\"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("QWERTYUIOP{}|"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("asdfghjkl;'"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("ASDFGHJKL:"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("zxcvbnm,./"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("ZXCVBNM<>?"), expectedPatternName);
   }
 
   @Test
@@ -41,14 +41,14 @@ public class EnglishKeyBoardTest {
     System.out.println("generateKeyboard");
     KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.HORIZONTAL;
-    assertPattern(finder, new PasswordResultsImpl("12#456&890-="), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("!2#$5^&8()_+"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("qweRTyuiop[]\\"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("QweRTYuIoP{}|"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("asDFghjkl;'"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("ASDFghJKL:"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("zxCVbnm,./"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("ZXCvbNM<>?"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("12#456&890-="), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("!2#$5^&8()_+"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("qweRTyuiop[]\\"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("QweRTYuIoP{}|"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("asDFghjkl;'"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("ASDFghJKL:"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("zxCVbnm,./"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("ZXCvbNM<>?"), expectedPatternName);
   }
 
   @Test
@@ -56,44 +56,44 @@ public class EnglishKeyBoardTest {
     System.out.println("diags");
     KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.DIAGONAL;
-    assertPattern(finder, new PasswordResultsImpl("1qaz"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("2wsx"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("3edc"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("4rfv"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("5tgb"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("6yhn"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("7ujm"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("8ik,"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("9ol."), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("0p;/"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("-['"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("1qaz"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("2wsx"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("3edc"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("4rfv"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("5tgb"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("6yhn"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("7ujm"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("8ik,"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("9ol."), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("0p;/"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("-['"), expectedPatternName);
 
-    assertPattern(finder, new PasswordResultsImpl("]'/"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("=[;."), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("-pl,"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("0okm"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("9ijn"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("8uhb"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("7ygv"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("6tfc"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("5rdx"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("4esz"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("3wa"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("]'/"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("=[;."), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("-pl,"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("0okm"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("9ijn"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("8uhb"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("7ygv"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("6tfc"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("5rdx"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("4esz"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("3wa"), expectedPatternName);
 
-    assertPattern(finder, new PasswordResultsImpl("!QAZ"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("@WSX"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("#EDC"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("$RFV"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("%TGB"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("^YHN"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("&UJM"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("*IK<"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("(OL>"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl(")P:?"), expectedPatternName);
-    assertPattern(finder, new PasswordResultsImpl("_{\""), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("!QAZ"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("@WSX"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("#EDC"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("$RFV"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("%TGB"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("^YHN"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("&UJM"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("*IK<"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("(OL>"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl(")P:?"), expectedPatternName);
+    assertPattern(finder, new PatternsAnalyzerImpl("_{\""), expectedPatternName);
   }
 
-  private void assertPattern(KeySequenceFinder finder, PasswordResults pass, String expectedPatternName) throws Exception {
+  private void assertPattern(KeySequenceFinder finder, PatternsAnalyzer pass, String expectedPatternName) throws Exception {
     finder.analyze(pass);
     PathCost cost = pass.calculateHighestProbablePatterns();
     assertEquals(1, cost.getPath().size());

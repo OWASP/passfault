@@ -13,9 +13,8 @@
 package org.owasp.passfault.io;
 
 import org.junit.Test;
-import org.owasp.passfault.MockPasswordResults;
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.*;
+import org.owasp.passfault.MockPatternsAnalyzer;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,9 +23,9 @@ public class JsonWriterTest {
 
   @Test
   public void patternToJSON() throws IOException {
-    MockPasswordResults results = new MockPasswordResults("test");
-    results.foundPattern(new PasswordPattern(1, 2, "te", 300, "This is a test pattern", "testPattern", "test"));
-    results.foundPattern(new PasswordPattern(3, 2, "st", 350, "This is another test pattern", "testPattern2", "test"));
+    MockPatternsAnalyzer results = new MockPatternsAnalyzer("test");
+    results.putPattern(new PasswordPattern(1, 2, "te", 300, "This is a test pattern", "testPattern", "test"));
+    results.putPattern(new PasswordPattern(3, 2, "st", 350, "This is another test pattern", "testPattern2", "test"));
     PathCost pathCost = results.calculateHighestProbablePatterns();
     JsonWriter writer = new JsonWriter();
     writer.write(new PrintWriter(System.out, true), pathCost);

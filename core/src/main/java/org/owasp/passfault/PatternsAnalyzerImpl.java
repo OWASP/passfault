@@ -14,7 +14,7 @@
 package org.owasp.passfault;
 
 import org.owasp.passfault.api.AnalysisListener;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.finders.RepeatingPatternFinder;
 
 import java.util.HashMap;
@@ -38,9 +38,9 @@ import static java.util.logging.Logger.getLogger;
  *
  * @author cam
  */
-public class PasswordResultsImpl implements PasswordResults {
+public class PatternsAnalyzerImpl implements PatternsAnalyzer {
 
-  private static final Logger log = getLogger(PasswordResultsImpl.class.getName());
+  private static final Logger log = getLogger(PatternsAnalyzerImpl.class.getName());
 
   private CharSequence password;
   private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<>();
@@ -54,7 +54,7 @@ public class PasswordResultsImpl implements PasswordResults {
   //todo remove counter, this is just for debugging to measure the optmization effectiveness
   private int counter = 0;
 
-  public PasswordResultsImpl(CharSequence password) {
+  public PatternsAnalyzerImpl(CharSequence password) {
     this.password = password;
   }
 
@@ -83,7 +83,7 @@ public class PasswordResultsImpl implements PasswordResults {
    * sequence, and discard the pattern if random was better(smaller).
    */
   @Override
-  synchronized public void foundPattern(PasswordPattern patt) {
+  synchronized public void putPattern(PasswordPattern patt) {
 //    System.out.format("Found a pattern: matches '%s' as a '%s' pattern, size=%f\n",
 //        patt.getMatchString(), patt.getDescription(), patt.getCost());
     PasswordPattern randomPattern = randomPatternFinder.getRandomPattern(password, patt.getStartIndex(), patt.getLength());

@@ -12,20 +12,19 @@
  */
 package org.owasp.passfault.io;
 
-import org.owasp.passfault.api.AnalysisListener;
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.PathCost;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MockPasswordResults implements PasswordResults {
+public class MockPatternsAnalyzer implements PatternsAnalyzer {
 
   private final String password;
   private List<PasswordPattern> foundPatterns = new LinkedList<>();
 
-  public MockPasswordResults(String password) {
+  public MockPatternsAnalyzer(String password) {
     this.password = password;
   }
 
@@ -65,7 +64,7 @@ public class MockPasswordResults implements PasswordResults {
   }
 
   @Override
-  public void foundPattern(PasswordPattern patt) {
+  public void putPattern(PasswordPattern patt) {
     foundPatterns.add(patt);
   }
 

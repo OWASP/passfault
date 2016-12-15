@@ -13,15 +13,12 @@
 
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.api.AnalysisListener;
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordAnalysis;
-import org.owasp.passfault.api.PasswordResults;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 /**
- * ReversePatternDecoratorFinder is a PasswordResults adapter/wrapper that
+ * ReversePatternDecoratorFinder is a PatternsAnalyzer adapter/wrapper that
  * reverses the password and can be used by the normal dictionary finders and
  * dictionary strategies.
  * @author cam, ray
@@ -35,20 +32,20 @@ public class ReversePatternDecoratorFinder implements PatternFinder {
   }
 
   @Override
-  public void analyze(PasswordAnalysis pass) throws Exception {
+  public void analyze(PasswordPatternCollection pass) throws Exception {
     ReversePatternDecoratorAnalyze newAnalyze = new ReversePatternDecoratorAnalyze(pass);
     this.decoratedFinder.analyze(newAnalyze);
   }
 
-  private class ReversePatternDecoratorAnalyze implements PasswordAnalysis {
+  private class ReversePatternDecoratorAnalyze implements PasswordPatternCollection {
 
     public final static String NAME = "BACKWARDS";
-    private final PasswordAnalysis wrappedPasswordAnalysis;
+    private final PasswordPatternCollection wrappedPasswordPatternCollection;
     private final char[] backwardsChars;
 
-    public ReversePatternDecoratorAnalyze(PasswordAnalysis pass) {
-      this.wrappedPasswordAnalysis = pass;
-      CharSequence chars = wrappedPasswordAnalysis.getPassword();
+    public ReversePatternDecoratorAnalyze(PasswordPatternCollection pass) {
+      this.wrappedPasswordPatternCollection = pass;
+      CharSequence chars = wrappedPasswordPatternCollection.getPassword();
       char[] backwards = new char[chars.length()];
       for (int i = 0; i < chars.length(); i++) {
         backwards[i] = chars.charAt(chars.length() - 1 - i);
@@ -57,9 +54,9 @@ public class ReversePatternDecoratorFinder implements PatternFinder {
     }
 
     @Override
-    public void foundPattern(PasswordPattern patt) {
+    public void putPattern(PasswordPattern patt) {
       PasswordPattern adaptedPattern = reversePattern(patt);
-      this.wrappedPasswordAnalysis.foundPattern(adaptedPattern);
+      this.wrappedPasswordPatternCollection.putPattern(adaptedPattern);
     }
 
     private PasswordPattern reversePattern(PasswordPattern patt) {

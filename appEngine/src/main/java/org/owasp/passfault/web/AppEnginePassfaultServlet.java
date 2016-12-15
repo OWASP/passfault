@@ -7,8 +7,7 @@ import java.util.concurrent.ThreadFactory;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.owasp.passfault.api.PasswordAnalysis;
-import org.owasp.passfault.api.PasswordResults;
+import org.owasp.passfault.api.PasswordPatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.finders.ExecutorFinder;
 import org.owasp.passfault.api.CompositeFinder;
@@ -47,7 +46,7 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
     }
 
     @Override
-    public void analyze(PasswordAnalysis pass)
+    public void analyze(PasswordPatternCollection pass)
       throws Exception
     {
       super.analyze(pass);
@@ -55,9 +54,9 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
     }
 
     @Override
-    public Future<PasswordAnalysis> analyzeFuture(PasswordAnalysis pass) 
+    public Future<PasswordPatternCollection> analyzeFuture(PasswordPatternCollection pass)
     {
-      Future<PasswordAnalysis> result = super.analyzeFuture(pass);
+      Future<PasswordPatternCollection> result = super.analyzeFuture(pass);
       super.shutdown();
       return result;
     }

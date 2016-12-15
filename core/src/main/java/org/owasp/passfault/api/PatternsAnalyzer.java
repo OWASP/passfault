@@ -1,4 +1,4 @@
-/* ©Copyright 2015 Cameron Morris
+/* ©Copyright 2011 Cameron Morris
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,25 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.owasp.passfault.api;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.PathCost;
 
 /**
- * PasswordAnalysis stores the analysis of password pattern finders.
+ * This interface represents a collection of discovered password patterns.
+ *
  * @author cam, ray
  */
-public interface PasswordAnalysis {
+public interface PatternsAnalyzer extends PasswordPatternCollection {
 
   /**
-   * This method is called by pattern finders to store a newly discovered pattern
-   * in a password.
-   * @param patt pattern found in the password.
+   * Calculates the highest probable combination of finders.  In other words,
+   * the weakest combination of found patterns.
+   * @return List of finders that make up the weakest combination of found passwords
    */
-  void foundPattern(PasswordPattern patt);
+  PathCost calculateHighestProbablePatterns();
 
   /**
-   * @return the password to be analyzed
+   * @return total number of finders identified.
    */
-  CharSequence getPassword();
+  int getPossiblePatternCount();
+
+  public int getLength();
 }
