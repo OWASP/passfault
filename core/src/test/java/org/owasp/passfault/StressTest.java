@@ -14,8 +14,10 @@
 package org.owasp.passfault;
 
 import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.finders.RepeatingPatternDecorator;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -41,6 +43,7 @@ public class StressTest {
 
   public void testRun_concurrent() throws Exception {
     System.out.println("run");
+    PatternsAnalyzer analyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
 
     File sortedWordsFile = new File("..\\wordlists\\unsorted\\rockyou.txt");
     BufferedReader buffered = new BufferedReader(new FileReader(sortedWordsFile));
@@ -54,7 +57,7 @@ public class StressTest {
       buffered.readLine();
       count++;
     }
-    LinkedList<Future<PasswordPatternCollection>> backlog = new LinkedList<>();
+    LinkedList<Future<PatternCollection>> backlog = new LinkedList<>();
     long start = System.currentTimeMillis();
     while (word != null) {
       word = buffered.readLine();
@@ -63,15 +66,14 @@ public class StressTest {
       }
       word = word.trim();
 
-      PatternsAnalyzer normal = new PatternsAnalyzerImpl(word);
-      backlog.add(finder.analyzeFuture(normal));
+      backlog.add(finder.analyzeFuture(word));
       if (batchCount == batchSize - 1) {
-        for (Future<PasswordPatternCollection> future : backlog) {
-          PatternsAnalyzer password = (PatternsAnalyzer) future.get();
-          PathCost normCost = password.calculateHighestProbablePatterns();
+        for (Future<PatternCollection> future : backlog) {
+          PatternCollection patterns = future.get();
+          AnalysisResult normCost = analyzer.calculateHighestProbablePatterns(patterns);
           // password# cost patternsCount
           out.printf("%s\t%s\t%s\t",
-            password.getPassword(), normCost.cost, normCost.getPath().size());
+            word, normCost.getTotalCost(), normCost.getPath().size());
           List<PasswordPattern> path = normCost.getPath();
           for (PasswordPattern pattern : path) {
             out.print(pattern.getName());
@@ -81,8 +83,8 @@ public class StressTest {
           }
           out.println();
           if (currStrengthAverage == 0)
-            currStrengthAverage = normCost.cost;
-          currStrengthAverage += (normCost.cost - currStrengthAverage) / count;
+            currStrengthAverage = normCost.getTotalCost();
+          currStrengthAverage += (normCost.getTotalCost() - currStrengthAverage) / count;
         }
         batchCount = 0;
         long end = System.currentTimeMillis();

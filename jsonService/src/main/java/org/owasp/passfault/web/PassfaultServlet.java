@@ -4,7 +4,7 @@ import org.owasp.passfault.PatternsAnalyzerImpl;
 import org.owasp.passfault.api.CompositeFinder;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.SecureString;
-import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.finders.ThroughputOptimizedFinder;
 import org.owasp.passfault.io.JsonWriter;
 
 import javax.servlet.ServletConfig;
@@ -51,7 +51,7 @@ public class PassfaultServlet extends HttpServlet {
     CompositeFinder finder = getCompositeFinder();
     try {
       PatternsAnalyzerImpl analysis = new PatternsAnalyzerImpl(password);
-      finder.analyze(analysis);
+      finder.search(analysis);
       writeJSON(analysis, response.getWriter());
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -102,7 +102,7 @@ public class PassfaultServlet extends HttpServlet {
     if (this.compositeFinder == null) {
       synchronized (this) {
         if (this.compositeFinder == null) {
-          this.compositeFinder = new ExecutorFinder(finders);
+          this.compositeFinder = new ThroughputOptimizedFinder(finders);
         }
       }
     }

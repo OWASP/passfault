@@ -11,9 +11,10 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault;
+package org.owasp.passfault.api;
 
-import org.owasp.passfault.api.PatternsAnalyzer;
+import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.RandomPattern;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -28,15 +29,15 @@ import java.util.List;
  * part of the password that does not have a cost.
  * @author cam
  */
-public class PathCost implements Cloneable {
+public class AnalysisResult {
 
-  private PatternsAnalyzer password;
+  private CharSequence password;
 
-  public PathCost(PatternsAnalyzer password) {
+  public AnalysisResult(CharSequence password) {
     this.password = password;
   }
 
-  public PathCost(PathCost toCopy) {
+  public AnalysisResult(AnalysisResult toCopy) {
     this(toCopy.password);
     this.path = new LinkedList<PasswordPattern>(toCopy.path);
     this.cost = toCopy.cost;
@@ -68,7 +69,7 @@ public class PathCost implements Cloneable {
    */
   public double getRelativeCost() {
     if (path.isEmpty()) {
-      return RandomPattern.randomCost(password.getLength());
+      return RandomPattern.randomCost(password.length());
     }
     return cost;
   }
@@ -79,7 +80,7 @@ public class PathCost implements Cloneable {
    */
   public double getTotalCost() {
     if (path.isEmpty()) {
-      return RandomPattern.randomCost(password.getLength());
+      return RandomPattern.randomCost(password.length());
     }
     PasswordPattern pattern = path.get(0);
     return RandomPattern.randomCost(pattern.getStartIndex()) * getRelativeCost();

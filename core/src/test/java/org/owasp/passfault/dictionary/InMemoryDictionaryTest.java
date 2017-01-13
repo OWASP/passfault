@@ -63,7 +63,7 @@ public class InMemoryDictionaryTest {
   }
 
   @Test
-  public void partialSearch_negative() throws IOException {
+  public void partialSearch_negative() {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     subString.add('w');
     subString.add('i');
@@ -80,7 +80,7 @@ public class InMemoryDictionaryTest {
   }
 
   @Test
-  public void partialSearch2() throws IOException {
+  public void partialSearch2() {
     CandidatePattern subString = dictionary.buildInitialCandidate(0);
     String word = "circumvent";
     for (int i = 0; i < word.length(); i++) {

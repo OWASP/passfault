@@ -15,81 +15,84 @@ package org.owasp.passfault.finders;
 import org.junit.Test;
 import org.owasp.passfault.PatternsAnalyzerImpl;
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternsAnalyzer;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
-public class RepeatingPatternFinderTest {
+public class RepeatingPatternDecoratorTest {
 
   @Test
   public void dup() {
     System.out.println("process");
-
-    PatternsAnalyzerImpl password = new PatternsAnalyzerImpl("abcabc");
-    PathCost cost = new PathCost(password);
+    String password = "abcabc";
+    PatternsAnalyzerImpl analyzer = new PatternsAnalyzerImpl();
+    AnalysisResult cost = new AnalysisResult(password);
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(0, 3, "abc", 100, "test pattern"));
 
-    RepeatingPatternFinder instance = new RepeatingPatternFinder();
-    PathCost result = instance.process(cost, password);
+    RepeatingPatternDecorator instance = new RepeatingPatternDecorator(patterns -> cost);
+
+    AnalysisResult result = instance.calculateHighestProbablePatterns(null);
     assertEquals(100, (int) result.getTotalCost());
     List<PasswordPattern> pattList = result.getPath();
     assertEquals(2, pattList.size());
-    assertEquals(RepeatingPatternFinder.DUPLICATE_PATTERN, pattList.get(1).getName());
+    assertEquals(RepeatingPatternDecorator.DUPLICATE_PATTERN, pattList.get(1).getName());
   }
 
   @Test
   public void nonDup() {
     System.out.println("process");
 
-    PatternsAnalyzerImpl password = new PatternsAnalyzerImpl("abcabc");
-    PathCost cost = new PathCost(password);
+    String password = new String("abcabc");
+    AnalysisResult cost = new AnalysisResult(password);
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(0, 3, "xyz", 100, "test pattern"));
 
-    RepeatingPatternFinder instance = new RepeatingPatternFinder();
-    PathCost result = instance.process(cost, password);
+    RepeatingPatternDecorator instance = new RepeatingPatternDecorator(patterns -> cost);
+    AnalysisResult result = instance.calculateHighestProbablePatterns(null);
     assertEquals(100 * 100, (int) result.getTotalCost());
     List<PasswordPattern> pattList = result.getPath();
     assertEquals(2, pattList.size());
-    assertNotSame(RepeatingPatternFinder.DUPLICATE_PATTERN, pattList.get(1).getName());
+    assertNotSame(RepeatingPatternDecorator.DUPLICATE_PATTERN, pattList.get(1).getName());
   }
 
   @Test
   public void twoDup() {
     System.out.println("process");
 
-    PatternsAnalyzerImpl password = new PatternsAnalyzerImpl("abcabcabc");
-    PathCost cost = new PathCost(password);
+    String password = new String("abcabcabc");
+    AnalysisResult cost = new AnalysisResult(password);
     cost.addPattern(new PasswordPattern(6, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(0, 3, "abc", 100, "test pattern"));
 
-    RepeatingPatternFinder instance = new RepeatingPatternFinder();
-    PathCost result = instance.process(cost, password);
+    RepeatingPatternDecorator instance = new RepeatingPatternDecorator(patterns -> cost);
+    AnalysisResult result = instance.calculateHighestProbablePatterns(null);
     assertEquals(100, (int) result.getTotalCost());
     List<PasswordPattern> pattList = result.getPath();
     assertEquals(3, pattList.size());
-    assertEquals(RepeatingPatternFinder.DUPLICATE_PATTERN, pattList.get(1).getName());
-    assertEquals(RepeatingPatternFinder.DUPLICATE_PATTERN, pattList.get(2).getName());
+    assertEquals(RepeatingPatternDecorator.DUPLICATE_PATTERN, pattList.get(1).getName());
+    assertEquals(RepeatingPatternDecorator.DUPLICATE_PATTERN, pattList.get(2).getName());
   }
 
   @Test
   public void dupExtra() {
     System.out.println("process");
 
-    PatternsAnalyzerImpl password = new PatternsAnalyzerImpl("123abc456abc789");
-    PathCost cost = new PathCost(password);
+    String password = new String("123abc456abc789");
+    AnalysisResult cost = new AnalysisResult(password);
     cost.addPattern(new PasswordPattern(9, 3, "abc", 100, "test pattern"));
     cost.addPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
 
-    RepeatingPatternFinder instance = new RepeatingPatternFinder();
-    PathCost result = instance.process(cost, password);
+    RepeatingPatternDecorator instance = new RepeatingPatternDecorator(patterns -> cost);
+    AnalysisResult result = instance.calculateHighestProbablePatterns(null);
     List<PasswordPattern> pattList = result.getPath();
     assertEquals(2, pattList.size());
-    assertEquals(RepeatingPatternFinder.DUPLICATE_PATTERN, pattList.get(1).getName());
+    assertEquals(RepeatingPatternDecorator.DUPLICATE_PATTERN, pattList.get(1).getName());
   }
 }

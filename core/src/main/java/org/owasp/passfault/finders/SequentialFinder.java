@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 /**
- * This file simply iterates through each finder calling analyze.  Before
+ * This file simply iterates through each finder calling search.  Before
  * One thread, no optimizations.  This is used for services that don't allow
  * multithreading (Google App Engine).
  * @author cam
@@ -35,9 +35,11 @@ public class SequentialFinder implements PatternFinder{
   }
 
   @Override
-  public void analyze(PasswordPatternCollection pass) throws Exception {
+  public PatternCollection search(CharSequence pass) {
+    PatternCollection allPatterns = PatternCollection.getInstance(pass);
     for(PatternFinder finder: finders){
-      finder.analyze(pass);
+      allPatterns.addAll(finder.search(pass));
     }
+    return allPatterns;
   }
 }

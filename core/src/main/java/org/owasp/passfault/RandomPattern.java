@@ -32,17 +32,17 @@ public class RandomPattern {
 
   public final static String RANDOM_PATTERN = "RANDOM_CHARACTERS";
 
-  static double randomCost(int chars) {
+  public static double randomCost(int chars) {
     return java.lang.Math.pow((double) RandomClasses.Latin.getSize() * 2
         + RandomClasses.SpecialChars.getSize()
         + RandomClasses.Numbers.getSize(), (double) chars);
   }
 
-  static double randomCostLowerCase(int chars) {
+  public static double randomCostLowerCase(int chars) {
     return java.lang.Math.pow((double) RandomClasses.Latin.getSize(false), (double) chars);
   }
 
-  static double randomCostLowerUpperCase(int chars) {
+  public static double randomCostLowerUpperCase(int chars) {
     return java.lang.Math.pow((double) RandomClasses.Latin.getSize(), (double) chars);
   }
   

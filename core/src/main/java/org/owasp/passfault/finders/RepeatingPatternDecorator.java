@@ -16,21 +16,28 @@ package org.owasp.passfault.finders;
 import java.util.List;
 
 import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.RandomPattern;
 
 /**
- * This Finder is a post processing finder.  It will analyze an already analyzed
+ * This Finder is a post processing finder.  It will search an already analyzed
  * password to find if any identified finders are repeated.
  * @author cam
  */
-public class RepeatingPatternFinder {
+public class RepeatingPatternDecorator implements PatternsAnalyzer {
+
+  private final PatternsAnalyzer wrappedAnalyzer;
+
+  public RepeatingPatternDecorator(PatternsAnalyzer wrappedAnalyzer) {
+    this.wrappedAnalyzer = wrappedAnalyzer;
+  }
 
   public static final String DUPLICATE_PATTERN = "DUPLICATE";
 
-  public PathCost process(PathCost cost, PatternsAnalyzer password) {
-    PathCost newPath = new PathCost(password);
+  public AnalysisResult process(AnalysisResult cost, CharSequence password) {
+    AnalysisResult newPath = new AnalysisResult(password);
     List<PasswordPattern> path = cost.getPath();
     for (int len = path.size() - 1, i = len; i >= 0; i--) {
       PasswordPattern pass = path.get(i);
@@ -54,5 +61,10 @@ public class RepeatingPatternFinder {
       }
     }
     return newPath;
+  }
+
+  @Override
+  public AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns) {
+    return process(wrappedAnalyzer.calculateHighestProbablePatterns(patterns), patterns.getPassword());
   }
 }

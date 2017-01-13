@@ -14,26 +14,28 @@ package org.owasp.passfault.keyboard;
 
 import org.junit.Test;
 import org.owasp.passfault.PatternsAnalyzerImpl;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.api.AnalysisResult;
 
 import static org.junit.Assert.assertEquals;
 
 public class EnglishKeyBoardTest {
+  PatternsAnalyzer analyzer = new PatternsAnalyzerImpl();
 
   @Test
   public void generateKeyboard_horizontal() throws Exception {
     System.out.println("generateKeyboard");
     KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.HORIZONTAL;
-    assertPattern(finder, new PatternsAnalyzerImpl("1234567890-="), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("!@#$%^&*()_+"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("qwertyuiop[]\\"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("QWERTYUIOP{}|"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("asdfghjkl;'"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("ASDFGHJKL:"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("zxcvbnm,./"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("ZXCVBNM<>?"), expectedPatternName);
+    assertPattern(finder.search("1234567890-="), expectedPatternName);
+    assertPattern(finder.search("!@#$%^&*()_+"), expectedPatternName);
+    assertPattern(finder.search("qwertyuiop[]\\"), expectedPatternName);
+    assertPattern(finder.search("QWERTYUIOP{}|"), expectedPatternName);
+    assertPattern(finder.search("asdfghjkl;'"), expectedPatternName);
+    assertPattern(finder.search("ASDFGHJKL:"), expectedPatternName);
+    assertPattern(finder.search("zxcvbnm,./"), expectedPatternName);
+    assertPattern(finder.search("ZXCVBNM<>?"), expectedPatternName);
   }
 
   @Test
@@ -41,14 +43,14 @@ public class EnglishKeyBoardTest {
     System.out.println("generateKeyboard");
     KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.HORIZONTAL;
-    assertPattern(finder, new PatternsAnalyzerImpl("12#456&890-="), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("!2#$5^&8()_+"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("qweRTyuiop[]\\"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("QweRTYuIoP{}|"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("asDFghjkl;'"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("ASDFghJKL:"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("zxCVbnm,./"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("ZXCvbNM<>?"), expectedPatternName);
+    assertPattern(finder.search("12#456&890-="), expectedPatternName);
+    assertPattern(finder.search("!2#$5^&8()_+"), expectedPatternName);
+    assertPattern(finder.search("qweRTyuiop[]\\"), expectedPatternName);
+    assertPattern(finder.search("QweRTYuIoP{}|"), expectedPatternName);
+    assertPattern(finder.search("asDFghjkl;'"), expectedPatternName);
+    assertPattern(finder.search("ASDFghJKL:"), expectedPatternName);
+    assertPattern(finder.search("zxCVbnm,./"), expectedPatternName);
+    assertPattern(finder.search("ZXCvbNM<>?"), expectedPatternName);
   }
 
   @Test
@@ -56,46 +58,45 @@ public class EnglishKeyBoardTest {
     System.out.println("diags");
     KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.DIAGONAL;
-    assertPattern(finder, new PatternsAnalyzerImpl("1qaz"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("2wsx"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("3edc"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("4rfv"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("5tgb"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("6yhn"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("7ujm"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("8ik,"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("9ol."), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("0p;/"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("-['"), expectedPatternName);
+    assertPattern(finder.search("1qaz"), expectedPatternName);
+    assertPattern(finder.search("2wsx"), expectedPatternName);
+    assertPattern(finder.search("3edc"), expectedPatternName);
+    assertPattern(finder.search("4rfv"), expectedPatternName);
+    assertPattern(finder.search("5tgb"), expectedPatternName);
+    assertPattern(finder.search("6yhn"), expectedPatternName);
+    assertPattern(finder.search("7ujm"), expectedPatternName);
+    assertPattern(finder.search("8ik,"), expectedPatternName);
+    assertPattern(finder.search("9ol."), expectedPatternName);
+    assertPattern(finder.search("0p;/"), expectedPatternName);
+    assertPattern(finder.search("-['"), expectedPatternName);
 
-    assertPattern(finder, new PatternsAnalyzerImpl("]'/"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("=[;."), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("-pl,"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("0okm"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("9ijn"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("8uhb"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("7ygv"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("6tfc"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("5rdx"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("4esz"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("3wa"), expectedPatternName);
+    assertPattern(finder.search("]'/"), expectedPatternName);
+    assertPattern(finder.search("=[;."), expectedPatternName);
+    assertPattern(finder.search("-pl,"), expectedPatternName);
+    assertPattern(finder.search("0okm"), expectedPatternName);
+    assertPattern(finder.search("9ijn"), expectedPatternName);
+    assertPattern(finder.search("8uhb"), expectedPatternName);
+    assertPattern(finder.search("7ygv"), expectedPatternName);
+    assertPattern(finder.search("6tfc"), expectedPatternName);
+    assertPattern(finder.search("5rdx"), expectedPatternName);
+    assertPattern(finder.search("4esz"), expectedPatternName);
+    assertPattern(finder.search("3wa"), expectedPatternName);
 
-    assertPattern(finder, new PatternsAnalyzerImpl("!QAZ"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("@WSX"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("#EDC"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("$RFV"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("%TGB"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("^YHN"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("&UJM"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("*IK<"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("(OL>"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl(")P:?"), expectedPatternName);
-    assertPattern(finder, new PatternsAnalyzerImpl("_{\""), expectedPatternName);
+    assertPattern(finder.search("!QAZ"), expectedPatternName);
+    assertPattern(finder.search("@WSX"), expectedPatternName);
+    assertPattern(finder.search("#EDC"), expectedPatternName);
+    assertPattern(finder.search("$RFV"), expectedPatternName);
+    assertPattern(finder.search("%TGB"), expectedPatternName);
+    assertPattern(finder.search("^YHN"), expectedPatternName);
+    assertPattern(finder.search("&UJM"), expectedPatternName);
+    assertPattern(finder.search("*IK<"), expectedPatternName);
+    assertPattern(finder.search("(OL>"), expectedPatternName);
+    assertPattern(finder.search(")P:?"), expectedPatternName);
+    assertPattern(finder.search("_{\""), expectedPatternName);
   }
 
-  private void assertPattern(KeySequenceFinder finder, PatternsAnalyzer pass, String expectedPatternName) throws Exception {
-    finder.analyze(pass);
-    PathCost cost = pass.calculateHighestProbablePatterns();
+  private void assertPattern(PatternCollection patterns, String expectedPatternName) throws Exception {
+    AnalysisResult cost = analyzer.calculateHighestProbablePatterns(patterns);
     assertEquals(1, cost.getPath().size());
     assertEquals(expectedPatternName, cost.getPath().get(0).getName());
   }

@@ -7,9 +7,9 @@ import java.util.concurrent.ThreadFactory;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
-import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.finders.ThroughputOptimizedFinder;
 import org.owasp.passfault.api.CompositeFinder;
 
 /**
@@ -38,7 +38,7 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
    * so when analysis is done the executor needs to be shut down.  This class exists to call shutdown after
    * either blockingAnalyze or waitForAnalysis is completed. 
    */
-  public class AppEngineFinder extends ExecutorFinder {
+  public class AppEngineFinder extends ThroughputOptimizedFinder {
 
     public AppEngineFinder(Collection<PatternFinder> finders, ThreadFactory factory)
     {
@@ -46,17 +46,17 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
     }
 
     @Override
-    public void analyze(PasswordPatternCollection pass)
-      throws Exception
+    public PatternCollection search(CharSequence pass)
     {
-      super.analyze(pass);
-      super.shutdown();  
+      PatternCollection result = super.search(pass);
+      super.shutdown();
+      return result;
     }
 
     @Override
-    public Future<PasswordPatternCollection> analyzeFuture(PasswordPatternCollection pass)
+    public Future<PatternCollection> analyzeFuture(CharSequence pass)
     {
-      Future<PasswordPatternCollection> result = super.analyzeFuture(pass);
+      Future<PatternCollection> result = super.analyzeFuture(pass);
       super.shutdown();
       return result;
     }

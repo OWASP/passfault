@@ -13,7 +13,7 @@
 package org.owasp.passfault.keyboard;
 
 import org.junit.Test;
-import org.owasp.passfault.PatternsAnalyzerImpl;
+import org.owasp.passfault.api.PatternCollection;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,121 +21,121 @@ public class KeySequenceFinderTest {
 
   @Test
   public void analyze_right() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("asdfg");
+    System.out.println("search");
+    String pass = "asdfg";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(6, count);
   }
 
   @Test
   public void analyze_rightMixed() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("aSdFg");
+    System.out.println("search");
+    String pass = "aSdFg";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(6, count);
   }
 
   @Test
   public void analyze_left() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("[poi");
+    System.out.println("search");
+    String pass = "[poi";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void analyze_upperleft() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("zaq1");
+    System.out.println("search");
+    String pass = "zaq1";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void analyze_upperright() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("zse4");
+    System.out.println("search");
+    String pass = "zse4";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void analyze_lowerleft() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("4esz");
+    System.out.println("search");
+    String pass = "4esz";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void analyze_lowerright() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("1qaz");
+    System.out.println("search");
+    String pass = "1qaz";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void analyze_repeating() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("eeee");
+    System.out.println("search");
+    String pass = "eeee";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void analyze_extraBeforeAndAfter() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("fredasdfcougar");
+    System.out.println("search");
+    String pass = "fredasdfcougar";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(3, count);
   }
 
   @Test
   public void testAnalyze_extraBeforeAndAfter_MixedCase() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("freSdFcougar2WsX");
+    System.out.println("search");
+    String pass = "freSdFcougar2WsX";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(4, count);
   }
 
   @Test
   public void testAnalyze_random() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl("&7U8(b^j(*(l:';");
+    System.out.println("search");
+    String pass = "&7U8(b^j(*(l:';";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(1, count);
   }
 
   @Test
   public void testAnalyze_colon() throws Exception {
-    System.out.println("analyze");
-    PatternsAnalyzerImpl pass = new PatternsAnalyzerImpl(":");
+    System.out.println("search");
+    String pass = ":";
     KeySequenceFinder instance = new KeySequenceFinder(new EnglishKeyBoard());
-    instance.analyze(pass);
-    int count = pass.getPossiblePatternCount();
+    PatternCollection patterns = instance.search(pass);
+    int count = patterns.getCount();
     assertEquals(0, count);
   }
 }

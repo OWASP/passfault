@@ -32,6 +32,7 @@ import java.io.RandomAccessFile;
  * @author cam
  */
 public class FileDictionary implements Dictionary {
+  public static final String WORD_LIST_EXTENSION = ".words";
 
   private long size;
   private RandomAccessFile file;
@@ -85,32 +86,37 @@ public class FileDictionary implements Dictionary {
     return new CandidatePattern(begin, size, offset);
   }
 
-  public boolean isMatch(CandidatePattern candidate) throws IOException {
+  public boolean isMatch(CandidatePattern candidate) throws DictionaryException {
     boolean found = false;
-    long middle = candidate.end;
-    long end = candidate.end;
-    long start = candidate.start;
-    long oldMiddle = candidate.start;
-    int comparison = 0;
-    long middleRoundDown = 0;
+    try {
+      long middle = candidate.end;
+      long end = candidate.end;
+      long start = candidate.start;
+      long oldMiddle = candidate.start;
+      int comparison;
+      long middleRoundDown;
 
-    while (oldMiddle != middle) {
-      oldMiddle = middle;
-      middle = round((end + start) / 2);
-      file.seek(middle);
-      String middleString = file.readLine().trim();
-      middleRoundDown = middle + lineSize;
-      comparison = compare(candidate.subString, middleString);
-      if (comparison == 0) {
-        found = true;
-        break;
-      }
+      while (oldMiddle != middle) {
+        oldMiddle = middle;
+        middle = round((end + start) / 2);
+        file.seek(middle);
+        String middleString = file.readLine().trim();
+        middleRoundDown = middle + lineSize;
+        comparison = compare(candidate.subString, middleString);
+        if (comparison == 0) {
+          found = true;
+          break;
+        }
 
-      if (comparison > 0) {
-        start = middle;
-      } else {
-        end = middleRoundDown;
+        if (comparison > 0) {
+          start = middle;
+        } else {
+          end = middleRoundDown;
+        }
       }
+    }
+    catch (IOException e) {
+      throw new DictionaryException("Could not read the dictionary file " + file.toString(), e);
     }
 
     return found;
@@ -119,40 +125,43 @@ public class FileDictionary implements Dictionary {
   /* (non-Javadoc)
    * @see com.passfault.PatternModel#partialSearch(com.passfault.CandidatePattern)
    */
-  public boolean partialMatch(CandidatePattern candidate) throws IOException {
-    boolean found = false;
+  public boolean partialMatch(CandidatePattern candidate) throws DictionaryException {
+    try {
+      boolean found = false;
 
-    long middle = candidate.end;
-    long oldMiddle = candidate.start;
-    int comparison = 0;
-    long middleRoundDown = 0;
-    while (oldMiddle != middle) {
-      oldMiddle = middle;
-      middle = round((candidate.end + candidate.start) / 2);
-      file.seek(middle);
-      //we might be in the middle of a word.  Regardless, go to next line (Round down)
-      //String temp = file.readLine();
-      middleRoundDown = middle + lineSize;
-      String middleString = file.readLine().trim();
-      comparison = comparePartial(candidate.subString, middleString);
-      if (comparison == 0) {
-        found = true;
-        break;
+      long middle = candidate.end;
+      long oldMiddle = candidate.start;
+      int comparison;
+      long middleRoundDown;
+      while (oldMiddle != middle) {
+        oldMiddle = middle;
+        middle = round((candidate.end + candidate.start) / 2);
+        file.seek(middle);
+        //we might be in the middle of a word.  Regardless, go to next line (Round down)
+        //String temp = file.readLine();
+        middleRoundDown = middle + lineSize;
+        String middleString = file.readLine().trim();
+        comparison = comparePartial(candidate.subString, middleString);
+        if (comparison == 0) {
+          found = true;
+          break;
+        }
+
+        if (comparison > 0) {
+          candidate.start = middle;
+        } else {
+          candidate.end = middleRoundDown;
+        }
       }
 
-      if (comparison > 0) {
-        candidate.start = middle;
-      } else {
-        candidate.end = middleRoundDown;
-      }
+      return found;
     }
-//		if (!found && candidate.end - candidate.start < SEQUENTIAL_SEARCH_BYTE_SIZE){
-//            found = sequentialPartialSearch(candidate);
-//		} 
-    return found;
+    catch (IOException e) {
+      throw new DictionaryException("unable to read dictionary file " + file.toString(), e);
+    }
   }
 
-  public int compare(StringBuilder subString, String string) {
+  int compare(StringBuilder subString, String string) {
     if (string == null) {
       return -1;
     }
@@ -169,16 +178,12 @@ public class FileDictionary implements Dictionary {
       if (diff != 0) {
         return diff;
       }
-
-//			if(i+1==string.length() && length!= i+1){
-//				return -1; //subString precedes string
-//			}
     }
     return 0;
 
   }
 
-  public int comparePartial(StringBuilder subString, String string) {
+  int comparePartial(StringBuilder subString, String string) {
     // this.charAt(k)-anotherString.charAt(k)
     if (string == null || string.length() == 0) {
       return -1;

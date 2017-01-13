@@ -13,12 +13,12 @@
 
 package org.owasp.passfault;
 
-import org.owasp.passfault.api.AnalysisListener;
+import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.finders.RepeatingPatternFinder;
+import org.owasp.passfault.finders.RepeatingPatternDecorator;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -28,7 +28,7 @@ import static java.util.logging.Logger.getLogger;
 
 /**
  * This class holds the results of the analysis of a password.  An instance
- * of this class begins with a password to analyze.  Then it is handed to
+ * of this class begins with a password to search.  Then it is handed to
  * multiple PatternFinders.
  *
  * This class contains the logic for post-analysis of the finders found
@@ -41,99 +41,7 @@ import static java.util.logging.Logger.getLogger;
 public class PatternsAnalyzerImpl implements PatternsAnalyzer {
 
   private static final Logger log = getLogger(PatternsAnalyzerImpl.class.getName());
-
-  private CharSequence password;
-  private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<>();
-  private Map<Integer, PathCost> ithSmallestCost = new HashMap<>();
-  private int patternCount = 0;
-  private List<AnalysisListener> analysisListeners = new LinkedList<>();
-  private RepeatingPatternFinder repeatingPatternFinder = new RepeatingPatternFinder();
-  private PathCost finalResults = null;
   private RandomPattern randomPatternFinder = new RandomPattern();
-
-  //todo remove counter, this is just for debugging to measure the optmization effectiveness
-  private int counter = 0;
-
-  public PatternsAnalyzerImpl(CharSequence password) {
-    this.password = password;
-  }
-
-  @Override
-  public CharSequence getPassword() {
-    return password;
-  }
-
-  @Override
-  public int getLength() {
-    return password.length();
-  }
-
-  /**
-   * This method is called by pattern finders to store a newly discovered pattern
-   * in a password.
-   * @param patt pattern found in the password.
-   */
-  /*
-   * Interesting things happen with random finders.  Some short finders can be
-   * more complex than random finders.  Looking and testing all possible
-   * combinations of random finders within a pattern is possible and was
-   * experimented with.  However, having different classes of random (upper, lower,
-   * numbers...) made it hard to determine if it was worthwhile.  The best solution
-   * tried was to compare a newly found pattern to the random pattern of the same
-   * sequence, and discard the pattern if random was better(smaller).
-   */
-  @Override
-  synchronized public void putPattern(PasswordPattern patt) {
-//    System.out.format("Found a pattern: matches '%s' as a '%s' pattern, size=%f\n",
-//        patt.getMatchString(), patt.getDescription(), patt.getCost());
-    PasswordPattern randomPattern = randomPatternFinder.getRandomPattern(password, patt.getStartIndex(), patt.getLength());
-    if (patt.getCost() > randomPattern.getCost()) {
-      //random is less expensive so throw away the pattern
-      log.log(Level.FINER, "Pattern discarded because random is smaller: {0}", patt.getName());
-      //patt = randomPattern;
-      return;
-    }
-    List<PasswordPattern> patterns = getIndexSet(patt.getStartIndex());
-    boolean worsePatternAlreadyFound = false;
-    for (PasswordPattern passwordPattern : patterns) {
-      if (patt.getLength() == passwordPattern.getLength()
-          && patt.getCost() > passwordPattern.getCost()) {
-        worsePatternAlreadyFound = true;
-        log.log(Level.FINER, "discarding found pattern since a smaller pattern already exists: {0}", patt.getName());
-      }
-    }
-    if (!worsePatternAlreadyFound) {
-      patterns.add(patt);
-      patternCount++;
-      for (AnalysisListener observer : analysisListeners) {
-        observer.foundPattern(patt);
-      }
-    }
-  }
-
-  /**
-   * This is a lazy loading getter for a list of finders that begin on the
-   * index of the password.
-   * @param startIndex index of the a character in a the password where the list
-   * of finders begin.
-   *
-   * @return a List of finders found for the starting index of where a pattern
-   * starts.
-   */
-  private List<PasswordPattern> getIndexSet(int startIndex) {
-    if (!foundPatterns.containsKey(startIndex)) {
-      foundPatterns.put(startIndex, new LinkedList<>());
-    }
-    return foundPatterns.get(startIndex);
-  }
-
-  /**
-   * @return total number of finders identified.
-   */
-  @Override
-  public int getPossiblePatternCount() {
-    return patternCount;
-  }
 
   /**
    * Calculates the highest probable combination of finders.  In other words,
@@ -141,75 +49,63 @@ public class PatternsAnalyzerImpl implements PatternsAnalyzer {
    * @return List of finders that make up the weakest combination of found passwords
    */
   @Override
-  public PathCost calculateHighestProbablePatterns() {
-    if (finalResults == null) {
-      log.log(Level.FINE, "Calculating the highest probable combination of %s finders\n", getPossiblePatternCount());
-      PathCost cost = smallestCost(0);
-      cost = postAnalysis(cost);
-      log.log(Level.FINER, "smallestCost took %d iterations", counter);
-
-      for (AnalysisListener observer : analysisListeners) {
-        observer.foundHighestProbablePatterns(cost);
-      }
-      finalResults = cost;
-      cleanup();
-    }
-    return finalResults;
+  public AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns) {
+    IthSmallestCost ithSmallestCost = new IthSmallestCost();
+    log.log(Level.FINE, "Calculating the highest probable combination of %s finders\n", patterns.getCount());
+    return smallestCost(0, patterns, ithSmallestCost);
   }
 
   /**
    * This is a recursive call to compute the smallest Cost (or weakest combination)
    * of finders starting at the index specified by startChar
-   * @param startChar index of the character to start with
    * @return List of finders including cost
    */
-  private PathCost smallestCost(int startChar) {
+  private AnalysisResult smallestCost(int startChar, PatternCollection foundPatterns, IthSmallestCost ithSmallestCost) {
     double smallestCost = Double.MAX_VALUE;
-    PathCost smallestCostPath = getIthSmallestCost(startChar);
+    AnalysisResult smallestCostPath = ithSmallestCost.getIthSmallestCost(startChar);
     if (smallestCostPath == null) {
-      smallestCostPath = new PathCost(this);
-      for (int i = startChar; i < password.length(); i++) {
-        List<PasswordPattern> ithPatterns = foundPatterns.get(i);
+      smallestCostPath = new AnalysisResult(foundPatterns.getPassword());
+      for (int i = startChar; i < foundPatterns.getPassword().length(); i++) {
+        List<PasswordPattern> ithPatterns = foundPatterns.getPatternsByIndex(i);
         if (ithPatterns != null) {
-          counter++;
 
-          PathCost pathCost = calculateIthSmallestCost(ithPatterns);
+          AnalysisResult analysisResult = calculateIthSmallestCost(i, foundPatterns, ithSmallestCost);
 
           //random characters between startChar and the next found pattern
-          PasswordPattern randomPattern = getRandomPattern(startChar, i);
+          PasswordPattern randomPattern = getRandomPattern(foundPatterns.getPassword(), startChar, i);
           if (randomPattern != null) {
-            pathCost.addPattern(randomPattern);
+            analysisResult.addPattern(randomPattern);
           }
 
-          if (pathCost.getRelativeCost() < smallestCost) {
-            smallestCost = pathCost.getRelativeCost();
-            smallestCostPath = pathCost;
+          if (analysisResult.getRelativeCost() < smallestCost) {
+            smallestCost = analysisResult.getRelativeCost();
+            smallestCostPath = analysisResult;
           }
         }
       }
       if (smallestCostPath.getPath().isEmpty()) {
-        PasswordPattern randomPattern = getRandomPattern(startChar, password.length());
+        PasswordPattern randomPattern = getRandomPattern(foundPatterns.getPassword(), startChar, foundPatterns.getPassword().length());
         if (randomPattern != null) {
           smallestCostPath.addPattern(randomPattern);
         }
       }
-      setIthSmallestCost(startChar, smallestCostPath);
+      ithSmallestCost.setIthSmallestCost(startChar, smallestCostPath);
     }
     return smallestCostPath;
   }
 
   /**
-   * Helper method for smallestCost,
-   * @param ithPatterns list of finders starting with a specific index
+   * Recursive helper method for smallestCost,
    * @return result of the smallest result of calling smallestCost on all
    * finders in the list
    */
-  private PathCost calculateIthSmallestCost(List<PasswordPattern> ithPatterns) {
+  private AnalysisResult calculateIthSmallestCost(int i, PatternCollection foundPatterns, IthSmallestCost ithSmallestCost) {
+    List<PasswordPattern> ithPatterns = foundPatterns.getPatternsByIndex(i);
     double smallestCost = Double.MAX_VALUE;
-    PathCost smallestCostPath = null;
+    AnalysisResult smallestCostPath = new AnalysisResult(foundPatterns.getPassword()); //this is really just an empty starting point
     for (PasswordPattern pattern : ithPatterns) {
       int index = pattern.getStartIndex() + pattern.getLength();
-      PathCost costPath = smallestCost(index);
+      AnalysisResult costPath = smallestCost(index, foundPatterns, ithSmallestCost);
       costPath.addPattern(pattern);
       double cost = costPath.getRelativeCost();
       if (cost < smallestCost
@@ -222,32 +118,27 @@ public class PatternsAnalyzerImpl implements PatternsAnalyzer {
     return smallestCostPath;
   }
 
-  private PathCost postAnalysis(PathCost cost) {
-    return repeatingPatternFinder.process(cost, this);
-  }
-
-  private PasswordPattern getRandomPattern(int startChar, int endChar) {
+  private PasswordPattern getRandomPattern(CharSequence password, int startChar, int endChar) {
     if (endChar <= startChar) {
       return null;
     }
-    return randomPatternFinder.getRandomPattern(this.password, startChar, endChar - startChar);
+    return randomPatternFinder.getRandomPattern(password, startChar, endChar - startChar);
   }
 
-  private void setIthSmallestCost(int i, PathCost pathCost) {
-    ithSmallestCost.put(i, new PathCost(pathCost)); //need a deep copy of the path cost in case it gets modified
-  }
 
-  private PathCost getIthSmallestCost(int i) {
-    if (ithSmallestCost.containsKey(i)) {
-      return new PathCost(ithSmallestCost.get(i)); //need a deep copy since it will be added to
-    } else {
-      return null;
+  private static class IthSmallestCost {
+    Map<Integer, AnalysisResult> ithSmallestCost = new HashMap<>();
+
+    private void setIthSmallestCost(int i, AnalysisResult analysisResult) {
+      ithSmallestCost.put(i, new AnalysisResult(analysisResult)); //need a deep copy of the path cost in case it gets modified
     }
-  }
 
-  private void cleanup() {
-    //attempt to clean up any circular references for Garbage cleanup.  only run this after the smallest path is calculated.
-    ithSmallestCost.clear();
-    this.foundPatterns.clear();
+    private AnalysisResult getIthSmallestCost(int i) {
+      if (ithSmallestCost.containsKey(i)) {
+        return new AnalysisResult(ithSmallestCost.get(i)); //need a deep copy since it will be added to
+      } else {
+        return null;
+      }
+    }
   }
 }
