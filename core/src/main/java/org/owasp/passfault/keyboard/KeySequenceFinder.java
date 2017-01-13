@@ -15,7 +15,7 @@ package org.owasp.passfault.keyboard;
 import java.util.Map;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.keyboard.Key.Direction;
 
@@ -50,8 +50,8 @@ public class KeySequenceFinder implements PatternFinder {
   }
 
   @Override
-  public void analyze(PasswordPatternCollection pass) throws Exception {
-    CharSequence password = pass.getPassword();
+  public PatternCollection search(CharSequence password) {
+    PatternCollection patterns = PatternCollection.getInstance(password);
     Key previous = keyboard.get(password.charAt(0));
     Direction currentDirection = null;
     int startOfSequence = 0;
@@ -88,7 +88,7 @@ public class KeySequenceFinder implements PatternFinder {
           //if the sequence is big enought report it for analysis
           if (i - startOfSequence >= 2) {
             for (int start = startOfSequence; start <= i - 2; start++) {
-              reportPattern(pass, start, i - start + 1, currentDirection, isUpper);
+              reportPattern(patterns, start, i - start + 1, currentDirection, isUpper);
             }
           }
         }
@@ -103,9 +103,10 @@ public class KeySequenceFinder implements PatternFinder {
       }
       previous = current;
     }
+    return patterns;
   }
 
-  private void reportPattern(PasswordPatternCollection pass, int start, int length, Direction currentDirection, boolean[] isUpper) {
+  private void reportPattern(PatternCollection pass, int start, int length, Direction currentDirection, boolean[] isUpper) {
     long patternSize = 1;
     String patternName = null;
     StringBuilder pattern = new StringBuilder();

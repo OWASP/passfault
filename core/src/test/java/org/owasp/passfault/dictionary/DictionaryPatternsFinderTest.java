@@ -14,14 +14,13 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.PatternsAnalyzerImpl;
-import org.owasp.passfault.io.MockPatternsAnalyzer;
+import org.owasp.passfault.api.PatternFinder;
 
 import static org.junit.Assert.assertEquals;
 
 public class DictionaryPatternsFinderTest {
 
-  private static DictionaryPatternsFinder finder;
+  private static PatternFinder finder;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -31,51 +30,36 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findWord() throws Exception {
-    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("wisp");
-    finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(finder.search("wisp").getCount(), 1);
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("1234wisp");
-    finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(finder.search("1234wisp").getCount(), 1);
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("wisp1234");
-    finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(finder.search("wisp1234").getCount(), 1);
   }
 
   @Test
   public void findNonWord() throws Exception {
-    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("qqq");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
+    assertEquals(finder.search("qqq").getCount(), 0);
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("wispwisp");
-    finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(finder.search("wispwisp").getCount(), 2);
   }
 
   @Test
   public void findWordWithMulti() throws Exception {
-    PatternsAnalyzerImpl p = new PatternsAnalyzerImpl("password");
-    finder.analyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
-    assertEquals("password", p.calculateHighestProbablePatterns().getPath().get(0).getMatchString());
+    assertEquals(finder.search("password").getCount(), 4);
   }
 
   @Test
   public void findWordWithMultiUpper() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("Password");
-    finder.analyze(p);
-    assertEquals(6, p.getPossiblePatternCount());
+    assertEquals(finder.search("Password").getCount(), 6);
   }
 }

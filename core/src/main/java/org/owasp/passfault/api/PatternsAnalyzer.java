@@ -13,26 +13,18 @@
 
 package org.owasp.passfault.api;
 
-import org.owasp.passfault.PathCost;
-
 /**
  * This interface represents a collection of discovered password patterns.
  *
  * @author cam, ray
  */
-public interface PatternsAnalyzer extends PasswordPatternCollection {
+public interface PatternsAnalyzer {
 
   /**
    * Calculates the highest probable combination of finders.  In other words,
    * the weakest combination of found patterns.
    * @return List of finders that make up the weakest combination of found passwords
    */
-  PathCost calculateHighestProbablePatterns();
+  AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns);
 
-  /**
-   * @return total number of finders identified.
-   */
-  int getPossiblePatternCount();
-
-  public int getLength();
 }

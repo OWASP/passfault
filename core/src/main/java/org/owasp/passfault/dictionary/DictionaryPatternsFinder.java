@@ -13,7 +13,7 @@
 
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 import java.text.MessageFormat;
@@ -41,8 +41,8 @@ public class DictionaryPatternsFinder implements PatternFinder {
   }
 
   @Override
-  public void analyze(PasswordPatternCollection pass) throws Exception {
-    CharSequence password = pass.getPassword();
+  public PatternCollection search(CharSequence password) {
+    PatternCollection patternCollecton = PatternCollection.getInstance(password);
     List<CandidatePattern> currGen = new LinkedList<CandidatePattern>();
     List<CandidatePattern> nextGen = new LinkedList<CandidatePattern>();
     List<CandidatePattern> swap;
@@ -71,7 +71,7 @@ public class DictionaryPatternsFinder implements PatternFinder {
               if (candidate.getLength() > 2 && dictionary.isMatch(candidate) && patternStrategy.isMatch(candidate)) {
 
                 //report found pattern
-                pass.putPattern(
+                patternCollecton.putPattern(
                     candidate.getMatchingPattern(dictionary.getWordCount(),
                     patternStrategy.getName(), dictionary.getName(), i));
               }
@@ -80,6 +80,6 @@ public class DictionaryPatternsFinder implements PatternFinder {
         }
       }
     }
-    return;
+    return patternCollecton;
   }
 }

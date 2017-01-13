@@ -12,11 +12,11 @@
  */
 package org.owasp.passfault;
 
-import org.owasp.passfault.api.PatternsAnalyzer;
+import org.owasp.passfault.api.PatternCollection;
 
 public class RandomAddAll {
 
-  public static void RandomAddAll(PatternsAnalyzer toBeWrapped) {
+  public static void RandomAddAll(PatternCollection toBeWrapped) {
     CharSequence chars = toBeWrapped.getPassword();
     RandomPattern randomPatternFinder = new RandomPattern();
     for (int i = 0, length = chars.length(); i < length; i++) {

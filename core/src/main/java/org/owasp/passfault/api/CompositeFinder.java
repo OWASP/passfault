@@ -15,9 +15,9 @@ import java.util.concurrent.Future;
 
 /**
  * CompositeFinders combine multiple finders and treat them as one. It has methods declared for parallel processing.
- * the existing analyze method is blocking, the new analyzeFuture lets you block later.
+ * the existing search method is blocking, the new analyzeFuture lets you block later.
  */
 public interface CompositeFinder extends PatternFinder
 {
-  public Future<PasswordPatternCollection> analyzeFuture(PasswordPatternCollection pass);
+  Future<PatternCollection> analyzeFuture(CharSequence pass);
 }

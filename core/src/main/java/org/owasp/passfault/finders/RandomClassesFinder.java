@@ -2,7 +2,7 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.RandomPattern;
 import org.owasp.passfault.RandomPattern.RandomClasses;
@@ -21,8 +21,7 @@ import org.owasp.passfault.RandomPattern.RandomClasses;
  * 
  * @author cam
  */
-public class RandomClassesFinder
-  implements PatternFinder
+public class RandomClassesFinder implements PatternFinder
 {
   private final int threshold;
   
@@ -34,10 +33,10 @@ public class RandomClassesFinder
   }
   
   @Override
-  public void analyze(PasswordPatternCollection pass)
-    throws Exception
+  public PatternCollection search(CharSequence pass)
   {
-    CharSequence chars = pass.getPassword();
+    PatternCollection patterns = PatternCollection.getInstance(pass);
+    CharSequence chars = pass;
     RandomClasses previousType = null;
     int typeCount = 0;
     for(int i=0, len = chars.length(); i<len; i++){
@@ -45,27 +44,28 @@ public class RandomClassesFinder
       RandomClasses type = RandomClasses.getRandomClass(ch);
       if (type == previousType){
         typeCount++;
-        reportPattern(pass, i, typeCount, type);
+        reportPattern(patterns, i, typeCount, type);
       } else {
         typeCount = 1;
         previousType = type;
       }
     }
+    return patterns;
   }
 
-  private void reportPattern(PasswordPatternCollection pass, int currentIndex, int countOfType, RandomClasses type)
+  private void reportPattern(PatternCollection patterns, int currentIndex, int countOfType, RandomClasses type)
   {
     if (countOfType >= threshold && (type == RandomClasses.Numbers || type == RandomClasses.SpecialChars) ){
       int start = (currentIndex+1)-countOfType;
       //report every sequence from the first type to the current index
       for(int i=start; i <= start + countOfType - threshold; i++){
-        CharSequence chars = pass.getPassword().subSequence(i, currentIndex+1);
+        CharSequence chars = patterns.getPassword().subSequence(i, currentIndex+1);
         double size = Math.pow(type.getSize(),  countOfType);
         
         PasswordPattern pattern = new PasswordPattern(
             i, chars.length(), chars, size, 
             "Random Characters with:" + type.name(), RandomPattern.RANDOM_PATTERN, type.name());
-        pass.putPattern(pattern);
+        patterns.putPattern(pattern);
       }
     } 
   }

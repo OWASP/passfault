@@ -10,23 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.owasp.passfault.io;
+package org.owasp.passfault.finders;
 
 import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.api.AnalysisResult;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class MockPatternsAnalyzer implements PatternsAnalyzer {
 
-  private final String password;
   private List<PasswordPattern> foundPatterns = new LinkedList<>();
-
-  public MockPatternsAnalyzer(String password) {
-    this.password = password;
-  }
 
   public List<PasswordPattern> getFoundPatterns() {
     return foundPatterns;
@@ -55,31 +51,11 @@ public class MockPatternsAnalyzer implements PatternsAnalyzer {
   }
 
   @Override
-  public PathCost calculateHighestProbablePatterns() {
-    PathCost pathCost = new PathCost(this);
+  public AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns) {
+    AnalysisResult analysisResult = new AnalysisResult(patterns.getPassword());
     for (PasswordPattern patt : this.foundPatterns) {
-      pathCost.addPattern(patt);
+      analysisResult.addPattern(patt);
     }
-    return pathCost;
-  }
-
-  @Override
-  public void putPattern(PasswordPattern patt) {
-    foundPatterns.add(patt);
-  }
-
-  @Override
-  public int getPossiblePatternCount() {
-    return foundPatterns.size();
-  }
-
-  @Override
-  public CharSequence getPassword() {
-    return password;
-  }
-
-  @Override
-  public int getLength() {
-    return password.length();
+    return analysisResult;
   }
 }

@@ -30,23 +30,24 @@ public interface Dictionary {
    * @return a CandidatePAttern to maintain the state of seaching for a dictionary
    * word that starts at the offset specified.
    */
-  public abstract CandidatePattern buildInitialCandidate(int offset);
+  CandidatePattern buildInitialCandidate(int offset);
 
   /**
    * @param candidate pattern to test for a partial match
    * @return if the candidate pattern is a partial match
    */
-  public abstract boolean partialMatch(CandidatePattern candidate)
-      throws IOException;
+  boolean partialMatch(CandidatePattern candidate)
+      throws DictionaryException;
 
-  public abstract int getWordCount();
+  int getWordCount();
 
-  public abstract boolean isMatch(CandidatePattern candidate) throws IOException;
+  boolean isMatch(CandidatePattern candidate)
+      throws DictionaryException;
 
   /**
    * name describing the type of word list, such as, english, russian, US Cities, US Names...
    */
-  public String getName();
+  String getName();
 
   /**
    * This method is for dictionaries that are part of a dictionary group

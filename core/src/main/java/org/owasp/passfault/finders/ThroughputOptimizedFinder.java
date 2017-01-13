@@ -14,7 +14,8 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PasswordPatternCollection;
+import org.owasp.passfault.api.PassfaultException;
+import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
 import java.util.Collection;
@@ -26,19 +27,17 @@ import java.util.concurrent.*;
  * This won't improve performance for each request, but it will improve throughput.
  * @author cam
  */
-public class ExecutorFinder implements CompositeFinder {
+public class ThroughputOptimizedFinder implements CompositeFinder {
 
   private final PatternFinder finder;
   private final ExecutorService exec;
-  Map<PasswordPatternCollection, Future<PasswordPatternCollection>> jobsMap = new ConcurrentHashMap<>();
-  
-  
-  public ExecutorFinder(Collection<PatternFinder> finders) {
+
+  public ThroughputOptimizedFinder(Collection<PatternFinder> finders) {
     this.finder = new SequentialFinder(finders);
     this.exec = Executors.newFixedThreadPool(10); 
   }
   
-  public ExecutorFinder(Collection<PatternFinder> finders, ThreadFactory factory){
+  public ThroughputOptimizedFinder(Collection<PatternFinder> finders, ThreadFactory factory){
     this.finder = new SequentialFinder(finders); 
     this.exec = Executors.newCachedThreadPool(factory);
   }
@@ -47,15 +46,19 @@ public class ExecutorFinder implements CompositeFinder {
    * The method returns as soon as all threads have started, not completed.
    * To wait until completion call {#waitForAnalysis} or register an
    * AnalysisListener and implement foundHighestProbablePatterns.
-   * @param pass password to analyze
    * @throws Exception
    */
   @Override
-  public void analyze(PasswordPatternCollection pass) throws Exception {
-    Analyze toRun = new Analyze(pass, finder);
-    Future<PasswordPatternCollection> future = exec.submit(toRun);
-    jobsMap.put(pass, future);
-    future.get();
+  public PatternCollection search(CharSequence pass) {
+    try {
+      return analyzeFuture(pass).get();
+    }
+    catch (InterruptedException e) {
+      throw new PassfaultException("analysis was interupted", e);
+    }
+    catch (ExecutionException e) {
+      throw new PassfaultException("An error occured with analysis execution", e);
+    }
   }
 
   /**
@@ -64,11 +67,8 @@ public class ExecutorFinder implements CompositeFinder {
    * @throws InterruptedException
    */
   @Override
-  public Future<PasswordPatternCollection> analyzeFuture(PasswordPatternCollection pass) {
-    Analyze toRun = new Analyze(pass, finder);
-    Future<PasswordPatternCollection> future = exec.submit(toRun);
-    jobsMap.put(pass, future);
-    return jobsMap.get(pass);
+  public Future<PatternCollection> analyzeFuture(CharSequence pass) {
+    return exec.submit( () -> finder.search(pass));
   }
   
   /**
@@ -77,20 +77,5 @@ public class ExecutorFinder implements CompositeFinder {
   public void shutdown(){
     this.exec.shutdown();
   }
-  
-  static class Analyze implements Callable<PasswordPatternCollection>{
-    private final PasswordPatternCollection pw;
-    private final PatternFinder finder;
 
-    public Analyze(PasswordPatternCollection pw, PatternFinder finders){
-      this.pw = pw;
-      this.finder = finders;
-    }
-
-    @Override
-    public PasswordPatternCollection call() throws Exception {
-      finder.analyze(pw);
-      return pw;  
-    }
-  }
 }

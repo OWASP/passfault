@@ -14,6 +14,9 @@
 package org.owasp.passfault;
 
 import org.junit.Test;
+import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternsAnalyzer;
 
 import java.util.List;
 
@@ -21,10 +24,12 @@ import static org.junit.Assert.assertEquals;
 
 public class PatternsAnalyzerImpl_UnoptimizedTest {
 
+  PatternsAnalyzer analyzer = new PatternsAnalyzerImpl();
+  
   @Test
   public void randomNumbers() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("1234");
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    PatternCollection pa = PatternCollection.getInstance("1234");
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(1, list.size());
@@ -36,10 +41,10 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_Middle() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("1234");
+    PatternCollection pa = PatternCollection.getInstance("1234");
     pa.putPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -52,10 +57,10 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_End() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("1234");
+    PatternCollection pa = PatternCollection.getInstance("1234");
     pa.putPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -68,10 +73,10 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_beginning() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("1234");
+    PatternCollection pa = PatternCollection.getInstance("1234");
     pa.putPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -83,11 +88,11 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void twoPattern_middle() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("12345");
+    PatternCollection pa = PatternCollection.getInstance("12345");
     pa.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
     pa.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(5, list.size());
@@ -100,13 +105,13 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_overlap() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("12345");
+    PatternCollection pa = PatternCollection.getInstance("12345");
     pa.putPattern(new PasswordPattern(1, 2, "23", 15, "worstPattern"));
     pa.putPattern(new PasswordPattern(1, 2, "23", 4, "bestPattern"));
     pa.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
     pa.putPattern(new PasswordPattern(1, 2, "23", 23, "worserPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -118,7 +123,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void twoPattern_overlap() {
-    PasswordAnalysis_Unoptimized pa = new PasswordAnalysis_Unoptimized("12345");
+    PatternCollection pa = PatternCollection.getInstance("12345");
     pa.putPattern(new PasswordPattern(1, 1, "2", 15, "worstPattern"));
     pa.putPattern(new PasswordPattern(1, 1, "2", 4, "bestPattern"));
     pa.putPattern(new PasswordPattern(1, 1, "2", 20, "worsePattern"));
@@ -134,7 +139,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     pa.putPattern(new PasswordPattern(4, 1, "5", 4, "bestPattern"));
     pa.putPattern(new PasswordPattern(4, 1, "5", 23, "worserPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(4, list.size());

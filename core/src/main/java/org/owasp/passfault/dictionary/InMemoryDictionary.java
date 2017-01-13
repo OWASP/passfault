@@ -85,7 +85,7 @@ public class InMemoryDictionary implements Dictionary {
   }
 
   @Override
-  public boolean isMatch(CandidatePattern candidate) throws IOException {
+  public boolean isMatch(CandidatePattern candidate) {
     boolean found = false;
     long middle = candidate.end;
     long end = candidate.end;
@@ -116,7 +116,7 @@ public class InMemoryDictionary implements Dictionary {
   /* (non-Javadoc)
    * @see com.passfault.PatternModel#partialSearch(com.passfault.CandidatePattern)
    */
-  public boolean partialMatch(CandidatePattern candidate) throws IOException {
+  public boolean partialMatch(CandidatePattern candidate) {
     boolean found = false;
 
     long middle = candidate.end;

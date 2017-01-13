@@ -12,36 +12,24 @@
  */
 package org.owasp.passfault;
 
-import static org.junit.Assert.*;
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternsAnalyzer;
+import org.owasp.passfault.finders.RepeatingPatternDecorator;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class PatternsAnalyzerImplTest {
 
-  @BeforeClass
-  public static void setUpBeforeClass() throws Exception {
-  }
-
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-  }
-
-  @Before
-  public void setUp() throws Exception {
-  }
-
-  @After
-  public void tearDown() throws Exception {
-  }
+  PatternsAnalyzer pa = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
 
   @Test
   public void randomNumbers() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("1234");
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(1, list.size());
@@ -53,10 +41,10 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void onePattern_Middle() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("1234");
-    pa.putPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    patts.putPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -69,10 +57,10 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void onePattern_End() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("1234");
-    pa.putPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    patts.putPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -84,10 +72,10 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void onePattern_beginning() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("1234");
-    pa.putPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    patts.putPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -99,11 +87,11 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void twoPattern_middle() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("12345");
-    pa.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
-    pa.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    patts.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
+    patts.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(5, list.size());
@@ -116,13 +104,13 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void onePattern_overlap() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("12345");
-    pa.putPattern(new PasswordPattern(1, 2, "23", 15, "worstPattern"));
-    pa.putPattern(new PasswordPattern(1, 2, "23", 4, "bestPattern"));
-    pa.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
-    pa.putPattern(new PasswordPattern(1, 2, "23", 23, "worserPattern"));
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    patts.putPattern(new PasswordPattern(1, 2, "23", 15, "worstPattern"));
+    patts.putPattern(new PasswordPattern(1, 2, "23", 4, "bestPattern"));
+    patts.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
+    patts.putPattern(new PasswordPattern(1, 2, "23", 23, "worserPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -134,23 +122,23 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void twoPattern_overlap() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("12345");
-    pa.putPattern(new PasswordPattern(1, 1, "2", 15, "badPattern"));
-    pa.putPattern(new PasswordPattern(1, 1, "2", 4, "bestPattern"));
-    pa.putPattern(new PasswordPattern(1, 1, "2", 20, "worserPattern"));
-    pa.putPattern(new PasswordPattern(1, 1, "2", 23, "worstPattern"));
+    PatternCollection patts = new PatternCollectionImpl("1234");
+    patts.putPattern(new PasswordPattern(1, 1, "2", 15, "badPattern"));
+    patts.putPattern(new PasswordPattern(1, 1, "2", 4, "bestPattern"));
+    patts.putPattern(new PasswordPattern(1, 1, "2", 20, "worserPattern"));
+    patts.putPattern(new PasswordPattern(1, 1, "2", 23, "worstPattern"));
 
-    pa.putPattern(new PasswordPattern(2, 2, "34", 15, "badPattern"));
-    pa.putPattern(new PasswordPattern(2, 2, "34", 20, "worserPattern"));
-    pa.putPattern(new PasswordPattern(2, 2, "34", 23, "worstPattern"));
-    pa.putPattern(new PasswordPattern(2, 2, "34", 4, "bestPattern"));
+    patts.putPattern(new PasswordPattern(2, 2, "34", 15, "badPattern"));
+    patts.putPattern(new PasswordPattern(2, 2, "34", 20, "worserPattern"));
+    patts.putPattern(new PasswordPattern(2, 2, "34", 23, "worstPattern"));
+    patts.putPattern(new PasswordPattern(2, 2, "34", 4, "bestPattern"));
 
-    pa.putPattern(new PasswordPattern(4, 1, "5", 15, "badPattern"));
-    pa.putPattern(new PasswordPattern(4, 1, "5", 20, "worserPattern"));
-    pa.putPattern(new PasswordPattern(4, 1, "5", 4, "bestPattern"));
-    pa.putPattern(new PasswordPattern(4, 1, "5", 23, "worstPattern"));
+    patts.putPattern(new PasswordPattern(4, 1, "5", 15, "badPattern"));
+    patts.putPattern(new PasswordPattern(4, 1, "5", 20, "worserPattern"));
+    patts.putPattern(new PasswordPattern(4, 1, "5", 4, "bestPattern"));
+    patts.putPattern(new PasswordPattern(4, 1, "5", 23, "worstPattern"));
 
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(4, list.size());
@@ -162,9 +150,9 @@ public class PatternsAnalyzerImplTest {
 
   @Test
   public void allPossibleRandom() {
-    PatternsAnalyzerImpl pa = new PatternsAnalyzerImpl("37384756683");
-    RandomAddAll.RandomAddAll(pa);
-    PathCost patterns = pa.calculateHighestProbablePatterns();
+    PatternCollection patts = new PatternCollectionImpl("37384756683");
+    RandomAddAll.RandomAddAll(patts);
+    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(1, list.size());

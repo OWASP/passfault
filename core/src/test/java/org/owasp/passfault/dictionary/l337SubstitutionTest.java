@@ -14,7 +14,6 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.MockPatternsAnalyzer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,68 +29,49 @@ public class l337SubstitutionTest {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
     finder = new DictionaryPatternsFinder(dictionary, new l337SubstitutionStrategy());
   }
-
-
+  
   @Test
   public void findWord() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("ca2");//car
-    finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(finder.search("ca2").getCount(), 1);//car
   }
 
   @Test
   public void multiple_char() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("ca|2");  //car, air
-    finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(finder.search("ca|2").getCount(), 2);
   }
 
   @Test
   public void findNoSubstitution() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("or.");  //
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
+    assertEquals(finder.search("or.").getCount(), 0);
   }
 
   @Test
   public void multiple_char_run() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("|2un");  //run and |run
-    finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(finder.search("|2un").getCount(), 2);
   }
 
   @Test
   public void front() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("2oot");  //root zoo
-    finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(finder.search("2oot").getCount(), 2);
   }
 
   @Test
   public void front_zoo() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("~/_oo"); //zoo
-    finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(finder.search("~/_oo").getCount(), 1);
   }
 
   @Test
   public void multipleLeet() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("2()()+");//zoo, root
-    finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(finder.search("2()()+").getCount(), 2);
   }
 
   @Test
   public void front_multichar() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("~/_oo");//zoo
-    finder.analyze(p);
-    assertEquals(1, p.getPossiblePatternCount());
+    assertEquals(finder.search("~/_oo").getCount(), 1);
   }
 
   @Test
   public void front_multichar_root() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("2oot");//root zoo
-    finder.analyze(p);
-    assertEquals(2, p.getPossiblePatternCount());
+    assertEquals(finder.search("2oot").getCount(), 2);
   }
 }

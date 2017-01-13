@@ -16,7 +16,7 @@ import org.owasp.passfault.api.CompositeFinder;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.finders.DateFinder;
-import org.owasp.passfault.finders.ExecutorFinder;
+import org.owasp.passfault.finders.ThroughputOptimizedFinder;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;
@@ -36,11 +36,11 @@ public class BuildFinders {
    * @deprecated
    */
   public static CompositeFinder build(String baseResourcePath) throws IOException {
-    URL engWords = new URL(baseResourcePath + "english" + TextAnalysis.WORD_LIST_EXTENSION);
-    URL commonEngWords = new URL(baseResourcePath + "tiny-lower" + TextAnalysis.WORD_LIST_EXTENSION);
-    URL uscities = new URL(baseResourcePath + "us_cities" + TextAnalysis.WORD_LIST_EXTENSION);
-    URL latin = new URL(baseResourcePath + "latin" + TextAnalysis.WORD_LIST_EXTENSION);
-    URL spanish = new URL(baseResourcePath + "spanish" + TextAnalysis.WORD_LIST_EXTENSION);
+    URL engWords = new URL(baseResourcePath + "english" + FileDictionary.WORD_LIST_EXTENSION);
+    URL commonEngWords = new URL(baseResourcePath + "tiny-lower" + FileDictionary.WORD_LIST_EXTENSION);
+    URL uscities = new URL(baseResourcePath + "us_cities" + FileDictionary.WORD_LIST_EXTENSION);
+    URL latin = new URL(baseResourcePath + "latin" + FileDictionary.WORD_LIST_EXTENSION);
+    URL spanish = new URL(baseResourcePath + "spanish" + FileDictionary.WORD_LIST_EXTENSION);
 
     Collection<PatternFinder> finders = buildDictionaryFinders("English", engWords.openStream());
     finders.addAll(buildDictionaryFinders("Common", commonEngWords.openStream()));
@@ -50,7 +50,7 @@ public class BuildFinders {
     finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
     finders.add(new KeySequenceFinder(new RussianKeyBoard()));
     finders.add(new DateFinder());
-    return new ExecutorFinder(finders);
+    return new ThroughputOptimizedFinder(finders);
   }
 
   /**

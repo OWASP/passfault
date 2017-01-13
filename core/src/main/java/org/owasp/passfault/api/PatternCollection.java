@@ -13,28 +13,32 @@
 package org.owasp.passfault.api;
 
 import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.PatternCollectionImpl;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * PasswordPatternCollection stores the analysis of password pattern finders.
  * @author cam, ray
  */
-public interface PasswordPatternCollection {
+public interface PatternCollection {
 
-  /**
-   * This method is called by pattern finders to store a newly discovered pattern
-   * in a password.
-   * @param patt pattern found in the password.
-   */
   void putPattern(PasswordPattern patt);
 
-  /**
-   * @return the password to be analyzed
-   */
+  List<PasswordPattern> getPatternsByIndex(int i);
+
+  List<PasswordPattern> getAllPatterns();
+
+  Stream<PasswordPattern> stream();
+
   CharSequence getPassword();
 
-  List<CharSequence> getPatternsByIndex(int i);
+  int getCount();
 
-  List<CharSequence> getAllPatterns();
+  static PatternCollection getInstance(CharSequence pass) {
+    return new PatternCollectionImpl(pass);
+  }
+
+  void addAll(PatternCollection toAdd);
 }

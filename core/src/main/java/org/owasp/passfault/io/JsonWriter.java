@@ -19,11 +19,11 @@ import java.util.List;
 import java.io.Writer;
 
 import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PathCost;
+import org.owasp.passfault.api.AnalysisResult;
 
 public class JsonWriter {
 
-	public void write(Writer writer, PathCost highestPath) throws IOException {
+	public void write(Writer writer, AnalysisResult highestPath) throws IOException {
 		double cost = highestPath.getTotalCost();
 		List<PasswordPattern> path = highestPath.getPath();
 		writer.write('{');

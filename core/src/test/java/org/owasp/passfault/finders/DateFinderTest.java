@@ -13,53 +13,27 @@
 package org.owasp.passfault.finders;
 
 import org.junit.Test;
-import org.owasp.passfault.MockPatternsAnalyzer;
+import org.owasp.passfault.api.PatternFinder;
 
 import static org.junit.Assert.assertEquals;
 
 public class DateFinderTest {
-
+  PatternFinder finder = new DateFinder();
+  
   @Test
   public void testAnalyze() throws Exception {
-    System.out.println("analyze");
-    {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("12-25-1999");
-      new DateFinder().analyze(pass);
-      assertEquals(1, pass.getFoundPatterns().size());
-    }
-    {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("12-25-99");
-      new DateFinder().analyze(pass);
-      assertEquals(1, pass.getFoundPatterns().size());
-    }
-    {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("04-06-1976");
-      new DateFinder().analyze(pass);
-      assertEquals(1, pass.getFoundPatterns().size());
-    }
-    {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("122599");
-      new DateFinder().analyze(pass);
-      assertEquals(1, pass.getFoundPatterns().size());
-    }
-    {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("2001-12-25");
-      new DateFinder().analyze(pass);
-      assertEquals(1, pass.getFoundPatterns().size());
-    }
-    {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("1776-06-04");
-      new DateFinder().analyze(pass);
-      assertEquals(1, pass.getFoundPatterns().size());
-    }
+    assertEquals(1, finder.search("12-25-1999").getCount());
+    assertEquals(1, finder.search("12-25-99").getCount());
+    assertEquals(1, finder.search("04-06-1976").getCount());
+    assertEquals(1, finder.search("122599").getCount());
+    assertEquals(1, finder.search("2001-12-25").getCount());
+    assertEquals(1, finder.search("1776-06-04").getCount());
   }
 
   @Test(timeout = 500) //This better execute in under 1/2 seconds
   public void testStress() throws Exception {
-    DateFinder dateFinder = new DateFinder();
     for (int i = 0; i < 100000; i++) {
-      MockPatternsAnalyzer pass = new MockPatternsAnalyzer("1776-06-04");
-      dateFinder.analyze(pass);
+      finder.search("1776-06-04");
     }
   }
 }

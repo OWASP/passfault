@@ -15,10 +15,6 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.MockPatternsAnalyzer;
-import org.owasp.passfault.PasswordPattern;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,62 +30,36 @@ public class SubstitutionFinderTest {
 
   @Test
   public void plain2() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("password");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
+    assertEquals(finder.search("password").getCount(), 0);
   }
 
   @Test
   public void plain() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("wisp");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
+    assertEquals(finder.search("wisp").getCount(), 0);
   }
 
   @Test
   public void findWord() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("w1sp");//wasp, asp, wisp, was
-    finder.analyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
+    assertEquals(finder.search("w1sp").getCount(), 4);
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("xxxxw1sp");//wasp, asp, wisp, was
-    finder.analyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
+    assertEquals(finder.search("xxxxw1sp").getCount(), 4);
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("w1spxxxx");//wasp, asp, wisp, was
-    finder.analyze(p);
-    assertEquals(4, p.getPossiblePatternCount());
+    assertEquals(finder.search("w1spxxxx").getCount(), 4);
   }
 
   @Test
   public void findNonWord() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("qqq123");
-    finder.analyze(p);
-    assertEquals(0, p.getPossiblePatternCount());
+    assertEquals(finder.search("qqq123").getCount(), 0);
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("w1spw1sp");//wasp, asp, wisp, was *2
-    finder.analyze(p);
-    assertEquals(8, p.getPossiblePatternCount());
-  }
-
-  @Test
-  public void testLength() throws Exception {
-    MockPatternsAnalyzer p = new MockPatternsAnalyzer("runr&n");//run, ran,
-    finder.analyze(p);
-    List<PasswordPattern> patterns = p.getFoundPatterns();
-    for (PasswordPattern pattern : patterns) {
-      assertEquals(3, pattern.getLength());
-      System.out.println(pattern.getMatchString());
-    }
-    assertEquals(4, p.getPossiblePatternCount());
+    assertEquals(finder.search("w1spw1sp").getCount(), 8);
   }
 }
