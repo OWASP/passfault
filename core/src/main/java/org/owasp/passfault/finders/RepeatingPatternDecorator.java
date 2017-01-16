@@ -15,11 +15,11 @@ package org.owasp.passfault.finders;
 
 import java.util.List;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.api.AnalysisResult;
-import org.owasp.passfault.RandomPattern;
+import org.owasp.passfault.impl.RandomPattern;
 
 /**
  * This Finder is a post processing finder.  It will search an already analyzed

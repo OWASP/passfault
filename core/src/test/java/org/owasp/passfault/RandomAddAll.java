@@ -13,6 +13,8 @@
 package org.owasp.passfault;
 
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.impl.PasswordPattern;
+import org.owasp.passfault.impl.RandomPattern;
 
 public class RandomAddAll {
 

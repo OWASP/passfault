@@ -17,6 +17,9 @@ import org.junit.Test;
 import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
+import org.owasp.passfault.impl.PasswordPattern;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.List;
 
@@ -28,7 +31,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
   
   @Test
   public void randomNumbers() {
-    PatternCollection pa = PatternCollection.getInstance("1234");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
 
     List<PasswordPattern> list = patterns.getPath();
@@ -41,7 +44,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_Middle() {
-    PatternCollection pa = PatternCollection.getInstance("1234");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     pa.putPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
 
     AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
@@ -57,7 +60,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_End() {
-    PatternCollection pa = PatternCollection.getInstance("1234");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     pa.putPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
 
     AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
@@ -73,7 +76,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_beginning() {
-    PatternCollection pa = PatternCollection.getInstance("1234");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     pa.putPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
 
     AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
@@ -88,7 +91,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void twoPattern_middle() {
-    PatternCollection pa = PatternCollection.getInstance("12345");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("12345");
     pa.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
     pa.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
@@ -105,7 +108,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void onePattern_overlap() {
-    PatternCollection pa = PatternCollection.getInstance("12345");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("12345");
     pa.putPattern(new PasswordPattern(1, 2, "23", 15, "worstPattern"));
     pa.putPattern(new PasswordPattern(1, 2, "23", 4, "bestPattern"));
     pa.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
@@ -123,7 +126,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
 
   @Test
   public void twoPattern_overlap() {
-    PatternCollection pa = PatternCollection.getInstance("12345");
+    PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("12345");
     pa.putPattern(new PasswordPattern(1, 1, "2", 15, "worstPattern"));
     pa.putPattern(new PasswordPattern(1, 1, "2", 4, "bestPattern"));
     pa.putPattern(new PasswordPattern(1, 1, "2", 20, "worsePattern"));

@@ -12,7 +12,7 @@
  */
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.*;
+import org.owasp.passfault.impl.PasswordPattern;
 
 public class CandidatePattern {
 

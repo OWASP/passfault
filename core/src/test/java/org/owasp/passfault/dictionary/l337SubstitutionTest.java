@@ -14,6 +14,7 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,7 +28,7 @@ public class l337SubstitutionTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new l337SubstitutionStrategy());
+    finder = new DictionaryPatternsFinder(dictionary, new l337SubstitutionStrategy(), TestingPatternCollectionFactory.getInstance());
   }
   
   @Test

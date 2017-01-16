@@ -14,11 +14,12 @@ package org.owasp.passfault.finders;
 
 import org.junit.Test;
 import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import static org.junit.Assert.assertEquals;
 
 public class DateFinderTest {
-  PatternFinder finder = new DateFinder();
+  PatternFinder finder = new DateFinder(TestingPatternCollectionFactory.getInstance());
   
   @Test
   public void testAnalyze() throws Exception {

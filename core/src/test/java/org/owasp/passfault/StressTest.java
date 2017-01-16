@@ -18,6 +18,8 @@ import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.finders.RepeatingPatternDecorator;
+import org.owasp.passfault.impl.PasswordPattern;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 
 import java.io.BufferedReader;
 import java.io.File;

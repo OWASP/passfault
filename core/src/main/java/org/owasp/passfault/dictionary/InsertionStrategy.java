@@ -13,7 +13,7 @@
 
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.RandomPattern;
+import org.owasp.passfault.impl.RandomPattern;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,11 +1,15 @@
 /* ©Copyright 2014 Cameron Morris */
 package org.owasp.passfault.finders;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.api.PatternCollectionFactory;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
-import org.owasp.passfault.RandomPattern;
-import org.owasp.passfault.RandomPattern.RandomClasses;
+import org.owasp.passfault.impl.RandomPattern;
+import org.owasp.passfault.impl.RandomPattern.RandomClasses;
+
+import java.util.regex.Pattern;
+
 /**
  * This class seems to contradict the RandomPattern class.  RandomPattern takes any characters 
  * between found finders and calculates the random value.  It doesn't look for finders, instead it calculates
@@ -24,18 +28,18 @@ import org.owasp.passfault.RandomPattern.RandomClasses;
 public class RandomClassesFinder implements PatternFinder
 {
   private final int threshold;
-  
-  public RandomClassesFinder(int threshold){
+
+  PatternCollectionFactory factory;
+
+  public RandomClassesFinder(int threshold, PatternCollectionFactory factory){
     this.threshold = threshold;
-  }
-  public RandomClassesFinder(){
-    this(3);
+    this.factory = factory;
   }
   
   @Override
   public PatternCollection search(CharSequence pass)
   {
-    PatternCollection patterns = PatternCollection.getInstance(pass);
+    PatternCollection patterns = factory.build(pass);
     CharSequence chars = pass;
     RandomClasses previousType = null;
     int typeCount = 0;

@@ -6,7 +6,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.owasp.passfault.FinderByPropsBuilder;
+import org.owasp.passfault.impl.FinderByPropsBuilder;
 import org.owasp.passfault.api.PatternFinder;
 
 /**

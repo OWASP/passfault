@@ -13,11 +13,9 @@
 package org.owasp.passfault.finders;
 
 import org.junit.Test;
-import org.owasp.passfault.PatternsAnalyzerImpl;
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.AnalysisResult;
-import org.owasp.passfault.api.PatternCollection;
-import org.owasp.passfault.api.PatternsAnalyzer;
 
 import java.util.List;
 

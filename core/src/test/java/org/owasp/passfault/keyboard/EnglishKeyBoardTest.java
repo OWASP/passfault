@@ -13,20 +13,21 @@
 package org.owasp.passfault.keyboard;
 
 import org.junit.Test;
-import org.owasp.passfault.PatternsAnalyzerImpl;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import static org.junit.Assert.assertEquals;
 
 public class EnglishKeyBoardTest {
   PatternsAnalyzer analyzer = new PatternsAnalyzerImpl();
+  KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard(), TestingPatternCollectionFactory.getInstance());
 
   @Test
   public void generateKeyboard_horizontal() throws Exception {
     System.out.println("generateKeyboard");
-    KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.HORIZONTAL;
     assertPattern(finder.search("1234567890-="), expectedPatternName);
     assertPattern(finder.search("!@#$%^&*()_+"), expectedPatternName);
@@ -41,7 +42,6 @@ public class EnglishKeyBoardTest {
   @Test
   public void generateKeyboard_horizontalMixed() throws Exception {
     System.out.println("generateKeyboard");
-    KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.HORIZONTAL;
     assertPattern(finder.search("12#456&890-="), expectedPatternName);
     assertPattern(finder.search("!2#$5^&8()_+"), expectedPatternName);
@@ -56,7 +56,6 @@ public class EnglishKeyBoardTest {
   @Test
   public void generateKeyboard_diagnol() throws Exception {
     System.out.println("diags");
-    KeySequenceFinder finder = new KeySequenceFinder(new EnglishKeyBoard());
     String expectedPatternName = KeySequenceFinder.DIAGONAL;
     assertPattern(finder.search("1qaz"), expectedPatternName);
     assertPattern(finder.search("2wsx"), expectedPatternName);

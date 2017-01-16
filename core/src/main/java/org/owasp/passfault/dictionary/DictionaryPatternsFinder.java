@@ -14,6 +14,7 @@
 package org.owasp.passfault.dictionary;
 
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternCollectionFactory;
 import org.owasp.passfault.api.PatternFinder;
 
 import java.text.MessageFormat;
@@ -34,15 +35,17 @@ public class DictionaryPatternsFinder implements PatternFinder {
 
   private final DictionaryStrategy patternStrategy;
   private final Dictionary dictionary;
+  private final PatternCollectionFactory factory;
 
-  public DictionaryPatternsFinder(Dictionary wordlist, DictionaryStrategy strategy) {
+  public DictionaryPatternsFinder(Dictionary wordlist, DictionaryStrategy strategy, PatternCollectionFactory factory) {
     this.dictionary = wordlist;
     this.patternStrategy = strategy;
+    this.factory = factory;
   }
 
   @Override
   public PatternCollection search(CharSequence password) {
-    PatternCollection patternCollecton = PatternCollection.getInstance(password);
+    PatternCollection patternCollecton = factory.build(password);
     List<CandidatePattern> currGen = new LinkedList<CandidatePattern>();
     List<CandidatePattern> nextGen = new LinkedList<CandidatePattern>();
     List<CandidatePattern> swap;

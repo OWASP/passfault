@@ -1,9 +1,11 @@
 package org.owasp.passfault.web;
 
-import org.owasp.passfault.PatternsAnalyzerImpl;
+import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 import org.owasp.passfault.api.CompositeFinder;
 import org.owasp.passfault.api.PatternFinder;
-import org.owasp.passfault.SecureString;
+import org.owasp.passfault.impl.SecureString;
 import org.owasp.passfault.finders.ThroughputOptimizedFinder;
 import org.owasp.passfault.io.JsonWriter;
 
@@ -50,8 +52,9 @@ public class PassfaultServlet extends HttpServlet {
 
     CompositeFinder finder = getCompositeFinder();
     try {
-      PatternsAnalyzerImpl analysis = new PatternsAnalyzerImpl(password);
-      finder.search(analysis);
+      PatternsAnalyzerImpl analyzer = new PatternsAnalyzerImpl();
+      PatternCollection patterns = finder.search(password);
+      AnalysisResult analysis = analyzer.calculateHighestProbablePatterns(patterns);
       writeJSON(analysis, response.getWriter());
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -85,15 +88,14 @@ public class PassfaultServlet extends HttpServlet {
     }
   }
 
-  private void writeJSON(PatternsAnalyzerImpl analysis, PrintWriter writer) throws IOException {
-    jsonWriter.write(writer, analysis.calculateHighestProbablePatterns());
+  private void writeJSON(AnalysisResult analysis, PrintWriter writer) throws IOException {
+    jsonWriter.write(writer, analysis);
   }
 
   /**
    * Override this to change the finder, (such as to run in google app engine)
    *
    * @return a composite finder that can run finders
-   * @throws ServletException
    */
   protected CompositeFinder getCompositeFinder() throws ServletException {
     //subclasses may need to create this with each request - like for google app engine.

@@ -1,13 +1,14 @@
 package org.owasp.passfault.finders;
 
 import org.junit.Test;
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import static org.junit.Assert.assertEquals;
 
 public class RandomClassesFinderTest {
-  RandomClassesFinder finder = new RandomClassesFinder(3);
+  RandomClassesFinder finder = new RandomClassesFinder(3, TestingPatternCollectionFactory.getInstance());
   
   @Test
   public void test() throws Exception {

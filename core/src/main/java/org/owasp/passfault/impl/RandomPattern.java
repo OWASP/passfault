@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault;
+package org.owasp.passfault.impl;
 
 import java.util.EnumSet;
 

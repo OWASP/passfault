@@ -18,7 +18,7 @@ import java.util.List;
 
 import java.io.Writer;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.AnalysisResult;
 
 public class JsonWriter {

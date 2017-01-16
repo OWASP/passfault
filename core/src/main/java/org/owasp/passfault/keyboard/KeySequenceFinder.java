@@ -14,7 +14,8 @@ package org.owasp.passfault.keyboard;
 
 import java.util.Map;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.api.PatternCollectionFactory;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.keyboard.Key.Direction;
@@ -31,27 +32,30 @@ public class KeySequenceFinder implements PatternFinder {
   public final static String DIAGONAL = "DIAGONAL";
   public final static String HORIZONTAL = "HORIZONTAL";
   public final static String REPEATED = "REPEATED";
-  private Map<Character, Key> keyboard;
-  private int keyCount;
-  private int diagCount;
+
+  private final PatternCollectionFactory factory;
+  private final Map<Character, Key> keyboard;
+  private final int keyCount;
+  private final int diagCount;
   // 3 and 4 chars in a horizontal sequence are considered a different pattern
   // than 5 or more since 5 or more is difficult with one hand
-  private int horiz3n4Count;
-  private int horiz5plusCount;
+  private final int horiz3n4Count;
+  private final int horiz5plusCount;
   private final KeyboardLayout keys;
 
-  public KeySequenceFinder(KeyboardLayout keys) {
+  public KeySequenceFinder(KeyboardLayout keys, PatternCollectionFactory factory) {
     this.keys = keys;
     keyboard = keys.generateKeyboard();
     keyCount = keys.getCharacterKeysCount();
     diagCount = keys.getDiagonalComboTotal();
     horiz3n4Count = keys.getHorizontalComboSize(3) + keys.getHorizontalComboSize(4);
     horiz5plusCount = keys.getHorizontalComboTotal() - horiz3n4Count;
+    this.factory = factory;
   }
 
   @Override
   public PatternCollection search(CharSequence password) {
-    PatternCollection patterns = PatternCollection.getInstance(password);
+    PatternCollection patterns = factory.build(password);
     Key previous = keyboard.get(password.charAt(0));
     Direction currentDirection = null;
     int startOfSequence = 0;

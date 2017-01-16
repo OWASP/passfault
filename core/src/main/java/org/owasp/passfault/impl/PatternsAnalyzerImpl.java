@@ -11,12 +11,11 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault;
+package org.owasp.passfault.impl;
 
 import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.finders.RepeatingPatternDecorator;
 
 import java.util.HashMap;
 import java.util.List;
