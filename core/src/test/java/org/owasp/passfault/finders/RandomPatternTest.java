@@ -13,8 +13,8 @@
 package org.owasp.passfault.finders;
 
 import org.junit.Test;
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.RandomPattern;
+import org.owasp.passfault.impl.PasswordPattern;
+import org.owasp.passfault.impl.RandomPattern;
 
 import static org.junit.Assert.assertEquals;
 

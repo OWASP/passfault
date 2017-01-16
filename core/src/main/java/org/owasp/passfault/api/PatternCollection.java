@@ -12,8 +12,8 @@
  */
 package org.owasp.passfault.api;
 
-import org.owasp.passfault.PasswordPattern;
-import org.owasp.passfault.PatternCollectionImpl;
+import org.owasp.passfault.impl.PasswordPattern;
+import org.owasp.passfault.impl.PatternCollectionImpl;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -35,10 +35,6 @@ public interface PatternCollection {
   CharSequence getPassword();
 
   int getCount();
-
-  static PatternCollection getInstance(CharSequence pass) {
-    return new PatternCollectionImpl(pass);
-  }
 
   void addAll(PatternCollection toAdd);
 }

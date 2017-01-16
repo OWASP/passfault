@@ -22,6 +22,8 @@ import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.FileDictionary;
 import org.owasp.passfault.dictionary.TestWords;
+import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.LinkedList;
 
@@ -34,7 +36,11 @@ public class ExecutorFinderTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
-    DictionaryPatternsFinder dictionaryFinder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
+    DictionaryPatternsFinder dictionaryFinder = new DictionaryPatternsFinder(
+        dictionary,
+        new ExactWordStrategy(),
+        new FilteringPatternCollectionFactory()
+    );
     LinkedList<PatternFinder> l = new LinkedList<>();
     l.add(dictionaryFinder);
     finder = new ThroughputOptimizedFinder(l);

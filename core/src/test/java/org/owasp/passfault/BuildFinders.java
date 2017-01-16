@@ -13,10 +13,12 @@
 package org.owasp.passfault;
 
 import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PatternCollectionFactory;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.finders.DateFinder;
 import org.owasp.passfault.finders.ThroughputOptimizedFinder;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
 import org.owasp.passfault.keyboard.RussianKeyBoard;
@@ -47,9 +49,9 @@ public class BuildFinders {
     finders.addAll(buildDictionaryFinders("US Cities", uscities.openStream()));
     finders.addAll(buildDictionaryFinders("Latin", latin.openStream()));
     finders.addAll(buildDictionaryFinders("Spanish", spanish.openStream()));
-    finders.add(new KeySequenceFinder(new EnglishKeyBoard()));
-    finders.add(new KeySequenceFinder(new RussianKeyBoard()));
-    finders.add(new DateFinder());
+    finders.add(new KeySequenceFinder(new EnglishKeyBoard(), TestingPatternCollectionFactory.getInstance()));
+    finders.add(new KeySequenceFinder(new RussianKeyBoard(), TestingPatternCollectionFactory.getInstance()));
+    finders.add(new DateFinder(TestingPatternCollectionFactory.getInstance()));
     return new ThroughputOptimizedFinder(finders);
   }
 
@@ -64,14 +66,15 @@ public class BuildFinders {
 
     try {
       Reader dbWords = new InputStreamReader(in);
+      PatternCollectionFactory factory = TestingPatternCollectionFactory.getInstance();
       //TODO find a better way to name the dictionaries
       InMemoryDictionary diction = InMemoryDictionary.newInstance(dbWords, false, name);
-      finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy()));
-      finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1)));
-      finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2)));
-      finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy()));
+      finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy(), factory));
+      finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1), factory));
+      finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2), factory));
+      finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy(), factory));
       finders.add(new ReversePatternDecoratorFinder(
-          new DictionaryPatternsFinder(diction, new ExactWordStrategy())));
+          new DictionaryPatternsFinder(diction, new ExactWordStrategy(), factory)));
 
     } catch (IOException ioe) {
       ioe.printStackTrace();

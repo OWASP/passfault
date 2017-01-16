@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package org.owasp.passfault;
+package org.owasp.passfault.impl;
 
 import org.owasp.passfault.api.PatternCollection;
 
@@ -45,9 +45,15 @@ public class PatternCollectionImpl implements PatternCollection {
   private CharSequence password;
   private Map<Integer, List<PasswordPattern>> foundPatterns = new HashMap<>();
   private RandomPattern randomPatternFinder = new RandomPattern();
+  private boolean optimize = true;
 
   public PatternCollectionImpl(CharSequence password) {
     this.password = password;
+  }
+
+  public PatternCollectionImpl(CharSequence password, boolean optimizeRandom) {
+    this.password = password;
+    this.optimize = optimizeRandom;
   }
 
   @Override
@@ -78,8 +84,7 @@ public class PatternCollectionImpl implements PatternCollection {
   @Override
   public void addAll(PatternCollection toAdd) {
     //TODO compare passwords to make sure they are the same
-    toAdd.stream().forEach( (PasswordPattern pattern) -> this.putPattern(pattern) );
-
+    toAdd.stream().forEach(this::putPattern);
   }
 
   /**
@@ -102,7 +107,7 @@ public class PatternCollectionImpl implements PatternCollection {
         patt.getMatchString(), patt.getDescription(), patt.getCost()});
 
     PasswordPattern randomPattern = randomPatternFinder.getRandomPattern(password, patt.getStartIndex(), patt.getLength());
-    if (patt.getCost() > randomPattern.getCost()) {
+    if (optimize && patt.getCost() > randomPattern.getCost()) {
       //random is less expensive so throw away the pattern
       log.log(Level.FINER, "Pattern discarded because random is smaller: {0}", patt.getName());
       //patt = randomPattern;
@@ -110,11 +115,13 @@ public class PatternCollectionImpl implements PatternCollection {
     }
     List<PasswordPattern> patterns = getIndexSet(patt.getStartIndex());
     boolean worsePatternAlreadyFound = false;
-    for (PasswordPattern passwordPattern : patterns) {
-      if (patt.getLength() == passwordPattern.getLength()
-          && patt.getCost() > passwordPattern.getCost()) {
-        worsePatternAlreadyFound = true;
-        log.log(Level.FINER, "discarding found pattern since a smaller pattern already exists: {0}", patt.getName());
+    if (optimize) {
+      for (PasswordPattern passwordPattern : patterns) {
+        if (patt.getLength() == passwordPattern.getLength()
+            && patt.getCost() > passwordPattern.getCost()) {
+          worsePatternAlreadyFound = true;
+          log.log(Level.FINER, "discarding found pattern since a smaller pattern already exists: {0}", patt.getName());
+        }
       }
     }
     if (!worsePatternAlreadyFound) {

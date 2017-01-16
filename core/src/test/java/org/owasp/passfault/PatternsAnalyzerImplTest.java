@@ -17,6 +17,9 @@ import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.finders.RepeatingPatternDecorator;
+import org.owasp.passfault.impl.PasswordPattern;
+import org.owasp.passfault.impl.PatternCollectionImpl;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 
 import java.util.List;
 
@@ -24,12 +27,12 @@ import static org.junit.Assert.assertEquals;
 
 public class PatternsAnalyzerImplTest {
 
-  PatternsAnalyzer pa = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
+  PatternsAnalyzer analyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
 
   @Test
   public void randomNumbers() {
     PatternCollection patts = new PatternCollectionImpl("1234");
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(1, list.size());
@@ -44,7 +47,7 @@ public class PatternsAnalyzerImplTest {
     PatternCollection patts = new PatternCollectionImpl("1234");
     patts.putPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
 
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -60,7 +63,7 @@ public class PatternsAnalyzerImplTest {
     PatternCollection patts = new PatternCollectionImpl("1234");
     patts.putPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
 
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -75,7 +78,7 @@ public class PatternsAnalyzerImplTest {
     PatternCollection patts = new PatternCollectionImpl("1234");
     patts.putPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
 
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -91,7 +94,7 @@ public class PatternsAnalyzerImplTest {
     patts.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
     patts.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(5, list.size());
@@ -110,7 +113,7 @@ public class PatternsAnalyzerImplTest {
     patts.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
     patts.putPattern(new PasswordPattern(1, 2, "23", 23, "worserPattern"));
 
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -138,7 +141,7 @@ public class PatternsAnalyzerImplTest {
     patts.putPattern(new PasswordPattern(4, 1, "5", 4, "bestPattern"));
     patts.putPattern(new PasswordPattern(4, 1, "5", 23, "worstPattern"));
 
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(4, list.size());
@@ -152,7 +155,7 @@ public class PatternsAnalyzerImplTest {
   public void allPossibleRandom() {
     PatternCollection patts = new PatternCollectionImpl("37384756683");
     RandomAddAll.RandomAddAll(patts);
-    AnalysisResult patterns = pa.calculateHighestProbablePatterns(patts);
+    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(1, list.size());

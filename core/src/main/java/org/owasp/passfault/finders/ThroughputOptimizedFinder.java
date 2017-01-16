@@ -13,10 +13,8 @@
 
 package org.owasp.passfault.finders;
 
-import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PassfaultException;
-import org.owasp.passfault.api.PatternCollection;
-import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.api.*;
+import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 
 import java.util.Collection;
 import java.util.Map;
@@ -33,12 +31,12 @@ public class ThroughputOptimizedFinder implements CompositeFinder {
   private final ExecutorService exec;
 
   public ThroughputOptimizedFinder(Collection<PatternFinder> finders) {
-    this.finder = new SequentialFinder(finders);
+    this.finder = new SequentialFinder(finders, new FilteringPatternCollectionFactory());
     this.exec = Executors.newFixedThreadPool(10); 
   }
   
   public ThroughputOptimizedFinder(Collection<PatternFinder> finders, ThreadFactory factory){
-    this.finder = new SequentialFinder(finders); 
+    this.finder = new SequentialFinder(finders, new FilteringPatternCollectionFactory());
     this.exec = Executors.newCachedThreadPool(factory);
   }
 
@@ -46,7 +44,6 @@ public class ThroughputOptimizedFinder implements CompositeFinder {
    * The method returns as soon as all threads have started, not completed.
    * To wait until completion call {#waitForAnalysis} or register an
    * AnalysisListener and implement foundHighestProbablePatterns.
-   * @throws Exception
    */
   @Override
   public PatternCollection search(CharSequence pass) {
@@ -64,7 +61,6 @@ public class ThroughputOptimizedFinder implements CompositeFinder {
   /**
    * Blocks until all analysis is complete.
    * @param pass password being analyzed to test for completion
-   * @throws InterruptedException
    */
   @Override
   public Future<PatternCollection> analyzeFuture(CharSequence pass) {

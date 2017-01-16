@@ -17,7 +17,7 @@
 
 package org.owasp.passfault.dictionary;
 
-import org.owasp.passfault.RandomPattern;
+import org.owasp.passfault.impl.RandomPattern;
 
 /**
  * This class calculates the distance between one word and another.  This

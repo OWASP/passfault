@@ -12,7 +12,8 @@
 
 package org.owasp.passfault.finders;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.api.PatternCollectionFactory;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 
@@ -41,9 +42,15 @@ public class DateFinder implements PatternFinder {
       "(0[1-9]|[12][0-9]|3[01])([- /.])?(0[1-9]|1[012])([- /.])?(\\d\\d)?\\d\\d|");// month/day/year
   double dateSize = 12 * 31 * 2500; // days * chars * years (future proof by 500 years
 
+  PatternCollectionFactory factory;
+
+  public DateFinder(PatternCollectionFactory factory) {
+    this.factory = factory;
+  }
+
   @Override
   public PatternCollection search(CharSequence password) {
-    PatternCollection patterns = PatternCollection.getInstance(password);
+    PatternCollection patterns = factory.build(password);
     Matcher matcher = dateRegex.matcher(password);
     boolean found = false;
     do {

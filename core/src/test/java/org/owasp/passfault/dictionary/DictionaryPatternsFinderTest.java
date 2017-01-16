@@ -15,6 +15,7 @@ package org.owasp.passfault.dictionary;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,7 +26,7 @@ public class DictionaryPatternsFinderTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy());
+    finder = new DictionaryPatternsFinder(dictionary, new ExactWordStrategy(), TestingPatternCollectionFactory.getInstance());
   }
 
   @Test

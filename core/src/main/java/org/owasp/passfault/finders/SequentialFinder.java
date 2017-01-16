@@ -16,8 +16,10 @@ package org.owasp.passfault.finders;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternCollectionFactory;
 import org.owasp.passfault.api.PatternFinder;
 
 /**
@@ -28,15 +30,18 @@ import org.owasp.passfault.api.PatternFinder;
  */
 public class SequentialFinder implements PatternFinder{
 
-  private List<PatternFinder> finders = new ArrayList<PatternFinder>();
+  private List<PatternFinder> finders = new ArrayList<>();
 
-  public SequentialFinder(Collection<PatternFinder> finders) {
+  PatternCollectionFactory factory;
+
+  public SequentialFinder(Collection<PatternFinder> finders, PatternCollectionFactory factory) {
     this.finders.addAll(finders);
+    this.factory = factory;
   }
 
   @Override
   public PatternCollection search(CharSequence pass) {
-    PatternCollection allPatterns = PatternCollection.getInstance(pass);
+    PatternCollection allPatterns = factory.build(pass);
     for(PatternFinder finder: finders){
       allPatterns.addAll(finder.search(pass));
     }

@@ -12,7 +12,7 @@
  */
 package org.owasp.passfault.finders;
 
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternsAnalyzer;
 import org.owasp.passfault.api.AnalysisResult;

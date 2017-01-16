@@ -15,8 +15,9 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.PasswordPattern;
+import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -30,7 +31,7 @@ public class MisspellingFinderInMemoryTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     InMemoryDictionary dictionary = InMemoryDictionary.newInstance(TestWords.getTestReader(), false, "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1));
+    finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1), TestingPatternCollectionFactory.getInstance());
   }
 
   @Test
