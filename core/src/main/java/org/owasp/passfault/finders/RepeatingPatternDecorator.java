@@ -36,7 +36,7 @@ public class RepeatingPatternDecorator implements PatternsAnalyzer {
 
   public static final String DUPLICATE_PATTERN = "DUPLICATE";
 
-  public AnalysisResult process(AnalysisResult cost, CharSequence password) {
+  AnalysisResult process(AnalysisResult cost, CharSequence password) {
     AnalysisResult newPath = new AnalysisResult(password);
     List<PasswordPattern> path = cost.getPath();
     for (int len = path.size() - 1, i = len; i >= 0; i--) {

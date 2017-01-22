@@ -31,21 +31,8 @@ public class MockPatternsAnalyzer implements PatternsAnalyzer {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     for (PasswordPattern patt : foundPatterns) {
-      sb.append('{');
-      sb.append(patt.getMatchString());
-      sb.append(", start=");
-      sb.append(patt.getStartIndex());
-      sb.append(", cost=");
-      sb.append(patt.getCost());
-      sb.append(", patternSize=");
-      sb.append(patt.getPatternSize());
-      sb.append(", description=");
-      sb.append(patt.getDescription());
-      sb.append(", classification=");
-      sb.append(patt.getClassification());
-      sb.append(", name=");
-      sb.append(patt.getName());
-      sb.append('}');
+      sb.append(patt);
+      sb.append('\n');
     }
     return sb.toString();
   }

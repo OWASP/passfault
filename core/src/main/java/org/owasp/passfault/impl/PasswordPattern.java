@@ -124,4 +124,24 @@ public class PasswordPattern {
   public String getClassification() {
     return classification;
   }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+      sb.append('{');
+      sb.append(getMatchString());
+      sb.append(", start=");
+      sb.append(getStartIndex());
+      sb.append(", cost=");
+      sb.append(getCost());
+      sb.append(", patternSize=");
+      sb.append(getPatternSize());
+      sb.append(", description=");
+      sb.append(getDescription());
+      sb.append(", classification=");
+      sb.append(getClassification());
+      sb.append(", name=");
+      sb.append(getName());
+      sb.append('}');
+    return sb.toString();
+  }
 }

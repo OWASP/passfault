@@ -92,4 +92,13 @@ public class AnalysisResult {
   public List<PasswordPattern> getPath() {
     return Collections.unmodifiableList(path);
   }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (PasswordPattern patt : path) {
+      sb.append(patt);
+      sb.append('\n');
+    }
+    return sb.toString();
+  }
 }

@@ -110,7 +110,6 @@ public class PatternCollectionImpl implements PatternCollection {
     if (optimize && patt.getCost() > randomPattern.getCost()) {
       //random is less expensive so throw away the pattern
       log.log(Level.FINER, "Pattern discarded because random is smaller: {0}", patt.getName());
-      //patt = randomPattern;
       return;
     }
     List<PasswordPattern> patterns = getIndexSet(patt.getStartIndex());
@@ -143,5 +142,27 @@ public class PatternCollectionImpl implements PatternCollection {
       foundPatterns.put(startIndex, new LinkedList<>());
     }
     return foundPatterns.get(startIndex);
+  }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (PasswordPattern patt : getAllPatterns()) {
+      sb.append('{');
+      sb.append(patt.getMatchString());
+      sb.append(", start=");
+      sb.append(patt.getStartIndex());
+      sb.append(", cost=");
+      sb.append(patt.getCost());
+      sb.append(", patternSize=");
+      sb.append(patt.getPatternSize());
+      sb.append(", description=");
+      sb.append(patt.getDescription());
+      sb.append(", classification=");
+      sb.append(patt.getClassification());
+      sb.append(", name=");
+      sb.append(patt.getName());
+      sb.append('}');
+    }
+    return sb.toString();
   }
 }

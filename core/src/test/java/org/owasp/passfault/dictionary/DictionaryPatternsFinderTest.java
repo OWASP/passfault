@@ -56,7 +56,7 @@ public class DictionaryPatternsFinderTest {
 
   @Test
   public void findWordWithMulti() throws Exception {
-    assertEquals(finder.search("password").getCount(), 4);
+    assertEquals(finder.search("password").getCount(), 6);
   }
 
   @Test
