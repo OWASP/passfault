@@ -14,6 +14,8 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.owasp.passfault.api.PatternCollectionFactory;
+import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.impl.TestingPatternCollectionFactory;
@@ -30,25 +32,25 @@ public class MisspellingFinderInFileTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     FileDictionary dictionary = FileDictionary.newInstance(TestWords.getTestFile(), "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1), TestingPatternCollectionFactory.getInstance());
+    finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1), new FilteringPatternCollectionFactory());
   }
 
   @Test
   public void findWord() throws Exception {
-    assertEquals(finder.search("passwerd").getCount(), 1);
+    assertEquals(finder.search("passwerd").getCount(), 6);
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    assertEquals(finder.search("1234passwerd").getCount(), 1);
+    assertEquals(finder.search("1234passwerd").getCount(), 6);
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    assertEquals(finder.search("wisp").getCount(), 1);
-    assertEquals(finder.search("wisp1").getCount(), 1);
-    assertEquals(finder.search("wisp12").getCount(), 1);
-    assertEquals(finder.search("wisp123").getCount(), 1);
+    assertEquals(finder.search("wisp").getCount(), 0);
+    assertEquals(finder.search("wisp1").getCount(), 0);
+    assertEquals(finder.search("wisp12").getCount(), 0);
+    assertEquals(finder.search("wisp123").getCount(), 0);
   }
 
   @Test

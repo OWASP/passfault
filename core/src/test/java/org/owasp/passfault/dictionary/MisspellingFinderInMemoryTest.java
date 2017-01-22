@@ -15,8 +15,12 @@ package org.owasp.passfault.dictionary;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.owasp.passfault.api.AnalysisResult;
+import org.owasp.passfault.api.PatternsAnalyzer;
+import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.Collection;
@@ -27,39 +31,55 @@ import static org.junit.Assert.assertEquals;
 public class MisspellingFinderInMemoryTest {
 
   private static DictionaryPatternsFinder finder;
+  private static PatternsAnalyzer analyzer = new PatternsAnalyzerImpl();
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     InMemoryDictionary dictionary = InMemoryDictionary.newInstance(TestWords.getTestReader(), false, "tiny-lower");
-    finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1), TestingPatternCollectionFactory.getInstance());
+    //finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1), new FilteringPatternCollectionFactory());
+    finder = new DictionaryPatternsFinder(dictionary, new MisspellingStrategy(1), new TestingPatternCollectionFactory());
+
   }
 
   @Test
   public void findWord() throws Exception {
-    assertEquals(finder.search("passwerd").getCount(), 1);
+    assertEquals(
+        analyzer.calculateHighestProbablePatterns(
+            finder.search("passwerd")).getPath().size(), 1);
+
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    assertEquals(finder.search("1234passwerd").getCount(), 1);
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("1234passwerd")).getPath().size(), 2);
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    assertEquals(finder.search("garbageinback").getCount(), 1);
-    assertEquals(finder.search("wisp1").getCount(), 1);
-    assertEquals(finder.search("wisp12").getCount(), 1);
-    assertEquals(finder.search("wisp123").getCount(), 1);
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("garbageinback")).getPath().size(), 3);
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("wisp1")).getPath().size(), 2);
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("wisp12")).getPath().size(), 2);
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("wisp123")).getPath().size(), 2);
   }
 
   @Test
   public void findNonWord() throws Exception {
-    assertEquals(finder.search("qqq").getCount(), 0);
+    AnalysisResult result = analyzer.calculateHighestProbablePatterns(
+        finder.search("qqq"));
+    System.out.println(result.toString());
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("qqq")).getPath().size(), 1);
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    assertEquals(finder.search("passwerdpasswerd").getCount(), 2);
+    assertEquals(analyzer.calculateHighestProbablePatterns(
+        finder.search("passwerdpasswerd")).getPath().size(), 2);
   }
 
   @Test

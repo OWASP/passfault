@@ -94,24 +94,25 @@ public class PatternsAnalyzerImplTest {
     patts.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
     patts.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
+    AnalysisResult analysisResult = analyzer.calculateHighestProbablePatterns(patts);
 
-    List<PasswordPattern> list = patterns.getPath();
-    assertEquals(5, list.size());
-    double result = patterns.getTotalCost();
+    System.out.println(analysisResult);
+    List<PasswordPattern> list = analysisResult.getPath();
+    assertEquals(4, list.size());
+    double result = analysisResult.getTotalCost();
     System.out.println("cost=" + result);
 
-    double expected = Math.pow(10, 3) * 4;
+    double expected = Math.pow(10, 2) * 4; //two random numbers '10', times two patterns of size 2
     assertEquals(expected, result, 0.5);
   }
 
   @Test
   public void onePattern_overlap() {
     PatternCollection patts = new PatternCollectionImpl("1234");
-    patts.putPattern(new PasswordPattern(1, 2, "23", 15, "worstPattern"));
+    patts.putPattern(new PasswordPattern(1, 2, "23", 15, "lessPattern"));
     patts.putPattern(new PasswordPattern(1, 2, "23", 4, "bestPattern"));
     patts.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
-    patts.putPattern(new PasswordPattern(1, 2, "23", 23, "worserPattern"));
+    patts.putPattern(new PasswordPattern(1, 2, "23", 23, "worstPattern"));
 
     AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(patts);
 
@@ -119,13 +120,13 @@ public class PatternsAnalyzerImplTest {
     assertEquals(3, list.size());
     double result = patterns.getTotalCost();
     System.out.println("cost=" + result);
-    double expected = Math.pow(10, 3) * 4;
+    double expected = Math.pow(10, 2) * 4;  //two random numbers (10) times 4
     assertEquals(expected, result, 0.5);
   }
 
   @Test
   public void twoPattern_overlap() {
-    PatternCollection patts = new PatternCollectionImpl("1234");
+    PatternCollection patts = new PatternCollectionImpl("12345");
     patts.putPattern(new PasswordPattern(1, 1, "2", 15, "badPattern"));
     patts.putPattern(new PasswordPattern(1, 1, "2", 4, "bestPattern"));
     patts.putPattern(new PasswordPattern(1, 1, "2", 20, "worserPattern"));

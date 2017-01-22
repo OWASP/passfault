@@ -26,14 +26,8 @@ import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 
 /**
- * This class holds the results of the analysis of a password.  An instance
- * of this class begins with a password to search.  Then it is handed to
- * multiple PatternFinders.
- *
- * This class contains the logic for post-analysis of the finders found
- * (although this logic might be better if separated from this class)  This
- * logic includes finding the weakest combination of finders and locating
- * repeated finders.
+ * This class analysis the patterns found in a password. It finds the weakest combination of the patterns and locating
+ * repeated patterns.
  *
  * @author cam
  */
