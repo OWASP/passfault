@@ -181,14 +181,14 @@ public class FinderByPropsBuilder {
     List<PatternFinder> finders = new LinkedList<>();
     FilteringPatternCollectionFactory collectionFactory = new FilteringPatternCollectionFactory();
 
-    finders.add(new DictionaryPatternsFinder(diction, new ExactWordStrategy(), collectionFactory));
+    DictionaryPatternsFinder exactFinder = new DictionaryPatternsFinder(diction, new ExactWordStrategy(), collectionFactory);
+    finders.add(exactFinder);
+    finders.add(new ReversePatternDecoratorFinder(exactFinder, collectionFactory));
     finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1), collectionFactory));
     finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2), collectionFactory));
     finders.add(new DictionaryPatternsFinder(diction, new SubstitutionStrategy(2), collectionFactory));
     finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy(), collectionFactory));
-    finders.add(new ReversePatternDecoratorFinder(
-        new DictionaryPatternsFinder(diction, new ExactWordStrategy(), collectionFactory)));
-    
+
     return finders;
   }
 

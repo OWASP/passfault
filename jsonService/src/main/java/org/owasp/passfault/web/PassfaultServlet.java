@@ -1,12 +1,12 @@
 package org.owasp.passfault.web;
 
-import org.owasp.passfault.api.AnalysisResult;
-import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.*;
+import org.owasp.passfault.finders.RepeatingPatternDecorator;
+import org.owasp.passfault.finders.SequentialFinder;
+import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 import org.owasp.passfault.impl.PatternsAnalyzerImpl;
-import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.impl.SecureString;
-import org.owasp.passfault.finders.ThroughputOptimizedFinder;
+import org.owasp.passfault.finders.ResponseOptimizedFinders;
 import org.owasp.passfault.io.JsonWriter;
 
 import javax.servlet.ServletConfig;
@@ -29,12 +29,21 @@ public class PassfaultServlet extends HttpServlet {
   protected Collection<PatternFinder> finders;
   private volatile CompositeFinder compositeFinder = null; //lazy initialized
   private JsonWriter jsonWriter = new JsonWriter();
+  private PatternsAnalyzer analyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
+  private PatternCollectionFactory patternCollectionFactory = new FilteringPatternCollectionFactory();
+
 
   public void init(ServletConfig config) throws ServletException {
+    System.out.println("PassfaultServlet got here.  Do I get here. pre-init");
+
     finders = buildFinders(config.getServletContext());
+
+    System.out.println("PassfaultServlet got here.  Do I get here. post-init");
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    System.out.println("PassfaultServlet got here.  Do I get here. POST");
+
     if (request.getContentLength() <= 0) {
       response.sendError(HttpServletResponse.SC_NO_CONTENT, "No password was supplied");
       return;
@@ -52,7 +61,6 @@ public class PassfaultServlet extends HttpServlet {
 
     CompositeFinder finder = getCompositeFinder();
     try {
-      PatternsAnalyzerImpl analyzer = new PatternsAnalyzerImpl();
       PatternCollection patterns = finder.search(password);
       AnalysisResult analysis = analyzer.calculateHighestProbablePatterns(patterns);
       writeJSON(analysis, response.getWriter());
@@ -61,7 +69,6 @@ public class PassfaultServlet extends HttpServlet {
       throw new ServletException(e);
     } finally {
       password.clear();
-      response.getWriter().flush();
     }
   }
 
@@ -104,7 +111,8 @@ public class PassfaultServlet extends HttpServlet {
     if (this.compositeFinder == null) {
       synchronized (this) {
         if (this.compositeFinder == null) {
-          this.compositeFinder = new ThroughputOptimizedFinder(finders);
+//          this.compositeFinder = new ResponseOptimizedFinders(finders);
+          this.compositeFinder = new SequentialFinder(finders, patternCollectionFactory);
         }
       }
     }

@@ -68,7 +68,7 @@ public class StressTest {
       }
       word = word.trim();
 
-      backlog.add(finder.analyzeFuture(word));
+      backlog.add(finder.searchFuture(word));
       if (batchCount == batchSize - 1) {
         for (Future<PatternCollection> future : backlog) {
           PatternCollection patterns = future.get();
