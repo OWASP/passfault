@@ -36,7 +36,7 @@ public class FinderByPropsBuilderTest {
     assertTrue(finders.size() > 4);
   }
 
-  @Test
+  //@Test() the word lists are no longer embedded.
   public void byResource() throws Exception {
     Collection<PatternFinder> finders = new FinderByPropsBuilder().
       loadDefaultWordLists().

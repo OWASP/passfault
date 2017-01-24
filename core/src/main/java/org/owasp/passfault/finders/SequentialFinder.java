@@ -13,14 +13,15 @@
 
 package org.owasp.passfault.finders;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.regex.Pattern;
-
+import org.owasp.passfault.api.CompositeFinder;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternCollectionFactory;
 import org.owasp.passfault.api.PatternFinder;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This file simply iterates through each finder calling search.  Before
@@ -28,7 +29,7 @@ import org.owasp.passfault.api.PatternFinder;
  * multithreading (Google App Engine).
  * @author cam
  */
-public class SequentialFinder implements PatternFinder{
+public class SequentialFinder implements CompositeFinder{
 
   private List<PatternFinder> finders = new ArrayList<>();
 
@@ -43,8 +44,17 @@ public class SequentialFinder implements PatternFinder{
   public PatternCollection search(CharSequence pass) {
     PatternCollection allPatterns = factory.build(pass);
     for(PatternFinder finder: finders){
-      allPatterns.addAll(finder.search(pass));
+      PatternCollection results = finder.search(pass);
+      if (results == null) {
+        System.out.println("results are null! " + finder.toString());
+      }
+      allPatterns.addAll(results);
     }
     return allPatterns;
+  }
+
+  @Override
+  public CompletableFuture<PatternCollection> searchFuture(CharSequence pass) {
+    return CompletableFuture.supplyAsync(() -> search(pass));
   }
 }

@@ -1,16 +1,15 @@
 package org.owasp.passfault.web;
 
-import java.util.Collection;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
+import org.owasp.passfault.api.CompositeFinder;
+import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.finders.ResponseOptimizedFinders;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-
-import org.owasp.passfault.api.PatternCollection;
-import org.owasp.passfault.api.PatternFinder;
-import org.owasp.passfault.finders.ThroughputOptimizedFinder;
-import org.owasp.passfault.api.CompositeFinder;
+import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * Servlet implementation class PassfaultServlet  This specialization of PassfaultServlet
@@ -38,7 +37,7 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
    * so when analysis is done the executor needs to be shut down.  This class exists to call shutdown after
    * either blockingAnalyze or waitForAnalysis is completed. 
    */
-  public class AppEngineFinder extends ThroughputOptimizedFinder {
+  public class AppEngineFinder extends ResponseOptimizedFinders {
 
     public AppEngineFinder(Collection<PatternFinder> finders, ThreadFactory factory)
     {
@@ -54,9 +53,9 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
     }
 
     @Override
-    public Future<PatternCollection> analyzeFuture(CharSequence pass)
+    public CompletableFuture<PatternCollection> searchFuture(CharSequence pass)
     {
-      Future<PatternCollection> result = super.analyzeFuture(pass);
+      CompletableFuture<PatternCollection> result = super.searchFuture(pass);
       super.shutdown();
       return result;
     }

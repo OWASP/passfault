@@ -17,7 +17,7 @@ import org.owasp.passfault.api.PatternCollectionFactory;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.*;
 import org.owasp.passfault.finders.DateFinder;
-import org.owasp.passfault.finders.ThroughputOptimizedFinder;
+import org.owasp.passfault.finders.ResponseOptimizedFinders;
 import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 import org.owasp.passfault.keyboard.EnglishKeyBoard;
 import org.owasp.passfault.keyboard.KeySequenceFinder;
@@ -52,7 +52,7 @@ public class BuildFinders {
     finders.add(new KeySequenceFinder(new EnglishKeyBoard(), TestingPatternCollectionFactory.getInstance()));
     finders.add(new KeySequenceFinder(new RussianKeyBoard(), TestingPatternCollectionFactory.getInstance()));
     finders.add(new DateFinder(TestingPatternCollectionFactory.getInstance()));
-    return new ThroughputOptimizedFinder(finders);
+    return new ResponseOptimizedFinders(finders);
   }
 
   /**
@@ -74,7 +74,7 @@ public class BuildFinders {
       finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2), factory));
       finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy(), factory));
       finders.add(new ReversePatternDecoratorFinder(
-          new DictionaryPatternsFinder(diction, new ExactWordStrategy(), factory)));
+          new DictionaryPatternsFinder(diction, new ExactWordStrategy(), factory), factory));
 
     } catch (IOException ioe) {
       ioe.printStackTrace();

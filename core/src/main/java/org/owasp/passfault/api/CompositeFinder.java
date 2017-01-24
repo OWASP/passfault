@@ -11,13 +11,13 @@
  */
 package org.owasp.passfault.api;
 
-import java.util.concurrent.Future;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * CompositeFinders combine multiple finders and treat them as one. It has methods declared for parallel processing.
- * the existing search method is blocking, the new analyzeFuture lets you block later.
+ * the existing search method is blocking, the new searchFuture lets you block later.
  */
 public interface CompositeFinder extends PatternFinder
 {
-  Future<PatternCollection> analyzeFuture(CharSequence pass);
+  CompletableFuture<PatternCollection> searchFuture(CharSequence pass);
 }

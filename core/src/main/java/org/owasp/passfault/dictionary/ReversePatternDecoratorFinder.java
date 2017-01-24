@@ -14,7 +14,12 @@
 package org.owasp.passfault.dictionary;
 
 import org.owasp.passfault.api.PatternCollection;
+import org.owasp.passfault.api.PatternCollectionFactory;
 import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.impl.PasswordPattern;
+
+import java.nio.CharBuffer;
+import java.util.List;
 
 /**
  * ReversePatternDecoratorFinder is a PatternsAnalyzer adapter/wrapper that
@@ -23,64 +28,37 @@ import org.owasp.passfault.api.PatternFinder;
  * @author cam, ray
  */
 public class ReversePatternDecoratorFinder implements PatternFinder {
+  public final static String NAME = "BACKWARDS";
 
   private final PatternFinder decoratedFinder;
+  private PatternCollectionFactory patternCollectionFactory;
 
-  public ReversePatternDecoratorFinder(PatternFinder decoratedFinder) {
+  public ReversePatternDecoratorFinder(PatternFinder decoratedFinder, PatternCollectionFactory patternCollectionFactory) {
     this.decoratedFinder = decoratedFinder;
+    this.patternCollectionFactory = patternCollectionFactory;
   }
 
   @Override
   public PatternCollection search(CharSequence pass) {
-    //ReversePatternDecoratorAnalyze newAnalyze = new ReversePatternDecoratorAnalyze(pass);
-    //this.decoratedFinder.search(newAnalyze);
-    //this got to figure this out
-    return null;
+    char[] backwards = new char[pass.length()];
+    for (int i = 0; i < pass.length(); i++) {
+      backwards[i] = pass.charAt(pass.length() - 1 - i);
+    }
+
+    CharBuffer chars = CharBuffer.wrap(backwards);
+    PatternCollection reversed = patternCollectionFactory.build(pass);
+    decoratedFinder.search(chars).stream()
+        .map( (PasswordPattern patt) -> reversePattern(pass, patt))
+        .forEach(patt -> reversed.putPattern(patt));
+
+    return reversed;
   }
 
-//  private class ReversePatternDecoratorAnalyze implements PatternCollection {
-//
-//    public final static String NAME = "BACKWARDS";
-//    private final PatternCollection wrappedPasswordPatternCollection;
-//    private final char[] backwardsChars;
-//
-//    public ReversePatternDecoratorAnalyze(PatternCollection pass) {
-//      this.wrappedPasswordPatternCollection = pass;
-//      CharSequence chars = wrappedPasswordPatternCollection.getPassword();
-//      char[] backwards = new char[chars.length()];
-//      for (int i = 0; i < chars.length(); i++) {
-//        backwards[i] = chars.charAt(chars.length() - 1 - i);
-//      }
-//      backwardsChars = backwards;
-//    }
-//
-//    @Override
-//    public void putPattern(PasswordPattern patt) {
-//      PasswordPattern adaptedPattern = reversePattern(patt);
-//      this.wrappedPasswordPatternCollection.putPattern(adaptedPattern);
-//    }
-//
-//    private PasswordPattern reversePattern(PasswordPattern patt) {
-//      int nonReverseStartIndex = backwardsChars.length - patt.getStartIndex() - patt.getLength();
-//      return new PasswordPattern(
-//          nonReverseStartIndex, patt.getLength(), patt.getMatchString(), patt.getCost(),
-//          ReversePatternDecoratorAnalyze.NAME + ": " + patt.getDescription(),
-//          ReversePatternDecoratorAnalyze.NAME, patt.getClassification());
-//    }
-//
-//    public CharSequence getPassword() {
-//      return new String(this.backwardsChars);
-//    }
-//
-//    @Override
-//    public List<PasswordPattern> getPatternsByIndex(int i) {
-//      return null;
-//    }
-//
-//    @Override
-//    public List<PasswordPattern> getAllPatterns() {
-//      return null;
-//    }
-//
-//  }
+  private PasswordPattern reversePattern(CharSequence pass, PasswordPattern patt) {
+    int nonReverseStartIndex = pass.length() - patt.getStartIndex() - patt.getLength();
+    return new PasswordPattern(
+        nonReverseStartIndex, patt.getLength(), patt.getMatchString(), patt.getCost(),
+        NAME + ": " + patt.getDescription(),
+        NAME, patt.getClassification());
+  }
 }

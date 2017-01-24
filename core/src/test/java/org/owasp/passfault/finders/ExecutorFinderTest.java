@@ -14,16 +14,13 @@ package org.owasp.passfault.finders;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.owasp.passfault.*;
 import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.dictionary.DictionaryPatternsFinder;
 import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.FileDictionary;
 import org.owasp.passfault.dictionary.TestWords;
 import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
-import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.LinkedList;
 
@@ -43,7 +40,7 @@ public class ExecutorFinderTest {
     );
     LinkedList<PatternFinder> l = new LinkedList<>();
     l.add(dictionaryFinder);
-    finder = new ThroughputOptimizedFinder(l);
+    finder = new ResponseOptimizedFinders(l);
   }
   
   @Test

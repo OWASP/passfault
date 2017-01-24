@@ -22,6 +22,8 @@ public class BuildFinders {
         loadDefaultWordLists().
         isInMemory(true).
         build();
+
+    System.out.println("BuildFinders got here");
 	  return finders;
   }
 
@@ -40,6 +42,8 @@ public class BuildFinders {
 
     @Override
     public Reader loadResource(String resource) throws IOException {
+      System.out.println("BuildFinders got here.  Do I get here. loadResource");
+
       Set<String> paths = context.getResourcePaths(rootDir);
 
       InputStream is = context.getResourceAsStream(rootDir + "/" + resource);
@@ -49,6 +53,8 @@ public class BuildFinders {
 
     @Override
     public File loadFile(String resource) throws IOException {
+      System.out.println("BuildFinders got here.  Do I get here. loadFile");
+
       String realPath = context.getRealPath(rootDir + "/" + resource);
       if (realPath == null) throw new IOException("Could not find resource: " + resource);
       return new File(realPath);
