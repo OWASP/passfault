@@ -34,16 +34,10 @@ public class PassfaultServlet extends HttpServlet {
 
 
   public void init(ServletConfig config) throws ServletException {
-    System.out.println("PassfaultServlet got here.  Do I get here. pre-init");
-
     finders = buildFinders(config.getServletContext());
-
-    System.out.println("PassfaultServlet got here.  Do I get here. post-init");
   }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    System.out.println("PassfaultServlet got here.  Do I get here. POST");
-
     if (request.getContentLength() <= 0) {
       response.sendError(HttpServletResponse.SC_NO_CONTENT, "No password was supplied");
       return;
@@ -111,8 +105,7 @@ public class PassfaultServlet extends HttpServlet {
     if (this.compositeFinder == null) {
       synchronized (this) {
         if (this.compositeFinder == null) {
-//          this.compositeFinder = new ResponseOptimizedFinders(finders);
-          this.compositeFinder = new SequentialFinder(finders, patternCollectionFactory);
+          this.compositeFinder = new ResponseOptimizedFinders(finders, patternCollectionFactory);
         }
       }
     }
