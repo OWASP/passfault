@@ -13,10 +13,7 @@
 
 package org.owasp.passfault.finders;
 
-import org.owasp.passfault.api.CompositeFinder;
-import org.owasp.passfault.api.PassfaultException;
-import org.owasp.passfault.api.PatternCollection;
-import org.owasp.passfault.api.PatternFinder;
+import org.owasp.passfault.api.*;
 import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 
 import java.util.Collection;
@@ -33,15 +30,18 @@ public class ResponseOptimizedFinders implements CompositeFinder {
 
   private final ExecutorService exec;
   private final Collection<PatternFinder> finders;
+  private final PatternCollectionFactory factory;
 
-  public ResponseOptimizedFinders(Collection<PatternFinder> finders) {
+  public ResponseOptimizedFinders(Collection<PatternFinder> finders, PatternCollectionFactory factory) {
+    this.factory = factory;
     this.finders = finders;
     this.exec = Executors.newFixedThreadPool(10);
   }
   
-  public ResponseOptimizedFinders(Collection<PatternFinder> finders, ThreadFactory factory){
+  public ResponseOptimizedFinders(Collection<PatternFinder> finders, ThreadFactory threadFactory, PatternCollectionFactory factory){
+    this.factory = factory;
     this.finders = finders;
-    this.exec = Executors.newCachedThreadPool(factory);
+    this.exec = Executors.newCachedThreadPool(threadFactory);
   }
 
   /**
@@ -78,7 +78,7 @@ public class ResponseOptimizedFinders implements CompositeFinder {
 
     return allDoneFuture.thenApply(v -> {
           //I should really write a collector for the PatternCollection, but until I do...
-          PatternCollection collected = new FilteringPatternCollectionFactory().build(pass);
+          PatternCollection collected = factory.build(pass);
           futures.stream()
               .map(CompletableFuture::join)
               .forEach(collected::addAll);

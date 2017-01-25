@@ -21,12 +21,13 @@ import org.owasp.passfault.dictionary.ExactWordStrategy;
 import org.owasp.passfault.dictionary.FileDictionary;
 import org.owasp.passfault.dictionary.TestWords;
 import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
+import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExecutorFinderTest {
+public class ResponseOptimizedFinderTest {
 
   private static CompositeFinder finder;
 
@@ -40,7 +41,7 @@ public class ExecutorFinderTest {
     );
     LinkedList<PatternFinder> l = new LinkedList<>();
     l.add(dictionaryFinder);
-    finder = new ResponseOptimizedFinders(l);
+    finder = new ResponseOptimizedFinders(l, TestingPatternCollectionFactory.getInstance());
   }
   
   @Test

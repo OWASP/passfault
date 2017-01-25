@@ -52,7 +52,7 @@ public class BuildFinders {
     finders.add(new KeySequenceFinder(new EnglishKeyBoard(), TestingPatternCollectionFactory.getInstance()));
     finders.add(new KeySequenceFinder(new RussianKeyBoard(), TestingPatternCollectionFactory.getInstance()));
     finders.add(new DateFinder(TestingPatternCollectionFactory.getInstance()));
-    return new ResponseOptimizedFinders(finders);
+    return new ResponseOptimizedFinders(finders, TestingPatternCollectionFactory.getInstance());
   }
 
   /**

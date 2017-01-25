@@ -4,6 +4,7 @@ import org.owasp.passfault.api.CompositeFinder;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.finders.ResponseOptimizedFinders;
+import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class AppEnginePassfaultServlet extends PassfaultServlet {
 
     public AppEngineFinder(Collection<PatternFinder> finders, ThreadFactory factory)
     {
-      super(finders, factory);
+      super(finders, factory, new FilteringPatternCollectionFactory());
     }
 
     @Override
