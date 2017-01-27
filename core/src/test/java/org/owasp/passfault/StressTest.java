@@ -72,7 +72,7 @@ public class StressTest {
       if (batchCount == batchSize - 1) {
         for (Future<PatternCollection> future : backlog) {
           PatternCollection patterns = future.get();
-          AnalysisResult normCost = analyzer.calculateHighestProbablePatterns(patterns);
+          AnalysisResult normCost = analyzer.analyze(patterns);
           // password# cost patternsCount
           out.printf("%s\t%s\t%s\t",
             word, normCost.getTotalCost(), normCost.getPath().size());

@@ -17,7 +17,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.owasp.passfault.api.AnalysisResult;
 import org.owasp.passfault.api.PatternsAnalyzer;
-import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.impl.PatternsAnalyzerImpl;
@@ -44,41 +43,41 @@ public class MisspellingFinderInMemoryTest {
   @Test
   public void findWord() throws Exception {
     assertEquals(
-        analyzer.calculateHighestProbablePatterns(
+        analyzer.analyze(
             finder.search("passwerd")).getPath().size(), 1);
 
   }
 
   @Test
   public void garbageInFront() throws Exception {
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("1234passwerd")).getPath().size(), 2);
   }
 
   @Test
   public void garbageInBack() throws Exception {
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("garbageinback")).getPath().size(), 3);
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("wisp1")).getPath().size(), 2);
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("wisp12")).getPath().size(), 2);
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("wisp123")).getPath().size(), 2);
   }
 
   @Test
   public void findNonWord() throws Exception {
-    AnalysisResult result = analyzer.calculateHighestProbablePatterns(
+    AnalysisResult result = analyzer.analyze(
         finder.search("qqq"));
     System.out.println(result.toString());
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("qqq")).getPath().size(), 1);
   }
 
   @Test
   public void findMultiWords() throws Exception {
-    assertEquals(analyzer.calculateHighestProbablePatterns(
+    assertEquals(analyzer.analyze(
         finder.search("passwerdpasswerd")).getPath().size(), 2);
   }
 

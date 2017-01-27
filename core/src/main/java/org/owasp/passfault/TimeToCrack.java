@@ -154,9 +154,9 @@ public enum TimeToCrack {
   }
 
   /** 
-   * @param size
    * @return a display suitable string describing the size of a number, such as
    * "1 million 234 thousand"
+   * @param size number to convert into a string
    */
   static public String getRoundedSizeString(double size) {
     double rounded = size;

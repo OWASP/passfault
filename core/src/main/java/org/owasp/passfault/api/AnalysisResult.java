@@ -39,10 +39,10 @@ public class AnalysisResult {
 
   public AnalysisResult(AnalysisResult toCopy) {
     this(toCopy.password);
-    this.path = new LinkedList<PasswordPattern>(toCopy.path);
+    this.path = new LinkedList<>(toCopy.path);
     this.cost = toCopy.cost;
   }
-  List<PasswordPattern> path = new LinkedList<PasswordPattern>();
+  List<PasswordPattern> path = new LinkedList<>();
   double cost = 1;
 
   /**

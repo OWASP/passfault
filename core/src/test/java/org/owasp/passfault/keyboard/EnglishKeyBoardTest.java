@@ -95,7 +95,7 @@ public class EnglishKeyBoardTest {
   }
 
   private void assertPattern(PatternCollection patterns, String expectedPatternName) throws Exception {
-    AnalysisResult cost = analyzer.calculateHighestProbablePatterns(patterns);
+    AnalysisResult cost = analyzer.analyze(patterns);
     assertEquals(1, cost.getPath().size());
     assertEquals(expectedPatternName, cost.getPath().get(0).getName());
   }

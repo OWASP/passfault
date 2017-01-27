@@ -46,8 +46,8 @@ public class DictionaryPatternsFinder implements PatternFinder {
   @Override
   public PatternCollection search(CharSequence password) {
     PatternCollection patternCollecton = factory.build(password);
-    List<CandidatePattern> currGen = new LinkedList<CandidatePattern>();
-    List<CandidatePattern> nextGen = new LinkedList<CandidatePattern>();
+    List<CandidatePattern> currGen = new LinkedList<>();
+    List<CandidatePattern> nextGen = new LinkedList<>();
     List<CandidatePattern> swap;
 
     for (int i = 0; i < password.length(); i++) {

@@ -24,37 +24,37 @@ public interface KeyboardLayout {
   /**
    * @return map of Keys on a keyboard, indexed by the characters on a key
    */
-  public Map<Character, Key> generateKeyboard();
+  Map<Character, Key> generateKeyboard();
 
   /**
    * @return Display name for the keyboard layout
    */
-  public String getName();
+  String getName();
 
   /**
    * @return the number of keys on the keyboard
    */
-  public int getCharacterKeysCount();
+  int getCharacterKeysCount();
 
   /**
    * @param sequenceSize length of a sequence of horizontal keys
    * @return number of possible combinations of that length of the keyboard
    */
-  public int getHorizontalComboSize(int sequenceSize);
+  int getHorizontalComboSize(int sequenceSize);
 
   /**
    * @return total number of possible horizontal combinations of keys
    */
-  public int getHorizontalComboTotal();
+  int getHorizontalComboTotal();
 
   /**
    * @param sequenceSize length of a sequence of horizontal keys
    * @return number of possible combinations of that length of the keyboard
    */
-  public int getDiagonalComboSize(int sequenceSize);
+  int getDiagonalComboSize(int sequenceSize);
 
   /**
    * @return total number of possible diagonal combinations of keys
    */
-  public int getDiagonalComboTotal();
+  int getDiagonalComboTotal();
 }

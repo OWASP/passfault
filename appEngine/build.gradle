@@ -1,5 +1,4 @@
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
 apply plugin: 'appengine'
 
 buildscript {
@@ -29,6 +28,11 @@ appengine {
   app {
     id = 'passfault-hrd'
   }
+}
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
 }
 
 war{

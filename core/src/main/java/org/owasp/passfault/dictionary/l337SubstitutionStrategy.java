@@ -30,7 +30,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
 
   public final static String NAME = "LEET";
   private final static Map<Character, Set<LeetChar>> leetList =
-      new HashMap<Character, Set<LeetChar>>();
+      new HashMap<>();
 
   static {
     //programmatically setup leetList
@@ -71,7 +71,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
         char startChar = subs.charAt(0);
         Set<LeetChar> set = leetList.get(startChar);
         if (set == null){
-          set = new HashSet<LeetChar>();
+          set = new HashSet<>();
           leetList.put(startChar, set);
         }
         set.add(new LeetChar(ch, subs));
@@ -91,7 +91,7 @@ public class l337SubstitutionStrategy implements DictionaryStrategy {
 
   @Override
   public List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c) {
-    LinkedList<CandidatePattern> list = new LinkedList<CandidatePattern>();
+    LinkedList<CandidatePattern> list = new LinkedList<>();
     l337Context context = subs.getDecorator(l337Context.class);
     if (context == null) {
       context = new l337Context();

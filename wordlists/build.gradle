@@ -1,7 +1,7 @@
 apply plugin: 'java'
 
 jar {
-  inputs.sourceDir("wordlists")
+  inputs.dir("wordlists").skipWhenEmpty()
   from "$buildDir/wordlists/", {
     into '/org/owasp/passfault/wordlists/'
   }
@@ -11,11 +11,11 @@ jar {
   }
   doFirst {
     def files = fileTree("wordlists").include("*.txt").exclude("readme.txt")
-    def destination = new File("$buildDir/wordlists");
-    destination.mkdirs();
+    def destination = new File("$buildDir/wordlists")
+    destination.mkdirs()
 
     files.each { file ->
-      normalize(file, destination);
+      normalize(file, destination)
     }
   }
 }
@@ -24,25 +24,29 @@ def normalize(File unsorted, File destDir){
   new File(destDir, changeExtension(unsorted.name)).withWriter { out ->
     out.write("# This file is generated, sorted and padded so that each line has the same length.  ")
     def words = [] as SortedSet
-    int maxLength = 0;
+    int maxLength = 0
     unsorted.eachLine { line ->
-      if (line.length() > maxLength) maxLength = line.length();
+      if (line.length() > maxLength) maxLength = line.length()
       if (line.startsWith("#")){
-        out.writeLine(line);
+        out.writeLine(line)
       } else {
-        words << line.trim().toLowerCase();
+        words << line.trim().toLowerCase()
       }
     }
 
     words.each { word ->
-      out.write(word);
+      out.write(word)
       for (int i = word.length(); i < maxLength; i++) {
-        out.write(' ');
+        out.write(' ')
       }
-      out.writeLine("");
+      out.writeLine("")
     }
   }
 }
 def changeExtension(filename){
   return filename.replace(".txt",".words")
+}
+
+artifacts {
+  archives jar
 }

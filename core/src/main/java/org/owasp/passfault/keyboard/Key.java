@@ -30,7 +30,7 @@ class Key {
   Key lowerLeft;
   Key lowerRight;
 
-  static public enum Direction { UPPER_LEFT, UPPER_RIGHT, LEFT, SELF, RIGHT, LOWER_LEFT, LOWER_RIGHT}
+  public enum Direction { UPPER_LEFT, UPPER_RIGHT, LEFT, SELF, RIGHT, LOWER_LEFT, LOWER_RIGHT}
 
   public Key next(Direction direction){
     switch (direction) {

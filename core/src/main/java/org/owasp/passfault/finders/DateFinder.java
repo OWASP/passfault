@@ -52,7 +52,7 @@ public class DateFinder implements PatternFinder {
   public PatternCollection search(CharSequence password) {
     PatternCollection patterns = factory.build(password);
     Matcher matcher = dateRegex.matcher(password);
-    boolean found = false;
+    boolean found;
     do {
       found = matcher.find();
       if(found){

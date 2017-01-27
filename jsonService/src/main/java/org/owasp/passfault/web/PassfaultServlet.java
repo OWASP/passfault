@@ -2,7 +2,6 @@ package org.owasp.passfault.web;
 
 import org.owasp.passfault.api.*;
 import org.owasp.passfault.finders.RepeatingPatternDecorator;
-import org.owasp.passfault.finders.SequentialFinder;
 import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 import org.owasp.passfault.impl.SecureString;
@@ -56,7 +55,7 @@ public class PassfaultServlet extends HttpServlet {
     CompositeFinder finder = getCompositeFinder();
     try {
       PatternCollection patterns = finder.search(password);
-      AnalysisResult analysis = analyzer.calculateHighestProbablePatterns(patterns);
+      AnalysisResult analysis = analyzer.analyze(patterns);
       writeJSON(analysis, response.getWriter());
     } catch (Exception e) {
       response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

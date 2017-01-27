@@ -42,7 +42,7 @@ public class PatternsAnalyzerImpl implements PatternsAnalyzer {
    * @return List of finders that make up the weakest combination of found passwords
    */
   @Override
-  public AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns) {
+  public AnalysisResult analyze(PatternCollection patterns) {
     IthSmallestCost ithSmallestCost = new IthSmallestCost();
     log.log(Level.FINE, "Calculating the highest probable combination of %s finders\n", patterns.getCount());
     return smallestCost(0, patterns, ithSmallestCost);

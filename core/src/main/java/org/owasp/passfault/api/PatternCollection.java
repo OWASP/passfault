@@ -13,7 +13,6 @@
 package org.owasp.passfault.api;
 
 import org.owasp.passfault.impl.PasswordPattern;
-import org.owasp.passfault.impl.PatternCollectionImpl;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -26,6 +25,10 @@ public interface PatternCollection {
 
   void putPattern(PasswordPattern patt);
 
+  /**
+   * @param i index of a character in the password
+   * @return a list of Patterns found at this index OF THE PASSWORD
+   */
   List<PasswordPattern> getPatternsByIndex(int i);
 
   List<PasswordPattern> getAllPatterns();
