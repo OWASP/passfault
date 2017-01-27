@@ -40,7 +40,7 @@ public class SubstitutionStrategy implements DictionaryStrategy {
 
   @Override
   public List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c) {
-    LinkedList<CandidatePattern> list = new LinkedList<CandidatePattern>();
+    LinkedList<CandidatePattern> list = new LinkedList<>();
     if (!Character.isLetter(c)) {
       SubstitutionContex context = subs.getDecorator(SubstitutionContex.class);
       if (context == null) {

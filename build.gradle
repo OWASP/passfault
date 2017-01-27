@@ -1,36 +1,14 @@
 subprojects {
-  apply plugin: 'java'
-  apply plugin: 'eclipse-wtp'
-  apply plugin: 'idea'
   apply plugin: 'maven'
   apply plugin: 'signing'
 
   group = 'org.owasp.passfault'
-  version = '0.8.3'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
-  archivesBaseName = rootProject.name +'-'+ project.name
+  version = '0.9.0'  //using SNAPSHOT in the version will trigger a different uploadArchives behavior
+  archivesBaseName = rootProject.name + '-' + project.name
 
   repositories {
     mavenCentral()
   }
-
-  dependencies {
-    testCompile 'junit:junit:4.11'
-  }
-
-  jar {
-    manifest.attributes provider: 'gradle'
-  }
-
-  task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    classifier = 'sources'
-  }
-
-  task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-  }
-
 }
 
 if (project.hasProperty('sonatypeUsername')){
@@ -60,9 +38,9 @@ if (project.hasProperty('sonatypeUsername')){
           url 'https://passfault.com/'
 
           scm {
-            url 'scm:git@github.com:c-a-m/passfault'
-            connection 'scm:git@github.com:c-a-m/passfault/passfault.git'
-            developerConnection 'scm:git@github.com:c-a-m/passfault/passfault.git'
+            url 'scm:git@github.com:owasp/passfault'
+            connection 'scm:git@github.com:owasp/passfault/passfault.git'
+            developerConnection 'scm:git@github.com:owasp/passfault/passfault.git'
           }
 
           licenses {

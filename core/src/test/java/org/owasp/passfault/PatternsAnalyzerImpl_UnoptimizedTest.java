@@ -32,7 +32,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
   @Test
   public void randomNumbers() {
     PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(1, list.size());
@@ -47,7 +47,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     pa.putPattern(new PasswordPattern(1, 2, "23", 4, "testPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -63,7 +63,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     pa.putPattern(new PasswordPattern(2, 2, "34", 4, "testPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -79,7 +79,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     PatternCollection pa = TestingPatternCollectionFactory.getInstance().build("1234");
     pa.putPattern(new PasswordPattern(0, 2, "12", 4, "testPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(2, list.size());
@@ -95,7 +95,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     pa.putPattern(new PasswordPattern(1, 1, "2", 2, "testPattern"));
     pa.putPattern(new PasswordPattern(3, 1, "4", 2, "testPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(5, list.size());
@@ -114,7 +114,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     pa.putPattern(new PasswordPattern(1, 2, "23", 20, "worsePattern"));
     pa.putPattern(new PasswordPattern(1, 2, "23", 23, "worserPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(3, list.size());
@@ -142,7 +142,7 @@ public class PatternsAnalyzerImpl_UnoptimizedTest {
     pa.putPattern(new PasswordPattern(4, 1, "5", 4, "bestPattern"));
     pa.putPattern(new PasswordPattern(4, 1, "5", 23, "worserPattern"));
 
-    AnalysisResult patterns = analyzer.calculateHighestProbablePatterns(pa);
+    AnalysisResult patterns = analyzer.analyze(pa);
 
     List<PasswordPattern> list = patterns.getPath();
     assertEquals(4, list.size());

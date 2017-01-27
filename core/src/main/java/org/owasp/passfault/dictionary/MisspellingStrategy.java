@@ -38,7 +38,7 @@ public class MisspellingStrategy implements DictionaryStrategy {
 
   @Override
   public List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c) {
-    LinkedList<CandidatePattern> list = new LinkedList<CandidatePattern>();
+    LinkedList<CandidatePattern> list = new LinkedList<>();
     for (int i = 0; i < 26; i++) {
       CandidatePattern newsubs = subs.copy();
       char ch = (char) ('a' + i);

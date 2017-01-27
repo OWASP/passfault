@@ -92,7 +92,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
 
   @Override
   public Map<Character, Key> generateKeyboard() {
-    Map<Character, Key> keyboard = new HashMap<Character, Key>();
+    Map<Character, Key> keyboard = new HashMap<>();
 
     for (int rowIndex = 0; rowIndex < lower_horiz.length; rowIndex++) {
       char[] lowerRow = lower_horiz[rowIndex];
@@ -111,9 +111,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
     }
 
     //Fill in left and right
-    for (int rowIndex = 0; rowIndex < lower_horiz.length; rowIndex++) {
-      char[] lowerRow = lower_horiz[rowIndex];
-
+    for (char[] lowerRow : lower_horiz) {
       for (int charIndex = 0; charIndex < lowerRow.length; charIndex++) {
         char lower = lowerRow[charIndex];
 
@@ -129,9 +127,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
 
 
     //Fill in diag topleft to bottom right
-    for (int rowIndex = 0; rowIndex < lower_diag_TopLeft_BottomRight.length; rowIndex++) {
-      char[] lowerRow = lower_diag_TopLeft_BottomRight[rowIndex];
-
+    for (char[] lowerRow : lower_diag_TopLeft_BottomRight) {
       for (int charIndex = 0; charIndex < lowerRow.length; charIndex++) {
         char lower = lowerRow[charIndex];
 
@@ -172,8 +168,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
   @Override
   public int getHorizontalComboSize(int sequenceSize) {
     int size = 0;
-    for (int i = 0; i < lower_horiz.length; i++) {
-      char[] currHoriz = lower_horiz[i];
+    for (char[] currHoriz : lower_horiz) {
       size += currHoriz.length + 1 - sequenceSize;
     }
     return size * 2;  //times two for both directions of sequences
@@ -182,8 +177,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
   @Override
   public int getHorizontalComboTotal() {
     int size = 0;
-    for (int i = 0; i < lower_horiz.length; i++) {
-      char[] currHoriz = lower_horiz[i];
+    for (char[] currHoriz : lower_horiz) {
       int n = currHoriz.length + 1 - 3;
       //we need a sum of series here from 1 to n
       //   = (n+1)*n/2 = (n^2 + n)/2
@@ -195,8 +189,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
   @Override
   public int getDiagonalComboSize(int sequenceSize) {
     int size = 0;
-    for (int i = 0; i < lower_diag_TopLeft_BottomRight.length; i++) {
-      char[] currDiag = lower_diag_TopLeft_BottomRight[i];
+    for (char[] currDiag : lower_diag_TopLeft_BottomRight) {
       size += currDiag.length + 1 - sequenceSize;
     }
     return size * 2;  //times two for both directions of sequences
@@ -205,8 +198,7 @@ public class EnglishKeyBoard implements KeyboardLayout {
   @Override
   public int getDiagonalComboTotal() {
     int size = 0;
-    for (int i = 0; i < lower_diag_TopLeft_BottomRight.length; i++) {
-      char[] currDiag = lower_diag_TopLeft_BottomRight[i];
+    for (char[] currDiag : lower_diag_TopLeft_BottomRight) {
       int n = currDiag.length + 1 - 3;
       //we need a sum of series here from 1 to n
       //   = (n+1)*n/2 = (n^2 + n)/2

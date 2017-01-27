@@ -38,7 +38,7 @@ public class MockPatternsAnalyzer implements PatternsAnalyzer {
   }
 
   @Override
-  public AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns) {
+  public AnalysisResult analyze(PatternCollection patterns) {
     AnalysisResult analysisResult = new AnalysisResult(patterns.getPassword());
     for (PasswordPattern patt : this.foundPatterns) {
       analysisResult.addPattern(patt);

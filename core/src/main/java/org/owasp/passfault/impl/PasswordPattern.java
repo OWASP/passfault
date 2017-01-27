@@ -55,72 +55,42 @@ public class PasswordPattern {
     this.classification = classification;
   }
 
-  /**
-   * Constructor omitting the description and classification
-   * @param startIndex
-   * @param length
-   * @param matchString
-   */
   public PasswordPattern(int startIndex, int length, String matchString,
-      double crackProbability, String description) {
+      double patternSize, String description) {
     this.startIndex = startIndex;
     this.length = length;
     this.matchString = matchString;
-    this.cost = crackProbability;
+    this.cost = patternSize;
     this.description = description;
     this.name = "unknown";
     this.classification = "";
   }
 
   /**
-   * Returns the number of combinations that fit within this pattern.  Note
+   * @return the number of combinations that fit within this pattern.  Note
    * that this includes the length of the specific password found.
    */
   public double getPatternSize() {
     return getCost();
   }
-
-  /**
-   * @return the startIndex
-   */
   public int getStartIndex() {
     return startIndex;
   }
-
   public int getLength(){
     return length;
   }
-  /**
-   * @return the cost
-   */
   public double getCost() {
     return cost;
   }
-
-  /**
-   * @return the matchString
-   */
   public CharSequence getMatchString() {
     return matchString;
   }
-
-  /**
-   * @return the description
-   */
   public String getDescription() {
     return description;
   }
-
-  /**
-   * @return the name
-   */
   public String getName() {
     return name;
   }
-
-  /**
-   * @return the classification
-   */
   public String getClassification() {
     return classification;
   }

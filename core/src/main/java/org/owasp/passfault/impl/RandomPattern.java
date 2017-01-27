@@ -47,12 +47,10 @@ public class RandomPattern {
   }
   
   /**
-   * Given a character sequence, this method will calculate the random strength of the
-   * sequence.  It considers what type of characters are used, digits, lower-case, upper-case,
-   * and special characters.
-   * @param chars
-   * @param start
-   * @param length
+   * @return the random strength of the sequence of chars passed in
+   * @param chars the characters that will be analyzed for digits, lower-case, upper-case, and special characters.
+   * @param start index into the password where this pattern starts
+   * @param length length of the part of the password that matches this pattern
    */
   public PasswordPattern getRandomPattern(CharSequence chars, int start, int length) {
     EnumSet<RandomClasses> set = EnumSet.noneOf(RandomClasses.class);
@@ -86,7 +84,7 @@ public class RandomPattern {
         "Random Characters with:" + set.toString(), RandomPattern.RANDOM_PATTERN, set.toString());
   }
 
-  static public enum RandomClasses {
+  public enum RandomClasses {
     Latin(26, true) {
 
       public boolean isInCharSet(char ch) {

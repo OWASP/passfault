@@ -1,4 +1,5 @@
-apply plugin:'application'
+apply plugin: 'java'
+apply plugin: 'application'
 mainClassName = "org.owasp.passfault.TextAnalysis"
 
 compileJava.options.encoding = 'UTF-8'
@@ -16,6 +17,16 @@ jar {
       'Implementation-Version': version,
       'Main-Class': mainClassName
   }
+}
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from 'build/docs/javadoc'
 }
 
 artifacts {

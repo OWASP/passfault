@@ -59,7 +59,7 @@ public class InMemoryDictionary implements Dictionary {
   public static InMemoryDictionary newInstance(Reader wordReader, boolean sort, String name) throws IOException {
     BufferedReader buffered = new BufferedReader(wordReader);
     String word;
-    ArrayList<String> wordList = new ArrayList<String>();
+    ArrayList<String> wordList = new ArrayList<>();
 
     do {
       word = buffered.readLine();

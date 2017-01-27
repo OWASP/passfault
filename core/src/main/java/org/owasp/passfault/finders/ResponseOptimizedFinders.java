@@ -14,7 +14,6 @@
 package org.owasp.passfault.finders;
 
 import org.owasp.passfault.api.*;
-import org.owasp.passfault.impl.FilteringPatternCollectionFactory;
 
 import java.util.Collection;
 import java.util.List;

@@ -13,8 +13,6 @@
 
 package org.owasp.passfault.dictionary;
 
-import java.io.IOException;
-
 /**
  * Dictionary is an interface for implementing a word-list, or 'dictionary'.  It
  * facilitates searching through the word list.  An Implementation is used by the
@@ -27,7 +25,7 @@ public interface Dictionary {
    * The DictionaryPatternFinder needs to create an initial CandidatePattern to
    * store the state of a partial search in a dictionary.
    * @param offset offset into the password where the dictionary word starts
-   * @return a CandidatePAttern to maintain the state of seaching for a dictionary
+   * @return a CandidatePattern to maintain the state of searching for a dictionary
    * word that starts at the offset specified.
    */
   CandidatePattern buildInitialCandidate(int offset);
@@ -45,13 +43,12 @@ public interface Dictionary {
       throws DictionaryException;
 
   /**
-   * name describing the type of word list, such as, english, russian, US Cities, US Names...
+   * @return name describing the type of word list, such as, english, russian, US Cities, US Names...
    */
   String getName();
 
   /**
-   * This method is for dictionaries that are part of a dictionary group
-   * @param newWordCount
+   * @param newWordCount sets count for dictionaries that are part of a dictionary group
    */
   void setWordCount(int newWordCount);
 }

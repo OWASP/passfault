@@ -19,7 +19,6 @@ import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.impl.PasswordPattern;
 
 import java.nio.CharBuffer;
-import java.util.List;
 
 /**
  * ReversePatternDecoratorFinder is a PatternsAnalyzer adapter/wrapper that

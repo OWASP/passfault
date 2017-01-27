@@ -74,8 +74,8 @@ public class FinderByPropsBuilder {
   }
 
   /**
-   * sets the classpath loader using the Builder's classpath
-   * @param resourcePath
+   * @param resourcePath path in the classpath to the properties file
+   * @return builder of pattern finders
    */
   public FinderByPropsBuilder setClassPathLoader(String resourcePath) {
     resourceLoader = new SystemResourceReader(resourcePath);
@@ -95,6 +95,7 @@ public class FinderByPropsBuilder {
    * This method assumes the resource location contains a words.properties describing other wordlists
    * defined at the same location
    * @return wordlist finders.
+   * @throws IOException when the resources cannot be loaded
    */
   public Collection<PatternFinder> build() throws IOException {
     //looks for a words.properties in the parentDirectory.
@@ -201,7 +202,7 @@ public class FinderByPropsBuilder {
   }
 
   //Strategy Classes
-  public static interface ResourceLoaderStrategy {
+  public interface ResourceLoaderStrategy {
     Reader loadResource(String resource) throws IOException;
     File loadFile(String resource) throws IOException;
   }

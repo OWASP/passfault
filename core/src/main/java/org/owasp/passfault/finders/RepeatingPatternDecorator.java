@@ -64,7 +64,7 @@ public class RepeatingPatternDecorator implements PatternsAnalyzer {
   }
 
   @Override
-  public AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns) {
-    return process(wrappedAnalyzer.calculateHighestProbablePatterns(patterns), patterns.getPassword());
+  public AnalysisResult analyze(PatternCollection patterns) {
+    return process(wrappedAnalyzer.analyze(patterns), patterns.getPassword());
   }
 }

@@ -8,8 +8,6 @@ import org.owasp.passfault.api.PatternFinder;
 import org.owasp.passfault.impl.RandomPattern;
 import org.owasp.passfault.impl.RandomPattern.RandomClasses;
 
-import java.util.regex.Pattern;
-
 /**
  * This class seems to contradict the RandomPattern class.  RandomPattern takes any characters 
  * between found finders and calculates the random value.  It doesn't look for finders, instead it calculates

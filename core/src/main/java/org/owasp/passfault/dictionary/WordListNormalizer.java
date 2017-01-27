@@ -29,14 +29,11 @@ import java.util.TreeSet;
  */
 public class WordListNormalizer {
 
-  /**
+  /*
    * For a binary search of words in a word list the words all need to be the
    * same length.  This conversion tool finds the longest word in the list,
    * then writes another word list with each word padded to the length of the
    * longest word
-   * @param args one argument of the file name
-   * @throws java.io.FileNotFoundException
-   * @throws java.io.IOException
    */
   public static void main(String args[]) throws IOException {
     File file = new File(args[0]);
@@ -49,7 +46,7 @@ public class WordListNormalizer {
     BufferedReader in = new BufferedReader(new FileReader(file));
     int maxLength = 0;
     String word;
-    SortedSet<String> list = new TreeSet<String>();
+    SortedSet<String> list = new TreeSet<>();
     //find max length
     do {
       word = in.readLine();

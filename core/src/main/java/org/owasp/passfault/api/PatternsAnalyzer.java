@@ -14,7 +14,7 @@
 package org.owasp.passfault.api;
 
 /**
- * This interface represents a collection of discovered password patterns.
+ * Implementations will analyze a collection of passwords to determine the most likely, or easiest to crack patterns.
  *
  * @author cam, ray
  */
@@ -23,8 +23,9 @@ public interface PatternsAnalyzer {
   /**
    * Calculates the highest probable combination of finders.  In other words,
    * the weakest combination of found patterns.
+   * @param patterns a collection of patterns to analyze
    * @return List of finders that make up the weakest combination of found passwords
    */
-  AnalysisResult calculateHighestProbablePatterns(PatternCollection patterns);
+  AnalysisResult analyze(PatternCollection patterns);
 
 }

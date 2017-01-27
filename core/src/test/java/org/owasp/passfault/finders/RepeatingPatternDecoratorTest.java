@@ -13,12 +13,10 @@
 package org.owasp.passfault.finders;
 
 import org.junit.Test;
-import org.owasp.passfault.api.PatternCollection;
 import org.owasp.passfault.impl.PatternCollectionImpl;
 import org.owasp.passfault.impl.PatternsAnalyzerImpl;
 import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.AnalysisResult;
-import org.owasp.passfault.impl.TestingPatternCollectionFactory;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class RepeatingPatternDecoratorTest {
     RepeatingPatternDecorator repeatingPatternAnalyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
 
     //act
-    AnalysisResult result = repeatingPatternAnalyzer.calculateHighestProbablePatterns(patternCollection);
+    AnalysisResult result = repeatingPatternAnalyzer.analyze(patternCollection);
 
     //assert
     assertEquals(100, (int) result.getTotalCost());
@@ -56,7 +54,7 @@ public class RepeatingPatternDecoratorTest {
     RepeatingPatternDecorator repeatingPatternAnalyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
 
     //act
-    AnalysisResult result = repeatingPatternAnalyzer.calculateHighestProbablePatterns(patternCollection);
+    AnalysisResult result = repeatingPatternAnalyzer.analyze(patternCollection);
     
     //assert
     assertEquals(100 * 100, (int) result.getTotalCost());
@@ -76,7 +74,7 @@ public class RepeatingPatternDecoratorTest {
     RepeatingPatternDecorator repeatingPatternAnalyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
 
     //act
-    AnalysisResult result = repeatingPatternAnalyzer.calculateHighestProbablePatterns(patternCollection);
+    AnalysisResult result = repeatingPatternAnalyzer.analyze(patternCollection);
 
     //assert
     assertEquals(100, (int) result.getTotalCost());
@@ -96,7 +94,7 @@ public class RepeatingPatternDecoratorTest {
     patternCollection.putPattern(new PasswordPattern(3, 3, "abc", 100, "test pattern"));
 
     RepeatingPatternDecorator repeatingPatternAnalyzer = new RepeatingPatternDecorator(new PatternsAnalyzerImpl());
-    AnalysisResult result = repeatingPatternAnalyzer.calculateHighestProbablePatterns(patternCollection);
+    AnalysisResult result = repeatingPatternAnalyzer.analyze(patternCollection);
     System.out.println(result);
     List<PasswordPattern> pattList = result.getPath();
     assertEquals("4 random_characters patterns and 1 duplicate", 5, pattList.size());

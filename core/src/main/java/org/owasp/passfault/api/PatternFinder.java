@@ -14,12 +14,13 @@
 package org.owasp.passfault.api;
 
 /**
- * This interface represents a password pattern finder.
+ * This represents a password pattern finder.
  */
 public interface PatternFinder {
 
   /**
-   * A finder will examine the password for as many patterns as it can find, placing them in the pattern collection
+   * @param password the password to examine, can be a String or SecureString, or any CharSequence
+   * @return all many patterns discovered in the password
    */
   PatternCollection search(CharSequence password);
 }

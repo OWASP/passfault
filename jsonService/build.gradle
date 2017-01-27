@@ -1,3 +1,4 @@
+apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'jetty'
 
@@ -9,6 +10,7 @@ dependencies {
   compile project(':core')
   compile 'javax.servlet:servlet-api:2.5'
   wordlists project(':wordlists')
+  runtime project(':wordlists')
 }
 
 //this is all to extract the wordlists into the classes directory
@@ -22,6 +24,12 @@ war {
     }.getSingleFile())
   }
   classpath = classpath.filter { file -> ! file.name.contains('wordlists')}
+
+}
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
 }
 
 artifacts {

@@ -32,13 +32,12 @@ public class ExactWordStrategy implements DictionaryStrategy {
 
   @Override
   public boolean isAdvanceable(CandidatePattern candidate) {
-    // TODO Auto-generated method stub
     return true;
   }
 
   @Override
   public List<CandidatePattern> buildNextSubStrings(CandidatePattern subs, char c) {
-    LinkedList<CandidatePattern> list = new LinkedList<CandidatePattern>();
+    LinkedList<CandidatePattern> list = new LinkedList<>();
     CandidatePattern newsubs = subs.copy();
     newsubs.add(c);
     list.add(newsubs);
@@ -46,7 +45,7 @@ public class ExactWordStrategy implements DictionaryStrategy {
   }
 
   @Override
-  public void addContext(CandidatePattern cand, CharSequence password) {
+  public void addContext(CandidatePattern candidatePattern, CharSequence password) {
     // No context needed
   }
 
