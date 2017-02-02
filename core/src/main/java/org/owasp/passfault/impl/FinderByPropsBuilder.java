@@ -30,14 +30,14 @@ import java.util.logging.Logger;
  * in the same location as a words.properties file
  *
  * The words.properties file can declare wordlist groups.  The most popular words start with 1:
- * words.english.1 = mostPopularEnglishWords.words
- * words.english.2 = lessPopularEnglishWords.words
+ * words.en.1 = mostPopularEnglishWords.words
+ * words.en.2 = lessPopularEnglishWords.words
  *
  * a dictionary from the second will have the size of the first and second.
  * @author cam
  */
 public class FinderByPropsBuilder {
-  private static final Logger LOG = java.util.logging.Logger.getLogger(FinderByPropsBuilder.class.getName());
+  private static final Logger LOG = Logger.getLogger(FinderByPropsBuilder.class.getName());
 
   public static final String WORDLIST_CONFIG_PROPERTIES = "words.properties";
   public static final String WORDLIST_GROUP_PREFIX = "words.";
@@ -115,13 +115,16 @@ public class FinderByPropsBuilder {
     Set<String> wordListGroups = getWordListGroups(wordsConfig);
     for(String group: wordListGroups){
       String groupName = wordsConfig.getProperty(group + WORDLIST_NAME, group);
+      String modFinder = wordsConfig.getProperty(WORDLIST_GROUP_PREFIX + group + ".modifierFinder");
+      boolean modFinderBool = Boolean.parseBoolean(modFinder);
+
       int runningTotal = 0, i=1;
       while (wordsConfig.containsKey(buildFileName(group, i))){
         String wordListName = wordsConfig.getProperty(buildFileName(group, i)); //for example: wordlist.english.1=english.words
         Dictionary dictionary = buildDictionary(groupName, wordListName);
         runningTotal += dictionary.getWordCount();
         dictionary.setWordCount(runningTotal);
-        finders.addAll(buildDictionaryFinders(dictionary));
+        finders.addAll(buildDictionaryFinders(dictionary, modFinderBool));
         i++;
       }
     }
@@ -142,7 +145,7 @@ public class FinderByPropsBuilder {
         throw new IOException ("Could not resource: "+wordListName);
       }
       try {
-        dictionary = InMemoryDictionary.newInstance(reader, false, groupName);
+        dictionary = InMemoryDictionary.newInstance(reader, false, wordListName);
       } finally {
         reader.close();
       }
@@ -177,19 +180,20 @@ public class FinderByPropsBuilder {
     toReturn.add(new RandomClassesFinder(3, collectionFactory));
     return toReturn;
   }
-  
-  protected Collection<PatternFinder> buildDictionaryFinders(Dictionary diction) throws IOException {
+
+  protected Collection<PatternFinder> buildDictionaryFinders(Dictionary diction, boolean modFinders) throws IOException {
     List<PatternFinder> finders = new LinkedList<>();
     FilteringPatternCollectionFactory collectionFactory = new FilteringPatternCollectionFactory();
 
     DictionaryPatternsFinder exactFinder = new DictionaryPatternsFinder(diction, new ExactWordStrategy(), collectionFactory);
     finders.add(exactFinder);
-    finders.add(new ReversePatternDecoratorFinder(exactFinder, collectionFactory));
-    finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1), collectionFactory));
-    finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2), collectionFactory));
-    finders.add(new DictionaryPatternsFinder(diction, new SubstitutionStrategy(2), collectionFactory));
-    finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy(), collectionFactory));
-
+    if (modFinders) {
+      finders.add(new ReversePatternDecoratorFinder(exactFinder, collectionFactory));
+      finders.add(new DictionaryPatternsFinder(diction, new MisspellingStrategy(1), collectionFactory));
+      finders.add(new DictionaryPatternsFinder(diction, new InsertionStrategy(2), collectionFactory));
+      finders.add(new DictionaryPatternsFinder(diction, new l337SubstitutionStrategy(), collectionFactory));
+      finders.add(new ReversePatternDecoratorFinder(exactFinder, collectionFactory));
+    }
     return finders;
   }
 
@@ -226,16 +230,25 @@ public class FinderByPropsBuilder {
 
   public static class SystemResourceReader implements ResourceLoaderStrategy {
     private final String parentPath;
+    private final ClassLoader loader;
 
     public SystemResourceReader(String parentPath) {
       this.parentPath = parentPath;
+      loader = getClass().getClassLoader();
     }
+
+    public SystemResourceReader(String parentPath, ClassLoader loader) {
+      this.parentPath = parentPath;
+      this.loader = loader;
+    }
+
 
     @Override
     public Reader loadResource(String resource) throws IOException {
-      InputStream stream = getClass().getResourceAsStream(parentPath + "/" + resource);
-      LOG.fine("attempt to load resource:" + parentPath + "/" + resource);
-      if (stream == null) throw new IOException("could not load resource "+parentPath +"/"+resource);
+      String path = parentPath + "/" + resource;
+      InputStream stream = getClass().getResourceAsStream(path);
+      LOG.fine("attempt to load resource:" + path);
+      if (stream == null) throw new IOException("could not load resource " + path);
       return new InputStreamReader(stream);
     }
 

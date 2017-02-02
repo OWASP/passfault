@@ -1,1 +1,1 @@
-include "core", "jsonService", "wordlists", "appEngine"
+include "core", "jsonService", "wordlists", "appEngine", "commandLine"

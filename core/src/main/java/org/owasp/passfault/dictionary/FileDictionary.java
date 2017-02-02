@@ -60,15 +60,16 @@ public class FileDictionary implements Dictionary {
     int maxSize = 0;
     String word;
 
-    do {
-      word = buffered.readLine();
-      if (word != null && word.charAt(0) != '#') {
+    while ((word = buffered.readLine()) != null) {
+      if (word.length() > 0){
+        if (word.charAt(0) != '#') {
         wordCount++;
       }
-      if (word != null && word.length() > maxSize) {
+      }
+      if (word.length() > maxSize) {
         maxSize = word.length();
       }
-    } while (word != null);
+    }
 
     RandomAccessFile file = new RandomAccessFile(wordList, "r");
     System.out.println("Word Count:" + wordCount);

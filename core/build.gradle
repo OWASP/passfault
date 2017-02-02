@@ -1,6 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'application'
-mainClassName = "org.owasp.passfault.TextAnalysis"
+
 
 compileJava.options.encoding = 'UTF-8'
 javadoc.options.encoding = 'UTF-8'
@@ -13,9 +12,7 @@ dependencies {
 
 jar {
   manifest {
-    attributes 'Implementation-Title': 'OWASP Passfault',
-      'Implementation-Version': version,
-      'Main-Class': mainClassName
+    attributes 'Implementation-Title': 'OWASP Passfault'
   }
 }
 
@@ -33,5 +30,4 @@ artifacts {
   archives jar
   archives javadocJar
   archives sourcesJar
-  archives distZip
 }

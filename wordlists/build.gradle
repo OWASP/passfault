@@ -1,13 +1,14 @@
 apply plugin: 'java'
 
+dependencies {
+  compile project(':core')
+  testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
 jar {
   inputs.dir("wordlists").skipWhenEmpty()
   from "$buildDir/wordlists/", {
     into '/org/owasp/passfault/wordlists/'
-  }
-  from "wordlists", {
-    into '/org/owasp/passfault/wordlists'
-    include '*.properties'
   }
   doFirst {
     def files = fileTree("wordlists").include("*.txt").exclude("readme.txt")
@@ -16,6 +17,12 @@ jar {
 
     files.each { file ->
       normalize(file, destination)
+    }
+
+    def properties = fileTree("wordlists").include("*.properties")
+    copy {
+      from properties
+      into destination
     }
   }
 }

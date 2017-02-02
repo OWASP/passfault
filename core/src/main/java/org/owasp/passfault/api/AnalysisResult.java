@@ -33,17 +33,17 @@ public class AnalysisResult {
 
   private CharSequence password;
 
+  List<PasswordPattern> path = new LinkedList<>();
+  double cost = 1;
+
   public AnalysisResult(CharSequence password) {
     this.password = password;
   }
-
   public AnalysisResult(AnalysisResult toCopy) {
     this(toCopy.password);
     this.path = new LinkedList<>(toCopy.path);
     this.cost = toCopy.cost;
   }
-  List<PasswordPattern> path = new LinkedList<>();
-  double cost = 1;
 
   /**
    * Adds a pattern to the current path and updates the
@@ -83,7 +83,7 @@ public class AnalysisResult {
       return RandomPattern.randomCost(password.length());
     }
     PasswordPattern pattern = path.get(0);
-    return RandomPattern.randomCost(pattern.getStartIndex()) * getRelativeCost();
+    return getRelativeCost() * RandomPattern.randomCost(pattern.getStartIndex());
   }
 
   /**

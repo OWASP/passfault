@@ -42,7 +42,7 @@ public class InMemoryDictionary implements Dictionary {
 
   InMemoryDictionary(String[] dictionary, String name) {
     this.words = dictionary;
-    this.name = name;
+    this.name = name.replace(".words", "");
     this.wordCount = words.length;
   }
 
@@ -61,13 +61,14 @@ public class InMemoryDictionary implements Dictionary {
     String word;
     ArrayList<String> wordList = new ArrayList<>();
 
-    do {
-      word = buffered.readLine();
-      if (word != null) {
+    while ((word = buffered.readLine()) != null){
+      if (word.length() > 0){
+        if (word.charAt(0) != '#'){
         word = word.trim();
         wordList.add(word);
       }
-    } while (word != null);
+      }
+    }
 
     String[] wordArray = wordList.toArray(new String[wordList.size()]);
     if (sort) {
