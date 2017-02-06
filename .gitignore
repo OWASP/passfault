@@ -1,7 +1,7 @@
-*.gradle
 *.project
 *.iml
 .settings/
 *.classpath
 *build/
 *.idea/
+.java-version

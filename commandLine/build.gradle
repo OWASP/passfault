@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+configurations {
+    wordlists
+}
+
+dependencies {
+    compile project(':core')
+    compile project(':wordlists')
+    compile 'commons-cli:commons-cli:1.2'
+    testCompile 'junit:junit:4.12'
+}
+
+mainClassName = "org.owasp.passfault.commandLine.TextAnalysis"
+
