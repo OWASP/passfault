@@ -257,7 +257,7 @@ public class TimeToCrack {
   }
 
   /** 
-   * @param size
+   * @param size number to convert into readable text
    * @return a display suitable string describing the size of a number, such as
    * "1 million 234 thousand"
    */

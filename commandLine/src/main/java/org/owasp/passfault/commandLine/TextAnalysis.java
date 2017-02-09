@@ -17,6 +17,8 @@ import java.io.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import org.apache.commons.cli.*;
 import org.owasp.passfault.api.*;
 import org.owasp.passfault.finders.ResponseOptimizedFinders;
@@ -111,10 +113,6 @@ public class TextAnalysis {
       CommandLine line = parser.parse(options, args);
       boolean exit = false;
 
-      if (line.getOptions().length == 0) {
-        new HelpFormatter().printHelp( "passfault", options );
-        System.exit(0);
-      }
       if (line.hasOption("help")){
         System.out.println("help instructions");
         new HelpFormatter().printHelp("passfault", options );
@@ -246,11 +244,6 @@ public class TextAnalysis {
           System.err.println("words.properties file not found in wordlist directory " + wordlistOverrideDir);
         }
       }
-      if( !line.hasOption('p') && !line.hasOption('i') && !line.hasOption('c')) {
-        System.err.println("either a password or passwords file needs to be specified");
-        new HelpFormatter().printHelp( "passfault", options );
-        System.exit(1);
-      }
       if (exit){
         System.out.println("Leaving.");
         System.exit(0);
@@ -277,37 +270,17 @@ public class TextAnalysis {
       System.out.println("Please wait, results are being written to output file... ");
 
     if (input){
-      int line = 0;
-      double sumAnalysisTime = 0, analysisTime, remainingTime, avgAnalysisTime, done;
-
-      //temporary
-      String l;
-      while ((l = inputFile.readLine()) != null) {
-        if (count){
-          password = l.substring(8);
-          freq = Integer.parseInt(l.substring(0, 7).replace(" ", ""));
-        }else{
-          password = l;
-        }
-
-
-        done = 100.0* ((double) line)/inputFileSize;
-        line++;
-
-        if (output || matlab)
-          System.out.format("Analyzing '%s', %3.2f percent done, ", password, done);
-
-        analysisTime = 0;
-        if (password.length() != 0)
-          analysisTime = passwordAnalysis(password);
-        sumAnalysisTime += analysisTime;
-        avgAnalysisTime = sumAnalysisTime/line;
-        remainingTime = (inputFileSize - line) * avgAnalysisTime;
-
-        if (output || matlab)
-          System.out.format("around %3.2f remaining.\n", remainingTime);
+      handleInputFile();
+    } else if (password == null) {
+      System.out.println("Enter a password to analyze: ");
+      if (System.console() != null) {
+        password = new String(System.console().readPassword());
+      } else {
+        //if you don't have access to a console than your'll have the less secure scanner
+        password = new Scanner(System.in).nextLine();
       }
-    }else{
+      passwordAnalysis(password);
+    } else {
       passwordAnalysis(password);
     }
 
@@ -317,6 +290,39 @@ public class TextAnalysis {
     }
 
     System.exit(0);
+  }
+
+  private void handleInputFile() throws Exception {
+    int line = 0;
+    double sumAnalysisTime = 0, analysisTime, remainingTime, avgAnalysisTime, done;
+
+    //temporary
+    String l;
+    while ((l = inputFile.readLine()) != null) {
+      if (count){
+        password = l.substring(8);
+        freq = Integer.parseInt(l.substring(0, 7).replace(" ", ""));
+      }else{
+        password = l;
+      }
+
+
+      done = 100.0* ((double) line)/inputFileSize;
+      line++;
+
+      if (output || matlab)
+        System.out.format("Analyzing '%s', %3.2f percent done, ", password, done);
+
+      analysisTime = 0;
+      if (password.length() != 0)
+        analysisTime = passwordAnalysis(password);
+      sumAnalysisTime += analysisTime;
+      avgAnalysisTime = sumAnalysisTime/line;
+      remainingTime = (inputFileSize - line) * avgAnalysisTime;
+
+      if (output || matlab)
+        System.out.format("around %3.2f remaining.\n", remainingTime);
+    }
   }
 
   private double passwordAnalysis(String password) throws Exception{
@@ -372,7 +378,7 @@ public class TextAnalysis {
 
   private void printOutput(AnalysisResult worst, String password){
     List<PasswordPattern> path = worst.getPath();
-    System.out.format("\n\nRules found in password '%s': \n", password);
+    System.out.println("Rules found in password");
     double costSum = 0;
     for (PasswordPattern subPattern : path) {
       //get the sum of pattern costs:

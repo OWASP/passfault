@@ -34,7 +34,7 @@ import static java.util.logging.Logger.getLogger;
  * @author cam
  */
 public class InMemoryDictionary implements Dictionary {
-  private static final Logger log = getLogger(DictionaryPatternsFinder.class.getName());
+  private static final Logger LOG = getLogger(DictionaryPatternsFinder.class.getName());
 
   final String[] words;
   final private String name;
@@ -74,7 +74,7 @@ public class InMemoryDictionary implements Dictionary {
     if (sort) {
       Arrays.sort(wordArray);
     }
-    log.info(MessageFormat.format("Word Count for {0}: {1}\n", name, wordArray.length));
+    LOG.fine(MessageFormat.format("Word Count for {0}: {1}\n", name, wordArray.length));
     return new InMemoryDictionary(wordArray, name);
   }
 
