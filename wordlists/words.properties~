@@ -11,9 +11,6 @@ words.indialast.name: India First Names
 words.indialast.1.file: indiaLastNamesPopular.words
 words.indialast.2.file: indiaLastNamesLongTail.words
 
-words.spanishlast.name: Spanish Last Names
-words.spanishlast.1.file: spanishNames.words
-
 words.usfirst.name: US First Names
 words.usfirst.1.file: usFirstNamesPopular.words
 words.usfirst.2.file: usFirstNamesLongTail.words
@@ -27,7 +24,6 @@ words.populardictionaries.modifierFinder:false
 words.populardictionaries.1.file:500-worst-passwords.words
 words.populardictionaries.2.file:10k-worst-passwords.words
 words.populardictionaries.3.file:JohnTheRipper.words
-words.populardictionaries.4.file:cain-and-abel.words.words
 
 words.de.name: German
 words.de.1.file:dePopular.words
