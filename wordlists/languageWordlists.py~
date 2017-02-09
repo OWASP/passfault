@@ -214,25 +214,6 @@ nlPopular.close()
 nlLongTail.close()
 
 #---------------------------------------------------------------
-ptPopular = open(dest + '/ptPopular.words', 'w')
-ptLongTail = open(dest + '/ptLongTail.words', 'w')
-
-integral100 = 0
-for i in range(len(pt)):
-    integral100 += word_frequency(pt[i], 'pt', wordlist='large')
-
-integral80 = 0
-for i in range(len(pt)):
-    integral80 += word_frequency(pt[i], 'pt', wordlist='large')
-    if (integral80 <= 0.80*integral100):
-        ptPopular.write(pt[i] + '\n')
-    else:
-        ptLongTail.write(pt[i] + '\n')
-
-ptPopular.close()
-ptLongTail.close()
-
-#---------------------------------------------------------------
 svPopular = open(dest + '/svPopular.words', 'w')
 svLongTail = open(dest + '/svLongTail.words', 'w')
 
@@ -250,6 +231,25 @@ for i in range(len(sv)):
 
 svPopular.close()
 svLongTail.close()
+
+#---------------------------------------------------------------
+ptPopular = open(dest + '/ptPopular.words', 'w')
+ptLongTail = open(dest + '/ptLongTail.words', 'w')
+
+integral100 = 0
+for i in range(len(pt)):
+    integral100 += word_frequency(pt[i], 'pt', wordlist='large')
+
+integral80 = 0
+for i in range(len(pt)):
+    integral80 += word_frequency(pt[i], 'pt', wordlist='large')
+    if (integral80 <= 0.80*integral100):
+        ptPopular.write(pt[i] + '\n')
+    else:
+        ptLongTail.write(pt[i] + '\n')
+
+ptPopular.close()
+ptLongTail.close()
 
 #---------------------------------------------------------------
 zhPopular = open(dest + '/zhPopular.words', 'w')

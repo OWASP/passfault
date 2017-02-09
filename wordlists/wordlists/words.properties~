@@ -57,13 +57,13 @@ words.hi.name: Hindi
 words.hi.1.file:hiPopular.words
 words.hi.2.file:hiLongTail.words
 
-words.it.name: Italian
-words.it.1.file:itPopular.words
-words.it.2.file:itLongTail.words
-
 words.ja.name: Japanese
 words.ja.1.file:jaPopular.words
 words.ja.2.file:jaLongTail.words
+
+words.it.name: Italian
+words.it.1.file:itPopular.words
+words.it.2.file:itLongTail.words
 
 words.nl.name: Dutch
 words.nl.1.file:nlPopular.words
