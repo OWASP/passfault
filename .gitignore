@@ -4,4 +4,5 @@
 *.classpath
 *build/
 *.idea/
+*~
 .java-version

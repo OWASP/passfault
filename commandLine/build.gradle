@@ -13,4 +13,5 @@ dependencies {
 }
 
 mainClassName = "org.owasp.passfault.commandLine.TextAnalysis"
-
+applicationName = parent.name;
+distributions.main.baseName = parent.name + '-cli';
