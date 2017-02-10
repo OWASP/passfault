@@ -1,0 +1,54 @@
+
+words.pets.name: Pet Names
+words.pets.modifierFinder:false
+words.pets.1.file:petNames.words
+
+words.indiafirst.name: India First Names
+words.indiafirst.1.file: indiaFirstNamesPopular.words
+words.indiafirst.2.file: indiaFirstNamesLongTail.words
+
+words.indialast.name: India First Names
+words.indialast.1.file: indiaLastNamesPopular.words
+words.indialast.2.file: indiaLastNamesLongTail.words
+
+words.usfirst.name: US First Names
+words.usfirst.1.file: usFirstNamesPopular.words
+words.usfirst.2.file: usFirstNamesLongTail.words
+
+words.uslast.name: US Last Names
+words.uslast.1.file: usLastNamesPopular.words
+words.uslast.2.file: usLastNamesLongTail.words
+
+words.populardictionaries.name: Hacker Lists
+words.populardictionaries.modifierFinder:false
+words.populardictionaries.1.file:500-worst-passwords.words
+words.populardictionaries.2.file:10k-worst-passwords.words
+words.populardictionaries.3.file:JohnTheRipper.words
+
+words.de.name: German
+words.de.1.file:dePopular.words
+words.de.2.file:deLongTail.words
+
+words.en.name: English
+words.en.1.file:enPopular.words
+words.en.2.file:enLongTail.words
+
+words.es.name: Spanish
+words.es.1.file:esPopular.words
+words.es.2.file:esLongTail.words
+
+words.fr.name: French
+words.fr.1.file:frPopular.words
+words.fr.2.file:frLongTail.words
+
+words.it.name: Italian
+words.it.1.file:itPopular.words
+words.it.2.file:itLongTail.words
+
+words.nl.name: Dutch
+words.nl.1.file:nlPopular.words
+words.nl.2.file:nlLongTail.words
+
+words.pt.name: Portuguese
+words.pt.1.file:ptPopular.words
+words.pt.2.file:ptLongTail.words
