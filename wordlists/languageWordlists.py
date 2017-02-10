@@ -23,8 +23,8 @@ pt = top_n_list('pt', 1e5, wordlist='large')
 zh = top_n_list('zh', 1e5)
 
 #---------------------------------------------------------------
-arPopular = open(dest + '/arPopular.words', 'w')
-arLongTail = open(dest + '/arLongTail.words', 'w')
+arPopular = open(dest + '/arPopular.txt', 'w')
+arLongTail = open(dest + '/arLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(ar)):
@@ -43,8 +43,8 @@ arLongTail.close()
 
 
 #---------------------------------------------------------------
-dePopular = open(dest + '/dePopular.words', 'w')
-deLongTail = open(dest + '/deLongTail.words', 'w')
+dePopular = open(dest + '/dePopular.txt', 'w')
+deLongTail = open(dest + '/deLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(de)):
@@ -62,8 +62,8 @@ dePopular.close()
 deLongTail.close()
 
 #---------------------------------------------------------------
-enPopular = open(dest + '/enPopular.words', 'w')
-enLongTail = open(dest + '/enLongTail.words', 'w')
+enPopular = open(dest + '/enPopular.txt', 'w')
+enLongTail = open(dest + '/enLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(en)):
@@ -81,8 +81,8 @@ enPopular.close()
 enLongTail.close()
 
 #---------------------------------------------------------------
-esPopular = open(dest + '/esPopular.words', 'w')
-esLongTail = open(dest + '/esLongTail.words', 'w')
+esPopular = open(dest + '/esPopular.txt', 'w')
+esLongTail = open(dest + '/esLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(es)):
@@ -100,8 +100,8 @@ esPopular.close()
 esLongTail.close()
 
 #---------------------------------------------------------------
-fiPopular = open(dest + '/fiPopular.words', 'w')
-fiLongTail = open(dest + '/fiLongTail.words', 'w')
+fiPopular = open(dest + '/fiPopular.txt', 'w')
+fiLongTail = open(dest + '/fiLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(fi)):
@@ -119,8 +119,8 @@ fiPopular.close()
 fiLongTail.close()
 
 #---------------------------------------------------------------
-frPopular = open(dest + '/frPopular.words', 'w')
-frLongTail = open(dest + '/frLongTail.words', 'w')
+frPopular = open(dest + '/frPopular.txt', 'w')
+frLongTail = open(dest + '/frLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(fr)):
@@ -138,8 +138,8 @@ frPopular.close()
 frLongTail.close()
 
 #---------------------------------------------------------------
-hiPopular = open(dest + '/hiPopular.words', 'w')
-hiLongTail = open(dest + '/hiLongTail.words', 'w')
+hiPopular = open(dest + '/hiPopular.txt', 'w')
+hiLongTail = open(dest + '/hiLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(hi)):
@@ -157,8 +157,8 @@ hiPopular.close()
 hiLongTail.close()
 
 #---------------------------------------------------------------
-itPopular = open(dest + '/itPopular.words', 'w')
-itLongTail = open(dest + '/itLongTail.words', 'w')
+itPopular = open(dest + '/itPopular.txt', 'w')
+itLongTail = open(dest + '/itLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(it)):
@@ -176,8 +176,8 @@ itPopular.close()
 itLongTail.close()
 
 #---------------------------------------------------------------
-jaPopular = open(dest + '/jaPopular.words', 'w')
-jaLongTail = open(dest + '/jaLongTail.words', 'w')
+jaPopular = open(dest + '/jaPopular.txt', 'w')
+jaLongTail = open(dest + '/jaLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(ja)):
@@ -195,8 +195,8 @@ jaPopular.close()
 jaLongTail.close()
 
 #---------------------------------------------------------------
-nlPopular = open(dest + '/nlPopular.words', 'w')
-nlLongTail = open(dest + '/nlLongTail.words', 'w')
+nlPopular = open(dest + '/nlPopular.txt', 'w')
+nlLongTail = open(dest + '/nlLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(nl)):
@@ -214,8 +214,8 @@ nlPopular.close()
 nlLongTail.close()
 
 #---------------------------------------------------------------
-ptPopular = open(dest + '/ptPopular.words', 'w')
-ptLongTail = open(dest + '/ptLongTail.words', 'w')
+ptPopular = open(dest + '/ptPopular.txt', 'w')
+ptLongTail = open(dest + '/ptLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(pt)):
@@ -233,8 +233,8 @@ ptPopular.close()
 ptLongTail.close()
 
 #---------------------------------------------------------------
-svPopular = open(dest + '/svPopular.words', 'w')
-svLongTail = open(dest + '/svLongTail.words', 'w')
+svPopular = open(dest + '/svPopular.txt', 'w')
+svLongTail = open(dest + '/svLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(sv)):
@@ -252,8 +252,8 @@ svPopular.close()
 svLongTail.close()
 
 #---------------------------------------------------------------
-zhPopular = open(dest + '/zhPopular.words', 'w')
-zhLongTail = open(dest + '/zhLongTail.words', 'w')
+zhPopular = open(dest + '/zhPopular.txt', 'w')
+zhLongTail = open(dest + '/zhLongTail.txt', 'w')
 
 integral100 = 0
 for i in range(len(zh)):
