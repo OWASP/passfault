@@ -3,15 +3,15 @@
 
 
 ## Running the Command-line Interface:
-1. install java
+1. install java 8 jdk
 2. `cd core`
-3. `gradlew installDist`
+3. `../gradlew installDist`
 4. run `build/install/core/bin/core`
 
 
 ## Running the jsonWebService:
 1. cd jsonService
-2. `gradlew build jettyRunWar`
+2. `../gradlew build jettyRunWar`
 3. browse to localhost:8080/jsonService
 Note the war will be located in jsonService/build/lib/passfault-jsonService-[version].war
 
