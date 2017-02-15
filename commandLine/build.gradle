@@ -1,5 +1,17 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.netflix.nebula:gradle-ospackage-plugin:4.3.0"
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'nebula.ospackage-application'
 
 configurations {
     wordlists
@@ -14,4 +26,11 @@ dependencies {
 
 mainClassName = "org.owasp.passfault.commandLine.TextAnalysis"
 applicationName = parent.name;
-distributions.main.baseName = parent.name + '-cli';
+
+ospackage {
+    packageName = parent.name
+    version = parent.version.replace('~', '-');
+}
+
+
+
