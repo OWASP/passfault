@@ -4,9 +4,9 @@
 
 ## Running the Command-line Interface:
 1. install java 8 jdk
-2. `cd core`
+2. `cd commandLine`
 3. `../gradlew installDist`
-4. run `build/install/core/bin/core`
+4. run `build/install/passfault/bin/passfault`
 
 
 ## Running the jsonWebService:
