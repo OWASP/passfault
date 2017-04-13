@@ -144,17 +144,18 @@ String.prototype.supplant = function (o) {
     );
 };
 
-passfault.showDetail = function (id){
-	$("div.patternDetail").hide();
-	$("#"+id).show();
-}
-
-passfault.hideDetail = function (id){
-	$("#"+id).hide();
+passfault.toggleDetailVisible = function (id){
+	if( $("#"+id).is(':visible') ) {
+		$("#"+id).hide();
+	} else {
+		$("div.patternDetail").hide();
+		$("#"+id).show();
+		window.scrollTo(0,document.body.scrollHeight);
+	}
 }
 
 passfault.passwordPatternTemplate =
-'<div class="sign white pattern" onmouseout="passfault.hideDetail(\'{id}\')" onmouseover="passfault.showDetail(\'{id}\')">'+
+'<div class="sign white pattern clickable" onClick="passfault.toggleDetailVisible(\'{id}\')" >'+
 	'<div class="normal"><label title="Found Pattern"/>{name}</div>' +
 	'<div class="small"><label title="Pattern Classification"/>{classification}</div>' +
 	'<div class="xxlarge">{percent}%</div>' +

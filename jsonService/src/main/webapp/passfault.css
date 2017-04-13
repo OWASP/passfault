@@ -215,13 +215,20 @@ body {
 	clear: both;
 	padding: 1.5em;
 	max-width: 48em;
-	height: 100em;
 }
 
 .pattern {
 	font-family: road_em;
 	margin-bottom: 10px;
 	height: 8em;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.clickable label {
+	cursor: pointer;
 }
 
 .passSummary {
@@ -350,10 +357,16 @@ div.menu {
                 no-repeat;
 }
 
+/* Force vertical scrollbar to avoid horizontal
+   shaking when pattern details appear */
+body {
+    overflow-y: scroll;
+}
+
 /* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
 body.loading {
-    overflow: hidden;   
+    overflow: hidden !important;
 }
 
 /* Anytime the body has the loading class, our
