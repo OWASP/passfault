@@ -30,11 +30,4 @@ public class DateFinderTest {
     assertEquals(1, finder.search("2001-12-25").getCount());
     assertEquals(1, finder.search("1776-06-04").getCount());
   }
-
-  @Test(timeout = 1000) //This better execute in under 1/2 seconds
-  public void testStress() throws Exception {
-    for (int i = 0; i < 100000; i++) {
-      finder.search("1776-06-04");
-    }
-  }
 }
