@@ -188,6 +188,10 @@ passfault.calculateTotal = function (analysis){
 }
 
 passfault.applyTemplate = function (div, analysis, passlength){
+	if(analysis === null) {
+		console.log("Error: insert input");
+		return false;
+        };
 	analysis.totalCostRounded = this.getRoundedSizeString(analysis.cost);
 	analysis.timeToCrack = this.time2Crack(analysis.cost, $('#attacker').val(), $('#hasher').val());
 	var timeToCrackMilliseconds = this.timeToCrackMilliseconds(analysis.cost, $('#attacker').val(), $('#hasher').val());
