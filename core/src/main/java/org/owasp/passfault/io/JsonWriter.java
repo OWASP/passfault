@@ -18,6 +18,7 @@ import java.util.List;
 
 import java.io.Writer;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.owasp.passfault.impl.PasswordPattern;
 import org.owasp.passfault.api.AnalysisResult;
 
@@ -66,9 +67,11 @@ public class JsonWriter {
 		
 		writer.write("\"matchString\" : \"");
 		CharSequence matchString = pattern.getMatchString();
+		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<matchString.length(); i++){
-			writer.write(matchString.charAt(i));
+			sb.append(matchString.charAt(i));
 		}
+		writer.write(StringEscapeUtils.escapeJson(sb.toString()));
 		writer.write("\",");
 		
 		writer.write("\"startIndex\" : ");
