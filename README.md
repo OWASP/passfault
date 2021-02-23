@@ -1,6 +1,6 @@
 # Welcome to OWASP Passfault
 ### Objective: Do Passwords Better!
-
+NOTE: This project has been discontinued, but the zxcvbn project has a very similar approach and has been quite successful.  We recommend using that library.
 
 ## Running the Command-line Interface:
 1. install java 8 jdk
